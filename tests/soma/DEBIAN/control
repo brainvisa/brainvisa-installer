@@ -1,0 +1,7 @@
+Package: soma
+Version: 3.2
+Architecture: all
+Maintainer: IFR 49
+Description: base python libray
+
+

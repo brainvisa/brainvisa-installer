@@ -1,0 +1,6 @@
+#! /bin/sh
+echo >> /tmp/dpkg.log "++ $$" "$@"
+/usr/local/bin/dpkg "$@"
+ret=$?
+echo >> /tmp/dpkg.log "-- $$ => $ret"
+exit $ret
