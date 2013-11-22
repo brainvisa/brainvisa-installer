@@ -1,8 +1,0 @@
-Package: axon
-Version: 3.2
-Architecture: all
-Maintainer: IFR 49
-Description: BrainVISA graphical interface
-Depends: soma(>= 3.2),soma(<< 4.0)
-
-
