@@ -34,9 +34,8 @@ class Paths(object): #pylint: disable=R0903
 	# BrainVISA Installer folders
 	BVI_SHARE = '%s/share/brainvisa/installer' % BV
 	BVI_SHARE_XML = '%s/xml' % BVI_SHARE
-	BVI_SHARE_BIN = '%s/bin/%s' % (BVI_SHARE, PATH_SYS[System.platform()])
 	BVI_SHARE_HTML = '%s/html' % BVI_SHARE
-	BVI_SHARE_IMAGES = '%s/img' % BVI_SHARE
+	BVI_SHARE_IMAGES = '%s/images' % BVI_SHARE
 	BVI_SHARE_LICENSES = '%s/licenses' % BVI_SHARE
 	
 	# BrainVISA Installer files

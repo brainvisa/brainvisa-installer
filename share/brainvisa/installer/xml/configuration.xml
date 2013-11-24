@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- General configuration for BrainVISA Installer building. 
+The user can create a partial configuration file to change several options.
+
+Author: 	Hakim Taklanti
+Copyright: 	Copyright 2013, CEA / Saclay
+Credits: 	[Hakim Taklanti, Yann Cointepas, Denis Rivière, Nicolas Souedet]
+License: 	CeCILL V2
+Version: 	0.1
+Maintainer: Hakim Taklanti
+Email: 		hakim.taklanti@altran.com
+Status: 	dev
+-->
+<INSTALLER>
+
+ 	<!-- Main options for the installer binary.
+ 	The options are described in the IFW documentation:
+ 		http://doc-snapshot.qt-project.org/qtifw-1.4/ifw-globalconfig.html
+ 	-->
+	<GENERAL>
+		<NAME>BrainVISA Installer</NAME>
+		<VERSION>1.0.0</VERSION>
+		<TITLE>BrainVISA Installer</TITLE>
+		<PUBLISHER>CEA IFR49 / I2BM</PUBLISHER>
+		<PRODUCTURL>http://brainvisa.info/</PRODUCTURL>
+		<TARGETDIR>@homeDir@/brainvisa</TARGETDIR>
+		<ADMINTARGETDIR>@rootDir@/brainvisa</ADMINTARGETDIR>
+		<ICON>share/brainvisa/installer/img/logo</ICON>
+		<UNINSTALLERNAME>BrainVISA_Suite-Update</UNINSTALLERNAME>
+		<ALLOWNONASCIICHARACTERS>true</ALLOWNONASCIICHARACTERS>
+		<ALLOWSPACEINPATH>true</ALLOWSPACEINPATH>
+	</GENERAL>
+
+	<!-- Repositories. 
+		Syntax:
+		<URL 	
+			PLATFORM="WIN32 | WIN64 | LINUX32 | LINUX64 | OSX" 
+			[optional] USERNAME="Username" 
+			[optional] PASSWORD="Password"
+			[optional] DISPLAYNAME="Display Name">
+			http://localhost/repositories/win32/
+		</URL>
+	-->
+	<REPOSITORIES>
+		<URL PLATFORM="WIN32">http://localhost/repositories/win32/</URL>
+		<URL PLATFORM="OSX">http://localhost/repositories/osx/</URL>
+		<URL PLATFORM="LINUX32">http://localhost/repositories/linux32/</URL>
+		<URL PLATFORM="LINUX64">http://localhost/repositories/linux64/</URL>
+	</REPOSITORIES>
+
+	<!-- Categories
+		Tree:
+			- Main categories (category shows in the component selection page)
+				|- Project categories (category for each project)
+		Syntax:
+		<CATEGORY
+			 [optional] ID="run | dev | usrdoc | devdoc" : only for the last level 
+			 NAME="BrainVISA Suite" 
+			 [optional] PRIORITY="10" : the higher value is top
+			 [optional] VERSION="1.0" 
+			 [optional] DEFAULT="true|false" : default false
+			 [optional] DESCRIPTION="description"
+	-->
+	<CATEGORIES>
+		<CATEGORY ID="APP" NAME="BrainVISA Suite" PRIORITY="10" VERSION="1.0" DESCRIPTION="Description of BrainVISA Suite category">
+			<CATEGORY ID="run" NAME="Application" PRIORITY="10" VERSION="1.0" DEFAULT="false" />
+			<CATEGORY ID="usrdoc" NAME="Documentation" PRIORITY="1" VERSION="1.0" DEFAULT="false" />
+		</CATEGORY>
+		<CATEGORY ID="DEV" NAME="BrainVISA Development" PRIORITY="1" VERSION="1.0" DESCRIPTION="Description of BrainVISA Development category">
+			<CATEGORY ID="dev" NAME="Sources" PRIORITY="10" VERSION="1.0" DEFAULT="false" />
+			<CATEGORY ID="devdoc" NAME="Documentation" PRIORITY="1" VERSION="1.0" DEFAULT="false" />
+		</CATEGORY>
+	</CATEGORIES>
+
+ 	<!-- Licenses
+	Syntax:
+		<LICENSE 
+			[optional] ID="CECILL_2.1" 
+			[optional] VERSION="2.1" 
+			NAME="CeCILL v2.1" 
+			FILE="licence_cecill_v2.1_en_en.txt" />
+ 	-->
+	<LICENSES>
+		<LICENSE ID="CECILL_2.1" VERSION="2.1" NAME="CeCILL v2.1" FILE="Licence_CeCILL_V2.1_en_EN.txt" />
+		<LICENSE ID="CECILL_2" VERSION="2.0" NAME="CeCILL v2" FILE="Licence_CeCILL_V2_en_EN.txt" />
+		<LICENSE ID="CECILL_B_1" VERSION="1.0" NAME="CeCILL-B v1" FILE="Licence_CeCILL-B_V1_en_EN.txt" />
+		<LICENSE ID="GPL_3.0" VERSION="3.0" NAME="GPL 3.0" FILE="License_GPL-3.0_en_EN.txt" />
+		<LICENSE ID="LGPL_3.0" VERSION="3.0" NAME="LGPL 3.0" FILE="License_LGPL-3.0_en_EN.txt" />
+	</LICENSES>
+
+ </INSTALLER>

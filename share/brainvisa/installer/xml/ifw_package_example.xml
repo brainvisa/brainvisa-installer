@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+	<DisplayName>AIMS free</DisplayName>
+	<Description>AIMS free description (License: CeCILL-B v1)</Description>
+	<Version>2.1</Version>
+	<ReleaseDate>2010-03-27</ReleaseDate>
+	<Name>brainvisa.aims.aims_free</Name>
+	<Dependencies>brainvisa.licenses.cecillb_v1</Dependencies>
+	<Virtual>true</Virtual>
+</Package>

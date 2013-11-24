@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <Package>
+	<DisplayName />
+	<Description />
+	<Version />
+	<ReleaseDate />
+	<Name />
+	<Licenses />
+	<Dependencies />
+	<Virtual />
+	<SortingPriority />
+	<Default />
+	<Script />
+	<ForcedInstallation />
+	<Replaces />
+	<DownloadableArchives />
+ </Package>
