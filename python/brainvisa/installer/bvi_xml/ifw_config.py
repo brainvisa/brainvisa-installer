@@ -2,13 +2,47 @@
 # -*- coding: utf-8 -*-
 
 import os.path
-import xml.etree.ElementTree as ET
-from brainvisa.installer.bvi_utils.xml_file import XmlFile
 import platform
+import xml.etree.ElementTree as ET
+
+from brainvisa.installer.bvi_utils.xml_file import XmlFile
 
 
 class IFWConfig(XmlFile):
-	"Model of XML IFW config file."
+	"""Model of XML IFW config file.
+
+	Parameters
+	----------
+	Name 		: Name of the product being installed. This is mandatory.
+	Version 	: Version number of the product being installed. This is mandatory.
+	Title 		: Name of the installer as displayed on the title bar.
+	Publisher 	: Publisher of the software (as shown in the Windows Control Panel).
+	ProductUrl 	: URL to a page that contains product information on your web site.
+	Icon 		: Filename for a custom installer icon. The actual file is looked up by attaching a '.icns' (Mac OS X), '.ico' (Windows) or '.png' (Unix) suffix. Deprecated, use InstallerApplicationIcon and / or InstallerWindowIcon instead.
+	InstallerApplicationIcon : Filename for a custom installer icon. The actual file is looked up by attaching a '.icns' (Mac OS X), '.ico' (Windows). No functionality on Unix.
+	InstallerWindowIcon : Filename for a custom window icon in PNG format for the Installer application.
+	Logo 		: Filename for a logo used as QWizard::LogoPixmap.
+	Watermark 	: Filename for a watermark used as QWizard::WatermarkPixmap.
+	Banner 		: Filename for a banner used as QWizard::BannerPixmap (only used by ModernStyle).
+	Background 	: Filename for an image used as QWizard::BackgroundPixmap (only used by MacStyle).
+	RunProgram 	: Command executed after the installer is done if the user accepts the action.
+	RunProgramArguments : Arguments passed to the program specified in RunProgram.
+	RunProgramDescription : Text shown next to the check box for running the program after the installation. Defaults to Run <Name>.
+	StartMenuDir : Name of the default program group for the product in the Windows Start menu.
+	TargetDir 	 : Default target directory for installation.
+	AdminTargetDir : Default target directory for installation with administrator rights.
+	TagRepositories : List of remote repositories (i.e. TagRepository objects). You can add several Repository sections that each specify the Url to access the repository. For more information, see Configuring Repositories.
+	UninstallerName : Filename of the generated uninstaller. Defaults to uninstall. The platform-specific executable file extension is appended.
+	UninstallerIniFile : Filename for the configuration of the generated uninstaller. Defaults to UninstallerName.ini.
+	RemoveTargetDir : Set to false if the target directory should not be deleted when uninstalling.
+	AllowNonAsciiCharacters : Set to true if the installation path can contain non-ASCII characters.
+	RepositorySettingsPageVisible : Set to false to hide the repository settings page inside the settings dialog.
+	AllowSpaceInPath : Set to true if the installation path can contain space characters.
+	DependsOnLocalInstallerBinary : Set to true if you want to prohibit installation from an external resource, such as a network drive. This might make sense for e.g. very big installers. The option is only used on Windows.
+	TargetConfigurationFile : Filename for the configuration file on the target. Default is components.xml.
+	Translations : List of language codes to be used for translating the user interface. To add several language variants, specify several Translation sections that each specify the name of a language variant. Optional. For more information, see Translating Pages.
+	UrlQueryString : This string needs to be in the form "key=value" and will be appended to archive download requests. This can be used to transmit information to the webserver hosting the repository.
+	"""
 
 	def update(self, filename):
 		self.init('Installer')

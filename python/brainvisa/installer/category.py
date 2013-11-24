@@ -5,8 +5,19 @@ import datetime
 from brainvisa.installer.component import Component
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 
+# MODULE A SUPPRIMER
 
 class Category(Component):
+	"""Category for the BrainVISA installer. 
+
+	Parameters
+	----------
+	name
+	description
+	version
+	priority
+	virtual
+	"""
 
 	@property
 	def ifwname(self):

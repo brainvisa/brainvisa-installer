@@ -1,24 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__author__ = "Hakim Taklanti"
-__copyright__ = "Copyright 2013, CEA / Saclay"
-__credits__ = ["Hakim Taklanti", "Yann Cointepas", "Denis Rivière", "Nicolas Souedet"]
-__license__ = "CeCILL v2"
-__version__ = "0.1"
-__maintainer__ = "Hakim Taklanti"
-__email__ = "hakim.taklanti@altran.com"
-__status__ = "dev"
-
-
 import xml.etree.ElementTree as ET
 
 
 class TagDependency(object):
-	"Model dependency."
+	"""Model dependency.
+
+	Parameters
+	----------
+	name 		: name of dependency.
+	version 	: Version number of the component in the following format: [0-9]+((.|-)[0-9]+)* such as 1-1; 1.2-2; 3.4.7.
+	comparison  : =, >, <, >= or <=
+	depends 	: False if the dependency is optional (this option is not taking into account in this current BrainVISA Installer.)
+	"""
 
 	@property
 	def text(self):
+		"""Format for the IFW package.xml file. The version numbers is separated by a dash (-). 
+		The version numbers is defined with a comparison operator (=, >, <, >= or <=)."""
 		res = self.Name
 		if self.Version:
 			res = "%s - %s %s" % (self.Name,  self.Comparison, self.Version)

@@ -7,8 +7,8 @@ import shutil
 import datetime
 
 from brainvisa.installer.package import Package
-from brainvisa.installer.category import Category
 from brainvisa.installer.license import License
+from brainvisa.installer.category import Category
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
@@ -16,13 +16,17 @@ from brainvisa.installer.bvi_xml.tag_license import TagLicense
 
 
 class Repository(object):
-	"""BrainVISA Installer repository. It is not the repository for the online 
-	installer. It is the temporary repository to build the installer binaries
-	and the online repository.
+	"""BrainVISA Installer repository. 
 
-	The destination folder, a Configuration object and a list of components 
-	must be specified. The list of components must be Component objects but
-	only the Package and Project objects are consistent.
+	It is not the repository for the online installer. It is the temporary 
+	repository to build the installer binaries and the online repository.
+
+	Parameters
+	----------
+	folder 			: repository full path (with the repository name).
+	configuration 	: Configuration object. 
+	components		: list of Component objects. Usually, only the Package 
+					  and Project objects are consistent.
 	"""
 
 	def create(self):

@@ -8,13 +8,22 @@ import shutil
 from brainvisa.installer.component import Component
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
+
 from brainvisa.compilation_info import build_directory
 
 class License(Component):
+	"""BrainVISA Installer license package.
+
+	A BrainVISA package uses the dependency system to configure the license.
+	A license component is a virtual package that contains only one license.
+
+	Parameter
+	---------
+	taglicense : the license parameters are provided with a TagLicense object.
+	"""
 
 	@property
 	def ifwname(self):
-		"Return the BrainVISA Installer project name."
 		p_name = self.name.replace('-', '_').replace(' ', '_').lower()
 		return "brainvisa.app.licenses.%s" % p_name
 

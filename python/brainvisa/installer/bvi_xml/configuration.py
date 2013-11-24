@@ -1,27 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__author__ 		= "Hakim Taklanti"
-__copyright__ 	= "Copyright 2013, CEA / Saclay"
-__credits__ 	= ["Hakim Taklanti", "Yann Cointepas", "Denis Rivière", "Nicolas Souedet"]
-__license__ 	= "CeCILL v2"
-__version__ 	= "0.1"
-__maintainer__ 	= "Hakim Taklanti"
-__email__ 		= "hakim.taklanti@altran.com"
-__status__ 		= "dev"
-
-
 import xml.etree.ElementTree as ET
+
+from brainvisa.installer.bvi_utils.paths import Paths
+from brainvisa.installer.bvi_utils.system import System
 from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
-from brainvisa.installer.bvi_xml.tag_repository import TagRepository
 from brainvisa.installer.bvi_xml.tag_license import TagLicense
 from brainvisa.installer.bvi_xml.tag_category import TagCategory
-from brainvisa.installer.bvi_utils.system import System
-from brainvisa.installer.bvi_utils.paths import Paths
+from brainvisa.installer.bvi_xml.tag_repository import TagRepository
 
 
 class Configuration(object):
-	"BrainVISA Installer XML Configuration File."
+	"""BrainVISA Installer XML Configuration File.
+
+
+	Parameters
+	----------
+	filename 	 : default configuration XML filename (default Paths.BVI_CONFIGURATION).
+	alt_filename : alternative configuration XML filename (default: None). The properties
+				   defined in the alternative filename erase the information defined in 
+				   the primary filename.
+	"""
 
 	def category_by_id(self, id_value):
 		for cat in self.Categories:

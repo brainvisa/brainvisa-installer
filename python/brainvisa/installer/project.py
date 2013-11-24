@@ -14,12 +14,21 @@ from brainvisa.maker.brainvisa_projects import brainvisaProjects, brainvisaCompo
 
 
 class Project(Component):
-	"""BrainVISA project. A project is a set of packages.
+	"""BrainVISA project. 
+
+	A project contains a set of packages.
+
+	Parameters
+	----------
+	name 			: BrainVISA project name. It must be in brainvisa_projects module. 
+	configuration	: Configuration object, using to configure the subcategory for each 
+					  project (see CATEGORY section).
+	types			: list of type's names: run, usrdoc, dev, devdoc. 
+					  Default: ['run', 'usrdoc', 'dev', 'devdoc']
 	""" 
 
 	@property
 	def ifwname(self):
-		"Return the BrainVISA Installer project name."
 		p_name = self.name.replace('-', '_').lower()
 		res = {
 			'run' 		: "brainvisa.app.%s" % (p_name),

@@ -4,12 +4,12 @@
 import os.path
 
 from brainvisa.installer.bvi_utils.system import System
+
 from brainvisa.compilation_info import build_directory
 
 
 class Paths(object):
-	"""
-	"""
+	"""Group all paths for the BrainVISA Installer classes."""
 
 	# Utils
 	CURRENT = os.path.dirname(os.path.abspath(__file__))

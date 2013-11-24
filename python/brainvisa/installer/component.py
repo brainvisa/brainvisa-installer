@@ -10,16 +10,30 @@ import datetime
 import os.path
 
 from brainvisa.installer.bvi_utils.paths import Paths
-from brainvisa.installer.bvi_utils.bvi_exception import BVIException
-from brainvisa.installer.bvi_utils.tools import archivegen, bv_packaging
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 from brainvisa.installer.bvi_xml.configuration import Configuration
+from brainvisa.installer.bvi_utils.bvi_exception import BVIException
 from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
+from brainvisa.installer.bvi_utils.tools import archivegen, bv_packaging
+
 from brainvisa.compilation_info import packages_info, build_directory
 
 
 class Component(object):
-	"BrainVISA component."
+	"""BrainVISA component.
+
+	Component is an abstract class for the component of BrainVISA installer 
+	repository. If the BrainVISA component is builded, Component packages
+	the data during the creation. 
+
+	The ifwname and ifwpackage methods must be redefined.
+
+	Parameters
+	----------
+	name : name of component.
+	data : True if the component contains data, the data will be packaged 
+		   with bv_packaging.
+	"""
 
 	__metaclass__ = abc.ABCMeta
 

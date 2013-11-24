@@ -8,10 +8,10 @@ from brainvisa.compilation_info import packages_info, packages_dependencies
 
 
 class Package(Component):
+	"""BrainVISA package."""
 
 	@property
 	def ifwname(self):
-		"Return the BrainVISA Installer package name."
 		p_name = self.project.replace('-', '_').lower()
 		c_name = self.name.replace('-', '_').lower()
 		res = {

@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 import platform
 
 
 class System(object):
+	"""Detect the platform with the BrainVISA Installer conventions."""
+	
 	Win32 = 'WIN32'
 	Win64 = 'WIN64'
 	Linux32 = 'LINUX32'

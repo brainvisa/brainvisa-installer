@@ -8,14 +8,15 @@ import xml.etree.ElementTree as ET
 
 
 class XmlFile(object):
-	"Interface to manage the XML file."
+	"""Utility class for the XML files."""
 
 	def init(self, element_root_name):
+		"Intialize the root element with element_root_name."
 		self.tree = ET.ElementTree()
 		self.root = ET.Element(element_root_name)
 
 	def read(self, filename):
-		"Read the XML file."
+		"Read the XML file and initialize the tree et root element."
 		self.tree = ET.parse(filename)
 		self.root = self.tree.getroot()	
 
@@ -30,7 +31,6 @@ class XmlFile(object):
 			pretty_root	= HTMLParser.HTMLParser().unescape(self.prettify(self.root))
 			fo.write(pretty_root)
 
-	# BUG REPORT: des lignes vides sont introduites dans le fichier avec prettify
 	def prettify(self, element):
 		"Return a pretty-printed XML string for the Element."
 		rough_string = ET.tostring(element, 'utf-8') # HTMLParser.HTMLParser().unescape(ET.tostring(element, 'utf-8'))

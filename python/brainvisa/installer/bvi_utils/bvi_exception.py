@@ -3,10 +3,12 @@
 
 
 class BVIException(Exception):
-	"""Custom exception for BrainVISA Installer. The error message can be 
-	splited with error and detail parameters.
+	"""Custom exception for BrainVISA Installer. 
 
-	Example:
+	The error message can be splited with error and detail parameters.
+
+	Example
+	-------
 	e = BVIException(BVIException.PROJECT_NONEXISTENT, project_name)
 	"""
 

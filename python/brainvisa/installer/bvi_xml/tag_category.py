@@ -1,21 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__author__ 		= "Hakim Taklanti"
-__copyright__ 	= "Copyright 2013, CEA / Saclay"
-__credits__ 	= ["Hakim Taklanti", "Yann Cointepas", "Denis Rivière", "Nicolas Souedet"]
-__license__ 	= "CeCILL v2"
-__version__ 	= "0.1"
-__maintainer__ 	= "Hakim Taklanti"
-__email__ 		= "hakim.taklanti@altran.com"
-__status__ 		= "dev"
-
-
 import xml.etree.ElementTree as ET
 
 
 class TagCategory(object):
-	"Tag Category in BrainVISA Installer XML configuration file."
+	"""Tag Category in BrainVISA Installer XML configuration file.
+
+	Parameters
+	----------
+	id_ 		  : type for the subcategories. 
+	name 		  : name in the component selection page of the installer.
+	description   : description in the component selection page of the installer.
+	version 	  : version (not taking into account).
+	priority 	  : priority of the component in the tree. The tree is sorted from highest to lowest priority, with the highest priority on the top.
+	default 	  : set to true to preselect the component in the installer
+	subcategories : list of TagCategory objects for the visible subcategories of projects in the installer.
+	"""
 
 	def __init__(self, id_ = None, name = None, description = None, version = None, priority = None, default = None, subcategories = None):
 		self.Id = id_

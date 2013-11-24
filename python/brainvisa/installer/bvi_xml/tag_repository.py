@@ -3,10 +3,21 @@
 
 import os.path
 import xml.etree.ElementTree as ET
+
 from brainvisa.installer.bvi_utils.system import System
 
+
 class TagRepository(object):
-	"Repository."
+	"""Online repository for the installer.
+
+	Parameters
+	----------
+	Url 		: url with the list of available components.
+	Enabled 	: 0 disabling the repository.
+	Username  	: user on a protected repository.
+	Password 	: sets the password to use on a protected repository.
+	DisplayName : optionally sets a String to display instead of the URL.
+	"""
 
 	@property
 	def element(self):

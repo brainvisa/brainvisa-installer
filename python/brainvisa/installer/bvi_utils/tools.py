@@ -4,13 +4,28 @@
 import os
 import pprint
 import subprocess
+
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.system import System
 
 
+"""Procedures to simplify the use of external tools.
+"""
+
+
 def binarycreator(installer_path, repository_path, online_only=False, 
 	offline_only=False, exclude=None, include=None):
-	"The binarycreator tool to create offline and online installers"
+	"""The binarycreator tool creates an IFW installer.
+
+	Parameters
+	----------
+	installer_path  : full path of installer binary.
+	repository_path : full path of temporary repository.
+	online_only 	: True if the installer is only online (default False).
+	offline_only 	: True if the installer is only offline (default False).
+	exclude 		: list of excluded package's names (default None).
+	include 		: list of included package's names (default None).
+	"""
 
 	param_online_only = ' --online-only' if online_only else ''
 	param_offline_only = ' --offline-only' if offline_only else ''
@@ -36,7 +51,17 @@ def binarycreator(installer_path, repository_path, online_only=False,
 
 
 def repogen(path_repository_in, path_repository_out, components = None, update=False, exclude=None, updateurl=None):
-	"The repogen tool is to generate online repositories"
+	"""The repogen tool generates an online IFW repositoriy.
+
+	Parameters
+	----------
+	path_repository_in  : full path of temporary repository.
+	path_repository_out : full path of IFW repository.
+	components 			: additional components (default None).
+	update 				; True if the existing IFW repository must be updated.
+	exclude 			: list of excluded package's names (default None).
+	updateurl 			: update the URL.
+	"""
 	param_components = components.join(',') if exclude else ''
 	param_update = '--update' if update else ''
 	param_exclude = '--exclude ' + exclude.join(',') if exclude else ''
@@ -51,7 +76,14 @@ def repogen(path_repository_in, path_repository_out, components = None, update=F
 
 
 def archivegen(folder):
-	"The archivegen tool is to package the files as a 7zip archive"
+	"""The archivegen tool compresses the files in folder as a 7zip archive.
+
+	The archive will have the same name what the folder with the 7z extension.
+	
+	Parameter
+	---------
+	folder - folder with data which must be compressed. 
+	"""
 	args = ['archivegen', 'data.7z', 'data']
 	process = subprocess.Popen(args, cwd=folder)
 	result = process.wait()
@@ -59,15 +91,21 @@ def archivegen(folder):
 		raise BVIException(BVIException.ARCHIVEGEN_FAILED, "%s/data" % folder)
 
 
-def bv_packaging(name, type_, full_folder):
-	args = ['./bv_env ./bv_packaging dir -o %s --no-deps +name=%s,type=%s' % (full_folder, name, type_)]
+def bv_packaging(name, type_, folder):
+	"""Package a component with no dependency.
+
+	Parameters
+	----------
+	name   : package name.
+	type_  : type of package: run, doc, usrdoc, devdoc.
+	folder : destination full path.
+	"""
+	args = ['./bv_env ./bv_packaging dir -o %s --no-deps +name=%s,type=%s' % (folder, name, type_)]
 	process = subprocess.Popen(args, cwd = Paths.BV_BIN, shell=True)
-	print "---------------> a"
 	result = process.wait()
-	print "---------------> b"
 	if result < 0:
 		raise BVIException(BVIException.PACKAGING_FAILED, folder)
 	# print "---------------> a"
-	# cmd = '%s/bv_env %s/bv_packaging dir -o %s --no-deps +name=%s,type=%s' % (Paths.BV_BIN, Paths.BV_BIN, full_folder, name, type_)
+	# cmd = '%s/bv_env %s/bv_packaging dir -o %s --no-deps +name=%s,type=%s' % (Paths.BV_BIN, Paths.BV_BIN, folder, name, type_)
 	# os.system(cmd)
 	# print "---------------> b"

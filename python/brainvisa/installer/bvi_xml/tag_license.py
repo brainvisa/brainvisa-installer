@@ -1,12 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 import xml.etree.ElementTree as ET
 
 
 class TagLicense(object):
-	"License."
+	"""License agreements to be accepted by the installing user. 
+
+	Parameters
+	----------
+	name 	: license's name.
+	file_ 	: file with the license content.
+	version : license's version.
+	id_  	: id defined in the configuration xml file.
+	"""
 
 	@property
 	def element(self):
