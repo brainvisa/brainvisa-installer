@@ -1,8 +1,11 @@
 export PYTHONPATH=$PYTHONPATH:/home/hakim/Development/CEA/BrainVISA_Installer/05_Repository/brainvisa-installer/trunk/python
 
+py.test -s test_bv_build_installer.py
+py.test -s test_bvi_utils_bvi_exception.py
+py.test -s test_bvi_utils_paths.py
 py.test -s test_bvi_utils_system.py
+py.test -s test_bvi_utils_tools.py
 py.test -s test_bvi_utils_xml_file.py
-py.test -s test_bvi_utils_ifw_tools.py
 py.test -s test_bvi_xml_configuration.py
 py.test -s test_bvi_xml_ifw_config.py
 py.test -s test_bvi_xml_ifw_package.py
@@ -10,4 +13,8 @@ py.test -s test_bvi_xml_tag_category.py
 py.test -s test_bvi_xml_tag_dependency.py
 py.test -s test_bvi_xml_tag_license.py
 py.test -s test_bvi_xml_tag_repository.py
-py.test -k-slow -s test_package.py
+py.test -s test_category.py
+py.test -s test_license.py
+py.test -s test_package.py
+py.test -s test_project.py
+py.test -s test_repository.py
