@@ -3,20 +3,13 @@
 
 import os
 import abc
-import glob
-import subprocess
 import shutil
 import datetime
 import os.path
 
-from brainvisa.installer.bvi_utils.paths import Paths
-from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
-from brainvisa.installer.bvi_xml.configuration import Configuration
-from brainvisa.installer.bvi_utils.bvi_exception import BVIException
-from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
 from brainvisa.installer.bvi_utils.tools import archivegen, bv_packaging
 
-from brainvisa.compilation_info import packages_info, build_directory
+from brainvisa.compilation_info import packages_info
 
 
 class Component(object):
@@ -107,4 +100,6 @@ class Component(object):
 		"Replace the non compress data by the 7zip archive"
 		shutil.rmtree(folder_data)
 		os.mkdir(folder_data)
-		shutil.move("%s.7z" % (folder_data), "%s/%s.7z" % (folder_data, self.name.replace('-', '_')))
+		file_src = "%s.7z" % (folder_data)
+		file_des = "%s/%s.7z" % (folder_data, self.name.replace('-', '_'))
+		shutil.move(file_src, file_des)

@@ -6,13 +6,9 @@ import os.path
 import shutil
 import datetime
 
-from brainvisa.installer.package import Package
 from brainvisa.installer.license import License
-from brainvisa.installer.category import Category
 from brainvisa.installer.bvi_utils.paths import Paths
-from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
-from brainvisa.installer.bvi_xml.tag_license import TagLicense
 
 
 class Repository(object):
@@ -31,7 +27,7 @@ class Repository(object):
 
 	def create(self):
 		"Create the repository."
-		self.mkdir(self.folder)
+		self.__mkdir(self.folder)
 		self.__create_config()
 		self.__create_packages()
 
@@ -42,8 +38,10 @@ class Repository(object):
 		self.date = now.strftime("%Y-%m-%d")
 		self.components = components
 
-	def __mkdir(self, folder):
-		"Create the directory and return True if it does not exist, else return false."
+	@classmethod
+	def __mkdir(cls, folder):
+		"Create the directory and return True if it does not exist, else return \
+		false."
 		if os.path.isdir(folder):
 			return False
 		os.mkdir(folder)
@@ -53,8 +51,10 @@ class Repository(object):
 		f_config = "%s/config" % self.folder
 		files = ("logo.png", "logo.ico", "logo.icns", "watermark.png")
 		self.__mkdir(f_config)
-		for f in files:
-			shutil.copyfile("%s/%s" % (Paths.BVI_SHARE_IMAGES, f), "%s/%s" % (f_config, f))
+		for asset in files:
+			file_src = "%s/%s" % (Paths.BVI_SHARE_IMAGES, asset)
+			file_des = "%s/%s" % (f_config, asset)
+			shutil.copyfile(file_src, file_des)
 		self.configuration.ifwconfig.save("%s/config.xml" % f_config)
 
 	def __create_packages(self):
@@ -68,54 +68,72 @@ class Repository(object):
 			component.create(path)
 
 	def __create_packages_app(self):
-		path = "%s/packages/brainvisa.app"  % self.folder
+		package_name = "brainvisa.app"
 		cat = self.configuration.category_by_id('APP')
-		p = IFWPackage(	DisplayName = cat.Name, 
-						Description = cat.Description, 
-						Version = cat.Version, 
-						ReleaseDate = self.date, 
-						Name = 'brainvisa.app', 
-						Virtual = 'false',
-						SortingPriority = cat.Priority,
-						Default = cat.Default)
-		self.__create_package(path, p)
+		self.__create_package(package_name, 
+			DisplayName = cat.Name, 
+			Description = cat.Description, 
+			Version = cat.Version, 
+			ReleaseDate = self.date, 
+			Name = 'brainvisa.app', 
+			Virtual = 'false',
+			SortingPriority = cat.Priority,
+			Default = cat.Default)
 
 	def __create_packages_dev(self):
-		path = "%s/packages/brainvisa.dev"  % self.folder
+		package_name = "brainvisa.dev"
 		cat = self.configuration.category_by_id('DEV')
-		p = IFWPackage(	DisplayName = cat.Name, 
-						Description = cat.Description, 
-						Version = cat.Version, 
-						ReleaseDate = self.date, 
-						Name = 'brainvisa.dev', 
-						Virtual = 'false',
-						SortingPriority = cat.Priority,
-						Default = cat.Default)
-		self.__create_package(path, p)
+		self.__create_package(package_name, 
+			DisplayName = cat.Name, 
+			Description = cat.Description, 
+			Version = cat.Version, 
+			ReleaseDate = self.date, 
+			Name = 'brainvisa.dev', 
+			Virtual = 'false',
+			SortingPriority = cat.Priority,
+			Default = cat.Default)
 		
 	def __create_packages_thirdparty(self):
-		path = "%s/packages/brainvisa.app.thirdparty"  % self.folder
-		p = IFWPackage(	DisplayName = 'Thirdparty', 
-						Description = 'Thirdparty', 
-						Version = '1.0', 
-						ReleaseDate = self.date, 
-						Name = 'brainvisa.app.thirdparty', 
-						Virtual = 'true')
-		self.__create_package(path, p)
+		package_name = "brainvisa.app.thirdparty"
+		self.__create_package(package_name, 
+			DisplayName = 'Thirdparty', 
+			Description = 'Thirdparty', 
+			Version = '1.0', 
+			ReleaseDate = self.date, 
+			Name = 'brainvisa.app.thirdparty', 
+			Virtual = 'true')
 
 	def __create_packages_licenses(self):
-		path = "%s/packages/brainvisa.app.licenses"  % self.folder
-		p = IFWPackage(	DisplayName = 'Licenses', 
-						Description = 'Licenses', 
-						Version = '1.0', 
-						ReleaseDate = self.date, 
-						Name = 'brainvisa.app.licenses', 
-						Virtual = 'true')
-		self.__create_package(path, p)
-		for license in self.configuration.Licenses:
-			License(license).create("%s/packages" % self.folder)
+		package_name = "brainvisa.app.licenses"
+		self.__create_package(package_name,
+			DisplayName = 'Licenses', 
+			Description = 'Licenses', 
+			Version = '1.0', 
+			ReleaseDate = self.date, 
+			Name = 'brainvisa.app.licenses', 
+			Virtual = 'true')
+		for tag_license in self.configuration.Licenses:
+			License(tag_license).create("%s/packages" % self.folder)
 
-	def __create_package(self, path, package):
+	def __create_package(self, package_name,
+						DisplayName, 
+						Description, 
+						Version , 
+						ReleaseDate, 
+						Name, 
+						Virtual = None,
+						SortingPriority = None,
+						Default = None): #pylint: disable=C0103
+		package = IFWPackage(	
+			DisplayName = DisplayName, 
+			Description = Description, 
+			Version = Version, 
+			ReleaseDate = ReleaseDate, 
+			Name = Name, 
+			Virtual = Virtual, 
+			SortingPriority = SortingPriority,
+			Default = Default)
+		path = "%s/packages/%s"  % (self.folder, package_name)
 		self.__mkdir(path)
 		self.__mkdir("%s/meta" % path)
 		package.save("%s/meta/package.xml" % path)

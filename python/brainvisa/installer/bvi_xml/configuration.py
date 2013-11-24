@@ -4,14 +4,13 @@
 import xml.etree.ElementTree as ET
 
 from brainvisa.installer.bvi_utils.paths import Paths
-from brainvisa.installer.bvi_utils.system import System
 from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_xml.tag_license import TagLicense
 from brainvisa.installer.bvi_xml.tag_category import TagCategory
 from brainvisa.installer.bvi_xml.tag_repository import TagRepository
 
 
-class Configuration(object):
+class Configuration(object): #pylint: disable=R0902
 	"""BrainVISA Installer XML Configuration File.
 
 
@@ -40,21 +39,24 @@ class Configuration(object):
 			return None
 		return elt.text
 
-	def repositories(self, element_repositories):
+	@classmethod
+	def repositories(cls, element_repositories):
 		"Return the values of <REPOSITORIES> part (list of TagRepository objects)."
 		res = list()
 		for url in element_repositories:
 			res.append(TagRepository().init_from_configuration(url))
 		return res
 
-	def licenses(self, element):
+	@classmethod
+	def licenses(cls, element):
 		"Return the values of <LICENSES> part (list of TagLicense objects)."
 		res = list()
-		for license in element:
-			res.append(TagLicense().init_from_configuration(license))
+		for elt_lic in element:
+			res.append(TagLicense().init_from_configuration(elt_lic))
 		return res
 
-	def categories(self, element):
+	@classmethod
+	def categories(cls, element):
 		"Return the values of <CATEGORIES> part (list of TagCategory objects)."
 		main_categories = list()
 		for cat in element:
@@ -63,8 +65,10 @@ class Configuration(object):
 				sub_sub_cateogires = list()
 				for subsubcat in subcat:
 					sub_sub_cateogires.append(TagCategory().init_from_configuration(subsubcat))
-				sub_cateogires.append(TagCategory().init_from_configuration(subcat, sub_sub_cateogires))
-			main_categories.append(TagCategory().init_from_configuration(cat, sub_cateogires))
+				sub_cateogires.append(
+					TagCategory().init_from_configuration(subcat, sub_sub_cateogires))
+			main_categories.append(
+				TagCategory().init_from_configuration(cat, sub_cateogires))
 		return main_categories
 
 	@property
@@ -105,7 +109,6 @@ class Configuration(object):
 	def read(self, filename):
 		self.tree = ET.parse(filename)
 		self.root = self.tree.getroot()
-
 		self.Name = self.general('NAME')
 		self.Version = self.general('VERSION')
 		self.Title = self.general('TITLE')
@@ -134,6 +137,19 @@ class Configuration(object):
 		"filename is the default configuration file in share, \
 		alt_filename is an optional configuration file \
 		to override the default configuration."
+		self.tree = None
+		self.root = None
+		self.Name = None
+		self.Version = None
+		self.Title = None
+		self.Publisher = None
+		self.Producturl = None
+		self.Targetdir = None
+		self.Admintargetdir = None
+		self.Icon = None
+		self.Uninstallername = None
+		self.Allownonasciicharacters = None
+		self.Allowspaceinpath = None
 		self.Repositories = list()
 		self.Licenses = list()
 		self.Categories = list()

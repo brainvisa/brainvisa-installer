@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import xml.etree.ElementTree as ET
-
-
-class TagCategory(object):
+class TagCategory(object): #pylint: disable=R0903
 	"""Tag Category in BrainVISA Installer XML configuration file.
 
 	Parameters
@@ -18,7 +15,9 @@ class TagCategory(object):
 	subcategories : list of TagCategory objects for the visible subcategories of projects in the installer.
 	"""
 
-	def __init__(self, id_ = None, name = None, description = None, version = None, priority = None, default = None, subcategories = None):
+	def __init__(self, id_ = None, name = None, 
+		description = None, version = None, priority = None, 
+		default = None, subcategories = None):
 		self.Id = id_
 		self.Name = name
 		self.Description = description

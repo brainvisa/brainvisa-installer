@@ -8,7 +8,7 @@ from brainvisa.installer.bvi_utils.system import System
 from brainvisa.compilation_info import build_directory
 
 
-class Paths(object):
+class Paths(object): #pylint: disable=R0903
 	"""Group all paths for the BrainVISA Installer classes."""
 
 	# Utils
@@ -20,7 +20,10 @@ class Paths(object):
 					System.Linux64 : 'linux64',
 					System.MacOSX : 'osx'}
 	
-	WIN_EXT = '.exe' if (System.platform() == System.Win32 or System.platform() == System.Win64) else ''
+	WIN_EXT = '.exe' if (
+		System.platform() == System.Win32 or 
+		System.platform() == System.Win64
+	) else ''
 
 	# BrainVISA folders
 	BV = build_directory

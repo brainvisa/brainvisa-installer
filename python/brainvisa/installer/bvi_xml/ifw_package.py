@@ -1,16 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os.path
 import HTMLParser
 import xml.etree.ElementTree as ET
 
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
-from brainvisa.installer.bvi_xml.tag_license import TagLicense
-from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
 
 
-class IFWPackage(XmlFile):
+class IFWPackage(XmlFile): #pylint: disable=R0902
 	"""Model Qt Installer package.
 
 	Parameters
@@ -54,7 +51,8 @@ class IFWPackage(XmlFile):
 		self.set_root_subelement_text('Essential', self.Essential)
 		self.set_root_subelement_text('ForcedInstallation', self.ForcedInstallation)
 		self.set_root_subelement_text('Replaces', self.Replaces)
-		self.set_root_subelement_text('DownloadableArchives', self.DownloadableArchives)
+		self.set_root_subelement_text('DownloadableArchives', 
+			self.DownloadableArchives)
 		self.set_root_subelement_text('Script', self.Script)
 		# List subelements
 		if self.TagDependencies:

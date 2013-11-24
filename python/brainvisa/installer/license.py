@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-import os.path
 import shutil
 
 from brainvisa.installer.component import Component
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 
-from brainvisa.compilation_info import build_directory
 
 class License(Component):
 	"""BrainVISA Installer license package.
@@ -45,7 +42,7 @@ class License(Component):
 		dest = "%s/%s/meta/%s" % (folder, self.ifwname, self.file)
 		shutil.copyfile(src, dest)
 
-	def __init__(self, taglicense):
+	def __init__(self, taglicense): #pylint: disable=W0231
 		self.name = taglicense.Name
 		self.project = None
 		self.type = None

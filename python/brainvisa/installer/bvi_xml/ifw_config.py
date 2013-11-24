@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os.path
-import platform
-import xml.etree.ElementTree as ET
-
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 
 
-class IFWConfig(XmlFile):
+class IFWConfig(XmlFile): #pylint: disable=R0902
 	"""Model of XML IFW config file.
 
 	Parameters
@@ -62,18 +58,23 @@ class IFWConfig(XmlFile):
 		self.set_root_subelement_text('Background', self.Background)
 		self.set_root_subelement_text('RunProgram', self.RunProgram)
 		self.set_root_subelement_text('RunProgramArguments', self.RunProgramArguments)
-		self.set_root_subelement_text('RunProgramDescription', self.RunProgramDescription)
+		self.set_root_subelement_text('RunProgramDescription', 
+			self.RunProgramDescription)
 		self.set_root_subelement_text('StartMenuDir', self.StartMenuDir)
 		self.set_root_subelement_text('TargetDir', self.TargetDir)
 		self.set_root_subelement_text('AdminTargetDir', self.AdminTargetDir)		
 		self.set_root_subelement_text('UninstallerName', self.UninstallerName)
 		self.set_root_subelement_text('UninstallerIniFile', self.UninstallerIniFile)
 		self.set_root_subelement_text('RemoveTargetDir', self.RemoveTargetDir)
-		self.set_root_subelement_text('AllowNonAsciiCharacters', self.AllowNonAsciiCharacters)
-		self.set_root_subelement_text('RepositorySettingsPageVisible', self.RepositorySettingsPageVisible)
+		self.set_root_subelement_text('AllowNonAsciiCharacters', 
+			self.AllowNonAsciiCharacters)
+		self.set_root_subelement_text('RepositorySettingsPageVisible', 
+			self.RepositorySettingsPageVisible)
 		self.set_root_subelement_text('AllowSpaceInPath', self.AllowSpaceInPath)
-		self.set_root_subelement_text('DependsOnLocalInstallerBinary', self.DependsOnLocalInstallerBinary)
-		self.set_root_subelement_text('TargetConfigurationFile', self.TargetConfigurationFile)
+		self.set_root_subelement_text('DependsOnLocalInstallerBinary', 
+			self.DependsOnLocalInstallerBinary)
+		self.set_root_subelement_text('TargetConfigurationFile', 
+			self.TargetConfigurationFile)
 		self.set_root_subelement_text('Translations', self.Translations)
 		self.set_root_subelement_text('UrlQueryString', self.UrlQueryString)
 		# List subelements
@@ -82,10 +83,10 @@ class IFWConfig(XmlFile):
 			for tr in self.TagRepositories:
 				e.append(tr.element)	
 
-	def __init__(self, 
+	def __init__(self,
 		Name, 
 		Version, 
-		Title = None, 
+		Title = None,
 		Publisher = None, 
 		ProductUrl = None, 
 		Icon = None, 

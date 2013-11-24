@@ -10,7 +10,8 @@ from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 from brainvisa.installer.bvi_utils.bvi_exception import BVIException
 
 from brainvisa.compilation_info import packages_info
-from brainvisa.maker.brainvisa_projects import brainvisaProjects, brainvisaComponentsPerProject
+from brainvisa.maker.brainvisa_projects import brainvisaProjects
+from brainvisa.maker.brainvisa_projects import brainvisaComponentsPerProject
 
 
 class Project(Component):
@@ -56,7 +57,8 @@ class Project(Component):
 			super(Project, self).create(folder)
 		self.__create_pacakges(folder)
 
-	def __init__(self, name, configuration, types = ['run', 'usrdoc', 'dev', 'devdoc']):
+	def __init__(self, name, configuration, types = None): #pylint: disable=W0231
+		types = types or ['run', 'usrdoc', 'dev', 'devdoc']
 		if not name in brainvisaProjects:
 			raise BVIException(BVIException.PROJECT_NONEXISTENT, name)
 		super(Project, self)._Component__init_date()

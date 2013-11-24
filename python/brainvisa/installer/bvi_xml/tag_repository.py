@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os.path
 import xml.etree.ElementTree as ET
 
 from brainvisa.installer.bvi_utils.system import System
@@ -38,7 +37,8 @@ class TagRepository(object):
 			e_DisplayName.text = self.DisplayName
 		return e
 
-	def __init__(self, Url = None, Enabled = None, Username = None, Password = None, DisplayName = None):
+	def __init__(self, Url = None, Enabled = None, Username = None, 
+		Password = None, DisplayName = None):
 		self.Url = Url
 		self.Enabled = Enabled
 		self.Username = Username
@@ -48,7 +48,8 @@ class TagRepository(object):
 	def init_from_configuration(self, element):
 		"Initialize from an XML element from XML configuration file."
 		self.Url = element.text.strip()
-		self.Enabled = '1' if System.platform() == element.attrib.get('PLATFORM') else '0'
+		att_platform = element.attrib.get('PLATFORM')
+		self.Enabled = '1' if System.platform() == att_platform else '0'
 		self.Username = element.attrib.get('USERNAME')
 		self.Password = element.attrib.get('PASSWORD')
 		self.DisplayName = element.attrib.get('DISPLAYNAME')

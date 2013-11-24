@@ -15,7 +15,7 @@ class System(object):
 
 	@staticmethod
 	def platform():
-		(system, node, release, version, machine, processor) = platform.uname()
+		(system, node, release, version, machine, processor) = platform.uname() #pylint: disable=W0612
 		if system == 'Windows':
 			if machine == 'x86_64':
 				return System.Win64

@@ -12,12 +12,12 @@ class BVIException(Exception):
 	e = BVIException(BVIException.PROJECT_NONEXISTENT, project_name)
 	"""
 
-	PROJECT_NONEXISTENT 		= 'The BrainVISA project does not exist. Check the project name and if the project has been downloaded and builed with brainvisa-cmake.'
-	COMPONENT_NONEXISTENT 		= 'The BrainVISA component does not exist. Perhaps it has not been builed.'
+	PROJECT_NONEXISTENT 		= 'The BrainVISA project does not exist. Check the project name and if the project has been downloaded and builed with brainvisa-cmake.' #pylint: disable=C0301
+	COMPONENT_NONEXISTENT 		= 'The BrainVISA component does not exist. Perhaps it has not been builed.' #pylint: disable=C0301
 	PACKAGING_FAILED 			= 'The BrainVISA command bv_packaging failed'
 	ARCHIVEGEN_FAILED 			= 'The IFW command repogen failed'
 	BINARYCREATOR_FAILED 		= 'The IFW commande binarycreator failed'
-	DOC_TYPE_INVALID 			= 'The type doc is not taking into account in BrainVISA Installer, use usrdoc or devdoc type'
+	DOC_TYPE_INVALID 			= 'The type doc is not taking into account in BrainVISA Installer, use usrdoc or devdoc type' #pylint: disable=C0301
 	
 
 	def __init__(self, error, detail = ''):
@@ -25,4 +25,4 @@ class BVIException(Exception):
 		super(BVIException, self).__init__(message)
 
 	def __str__(self):
-        return ' '.join(self.args)
+		return ' '.join(self.args)

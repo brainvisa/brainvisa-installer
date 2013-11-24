@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os.path
 import HTMLParser
 from xml.dom import minidom
 import xml.etree.ElementTree as ET
@@ -27,13 +26,14 @@ class XmlFile(object):
 	def save(self, filename):
 		"Update and the save the XML file."
 		self.update(filename)
-		with open(filename, 'w') as fo:
+		with open(filename, 'w') as fo_xml:
 			pretty_root	= HTMLParser.HTMLParser().unescape(self.prettify(self.root))
-			fo.write(pretty_root)
+			fo_xml.write(pretty_root)
 
-	def prettify(self, element):
+	@classmethod
+	def prettify(cls, element):
 		"Return a pretty-printed XML string for the Element."
-		rough_string = ET.tostring(element, 'utf-8') # HTMLParser.HTMLParser().unescape(ET.tostring(element, 'utf-8'))
+		rough_string = ET.tostring(element, 'utf-8') # TMP: HTMLParser.HTMLParser().unescape(ET.tostring(element, 'utf-8'))
 		reparsed = minidom.parseString(rough_string)
 		return reparsed.toprettyxml(indent="\t", newl="\n", encoding='utf-8')
 
@@ -77,7 +77,8 @@ class XmlFile(object):
 		if element is None:
 			element = ET.Element(new_element_name)
 			parent_element.append(element)
-		if new_element_text: element.text = new_element_text
+		if new_element_text: 
+			element.text = new_element_text
 		return element
 
 	def element_attribute_value(self, element_name, attribute_name, 

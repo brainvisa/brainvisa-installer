@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#
+# Procedures to simplify the use of external tools.
+#
+
 import os
-import pprint
 import subprocess
 
 from brainvisa.installer.bvi_utils.paths import Paths
-from brainvisa.installer.bvi_utils.system import System
-
-
-"""Procedures to simplify the use of external tools.
-"""
+from brainvisa.installer.bvi_utils.bvi_exception import BVIException
 
 
 def binarycreator(installer_path, repository_path, online_only=False, 
@@ -34,8 +33,14 @@ def binarycreator(installer_path, repository_path, online_only=False,
 	param_config = ' -c %s/config/config.xml' % repository_path
 	param_packages = ' -p %s/packages' % repository_path
 
-	cmd = "%s %s%s%s%s%s%s %s" % (Paths.IFW_BINARYCREATOR, param_online_only, param_offline_only, 
-		param_exclude, param_include, param_config, param_packages, installer_path)
+	cmd = "%s %s%s%s%s%s%s %s" % (Paths.IFW_BINARYCREATOR, 
+		param_online_only, 
+		param_offline_only, 
+		param_exclude, 
+		param_include, 
+		param_config, 
+		param_packages, 
+		installer_path)
 	os.system(cmd)
 	# custom_env = os.environ.copy()
 	# custom_env['PATH'] = Paths.BVI_SHARE_BIN + ':' + custom_env['PATH']
@@ -50,7 +55,9 @@ def binarycreator(installer_path, repository_path, online_only=False,
 	# 	raise BVIException(BVIException.BINARYCREATOR_FAILED, message)
 
 
-def repogen(path_repository_in, path_repository_out, components = None, update=False, exclude=None, updateurl=None):
+def repogen(path_repository_in, path_repository_out, 
+	components = None, update=False, exclude=None, 
+	updateurl=None): #pylint: disable=R0913
 	"""The repogen tool generates an online IFW repositoriy.
 
 	Parameters
@@ -69,8 +76,15 @@ def repogen(path_repository_in, path_repository_out, components = None, update=F
 	param_packages = "-p %s/packages" % path_repository_in
 	param_config = "-c %s/config/config.xml" % path_repository_in
 	
-	cmd = "%s %s %s %s %s %s %s %s" % (Paths.IFW_REPOGEN, param_config, param_packages, 
-		param_update, param_exclude, param_updateurl, param_components, path_repository_out)
+	cmd = "%s %s %s %s %s %s %s %s" % (
+		Paths.IFW_REPOGEN, 
+		param_config, 
+		param_packages, 
+		param_update, 
+		param_exclude, 
+		param_updateurl, 
+		param_components, 
+		path_repository_out)
 	print cmd
 	os.system(cmd)
 
@@ -100,7 +114,8 @@ def bv_packaging(name, type_, folder):
 	type_  : type of package: run, doc, usrdoc, devdoc.
 	folder : destination full path.
 	"""
-	args = ['./bv_env ./bv_packaging dir -o %s --no-deps +name=%s,type=%s' % (folder, name, type_)]
+	args = ['./bv_env ./bv_packaging dir -o %s --no-deps +name=%s,type=%s' % 
+	(folder, name, type_)]
 	process = subprocess.Popen(args, cwd = Paths.BV_BIN, shell=True)
 	result = process.wait()
 	if result < 0:

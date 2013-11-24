@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import xml.etree.ElementTree as ET
-
 
 class TagDependency(object):
 	"""Model dependency.
@@ -17,8 +15,11 @@ class TagDependency(object):
 
 	@property
 	def text(self):
-		"""Format for the IFW package.xml file. The version numbers is separated by a dash (-). 
-		The version numbers is defined with a comparison operator (=, >, <, >= or <=)."""
+		"""Format for the IFW package.xml file. The version numbers is \
+		separated by a dash (-). 
+		The version numbers is defined with a comparison operator (=, >, <, \
+		>= or <=).
+		"""
 		res = self.Name
 		if self.Version:
 			res = "%s - %s %s" % (self.Name,  self.Comparison, self.Version)
@@ -30,7 +31,8 @@ class TagDependency(object):
 		self.Comparison = comparison
 		self.Depends = depends
 
-	def format(self, string):
+	@classmethod
+	def format(cls, string):
 		"Format to specify the version in QT"
 		res = string.strip()
 		res = res.replace(r'<<', r'<')

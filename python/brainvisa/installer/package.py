@@ -30,7 +30,8 @@ class Package(Component):
 			if not deps:
 				deps = list()
 			for lic in self.licenses:
-				license_component = "brainvisa.app.licenses.%s" % (lic.lower().replace('-', '_'))
+				valid_name = lic.lower().replace('-', '_')
+				license_component = "brainvisa.app.licenses.%s" % valid_name
 				deps.append(TagDependency(name=license_component))
 
 		package = IFWPackage(
@@ -63,11 +64,10 @@ class Package(Component):
 		infos_deps = list(packages_dependencies[self.name])
 		res = list()
 		for info in infos_deps:
-			infos = packages_info[self.name]
 			depends = True if info[0] == 'DEPENDS' else False
-			d = TagDependency(
+			dep = TagDependency(
 				name = info[1].decode('utf-8'), 
 				version= info[2].decode('utf-8'), 
 				depends=depends)
-			res.append(d)
+			res.append(dep)
 		self.dependencies =  res
