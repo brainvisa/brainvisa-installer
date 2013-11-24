@@ -6,16 +6,7 @@ from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_xml.tag_repository import TagRepository
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 
-OUTPUT = r'test_bvi_xml_ifw_config/out.xml'
-
-def setup_module(module):
-	"Setup any state specific to the execution of the given module."
-	pass
-
-def teardown_module(module):
-	"Teardown any state that was previously setup with a setup_module method."
-	#if os.path.isfile(OUTPUT):
-	#	os.remove(OUTPUT)
+OUTPUT = r'out/IFWConfig_out.xml'
 		
 def test_utils_IFWConfig():
 	x = IFWConfig(
@@ -69,8 +60,8 @@ def test_utils_IFWConfig():
 	assert x.root_subelement('Publisher').text == 'CEA IFR49 / I2BM'
 	assert x.root_subelement('ProductUrl').text == 'http://brainvisa.info'
 	assert x.root_subelement('Icon').text == 'brainvisa_icon'
-	assert x.root_subelement('InstallerApplicationIcon').text == 'InstallerApplicationIcon 0x23'
-	assert x.root_subelement('InstallerWindowIcon').text == 'InstallerWindowIcon 0x22'
+	assert x.root_subelement('InstallerApplicationIcon').text == None
+	assert x.root_subelement('InstallerWindowIcon').text == None
 	assert x.root_subelement('Logo').text == 'brainvisa_logo.png'
 	assert x.root_subelement('Watermark').text == 'brainvisa_watermark.png'
 	assert x.root_subelement('Banner').text == 'Banner 0x23D'

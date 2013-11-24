@@ -1,16 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
-import xml.etree.ElementTree as ET
 from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
-
-
-def setup_module(module):
-	pass
-
-def teardown_module(module):
-	pass
 
 
 def test_TagDependency_format():

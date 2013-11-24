@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Installer>
+	<Name>BrainVISA Suite Installer</Name>
+	<Version inheritVersion="brainvisa.app">1.0.0</Version>
+	<Title>BrainVISA Suite Installer</Title>
+	<Publisher>CEA IFR49 / I2BM</Publisher>
+	<ProductUrl>http://brainvisa.info/</ProductUrl>
+	<Icon>brainvisa_icon</Icon>
+	<Logo>brainvisa_logo.png</Logo>
+	<Watermark>brainvisa_watermark.png</Watermark>
+	<UninstallerName>BrainVISA Suite - Update</UninstallerName>
+	<TargetDir>@homeDir@/brainvisa</TargetDir>
+	<AdminTargetDir>@rootDir@/brainvisa</AdminTargetDir>
+	<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
+	<AllowSpaceInPath>true</AllowSpaceInPath>
+	<RemoteRepositories>
+		<Repository testAttribute="02Xsd2">
+			<Url>http://localhost/repositories/linux-x86-64/</Url>
+			<Enabled>1</Enabled>
+		</Repository>
+	</RemoteRepositories>
+</Installer>

@@ -5,18 +5,8 @@ import os
 import os.path
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 
-EXAMPLE = r'test_bvi_utils_xml_file/ifw_config_example.xml'
-OUTPUT = r'test_bvi_utils_xml_file/out.xml'
-
-def setup_module(module):
-	"Setup any state specific to the execution of the given module."
-	pass
-
-def teardown_module(module):
-	"Teardown any state that was previously setup with a setup_module method."
-	#if os.path.isfile(OUTPUT):
-	#	os.remove(OUTPUT)
-	pass
+EXAMPLE = r'in/ifw_config_example.xml'
+OUTPUT = r'out/out.xml'
 
 def test_XmlFile_init():
 	x = XmlFile()

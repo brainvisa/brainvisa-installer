@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import xml.etree.ElementTree as ET
+
 from brainvisa.installer.bvi_xml.tag_category import TagCategory
 
 EXAMPLE = """
@@ -14,13 +15,6 @@ EXAMPLE = """
 	</CATEGORY> 
 </CATEGORY>
 """
-
-def setup_module(module):
-	pass
-
-def teardown_module(module):
-	pass
-
 
 def test_TagCategory_init_from_configuration():
 	element = ET.fromstring(EXAMPLE)

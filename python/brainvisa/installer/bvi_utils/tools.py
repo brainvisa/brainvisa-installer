@@ -42,17 +42,6 @@ def binarycreator(installer_path, repository_path, online_only=False,
 		param_packages, 
 		installer_path)
 	os.system(cmd)
-	# custom_env = os.environ.copy()
-	# custom_env['PATH'] = Paths.BVI_SHARE_BIN + ':' + custom_env['PATH']
-	# pprint.pprint(args)
-	# #process = subprocess.Popen(args, env=custom_env)
-	# #process = subprocess.Popen(args, cwd=repository_path, env=custom_env)
-	# process = subprocess.Popen(args)
-	# result = process.wait()
-
-	# if result < 0:
-	# 	message = "Installer path: %s, Repository path: %s." % (installer_path, repository_path)
-	# 	raise BVIException(BVIException.BINARYCREATOR_FAILED, message)
 
 
 def repogen(path_repository_in, path_repository_out, 
@@ -120,7 +109,3 @@ def bv_packaging(name, type_, folder):
 	result = process.wait()
 	if result < 0:
 		raise BVIException(BVIException.PACKAGING_FAILED, folder)
-	# print "---------------> a"
-	# cmd = '%s/bv_env %s/bv_packaging dir -o %s --no-deps +name=%s,type=%s' % (Paths.BV_BIN, Paths.BV_BIN, folder, name, type_)
-	# os.system(cmd)
-	# print "---------------> b"

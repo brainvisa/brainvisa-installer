@@ -1,24 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os.path
-
 import xml.etree.ElementTree as ET
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_xml.configuration import Configuration
 
-EXAMPLE = r'test_bvi_xml_configuration/configuration.xml'
-EXAMPLE_PARTIAL = r'test_bvi_xml_configuration/configuration_partial.xml'
-OUTPUT = r'test_bvi_xml_configuration/out.xml'
+EXAMPLE = r'in/configuration.xml'
+EXAMPLE_PARTIAL = r'in/configuration_partial.xml'
+OUTPUT = r'out/out.xml'
 
-def setup_module(module):
-	pass
 
-def teardown_module(module):
-	pass
-
-def test_xml_Configuration():
+def test_bvi_xml_Configuration():
 	"""
 	<GENERAL>
 		<NAME>BrainVISA Installer</NAME>
@@ -47,7 +40,7 @@ def test_xml_Configuration():
 	assert x.Allownonasciicharacters == 'true'
 	assert x.Allowspaceinpath == 'true'
 
-def test_xml_Configuration_Repostiroy():
+def test_bvi_xml_Configuration_Repostiroy():
 	"""
 	<REPOSITORIES>
 		<URL PLATFORM="WIN32">http://localhost/repositories/win32/</URL>
@@ -64,7 +57,7 @@ def test_xml_Configuration_Repostiroy():
 	assert x.Repositories[3].Url == 'http://localhost/repositories/linux64/'
 	assert x.Repositories[3].Enabled == '1' # OS dependent
 
-def test_xml_Configuration_Licenses():
+def test_bvi_xml_Configuration_Licenses():
 	"""
 	<LICENSES>
 		<LICENSE ID="CECILL_2.1" VERSION="2.1" NAME="CeCILL v2.1" FILE="licence_cecill_v2.1_en_en.txt" />
@@ -81,7 +74,7 @@ def test_xml_Configuration_Licenses():
 	assert x.Licenses[0].File == 'licence_cecill_v2.1_en_en.txt'
 	assert x.Licenses[3].Name == 'GPL 3.0' 
 
-def test_xml_Configuration_Categories():
+def test_bvi_xml_Configuration_Categories():
 	"""
 	<CATEGORIES>
 		<CATEGORY NAME="BrainVISA Suite" PRIORITY="10" VERSION="1.0" DESCRIPTION="Description of BrainVISA Suite category">
@@ -108,7 +101,7 @@ def test_xml_Configuration_Categories():
 	assert x.Categories[1].Subcategories[0].Name == 'Sources'
 	assert x.Categories[1].Subcategories[1].Subcategories[0].Id == 'devdoc'
 
-def test_xml_Configuration_Alt():
+def test_bvi_xml_Configuration_Alt():
 	"""
 	<INSTALLER>
 		<GENERAL>
@@ -133,7 +126,7 @@ def test_xml_Configuration_Alt():
 	assert x.Title == 'BrainVISA Installer 2'
 	assert x.Publisher == 'CEA 0x829307'
 
-def test_xml_Configuration_Alt_Repositories():
+def test_bvi_xml_Configuration_Alt_Repositories():
 	x = Configuration(EXAMPLE, EXAMPLE_PARTIAL)
 	assert len(x.Repositories) == 6
 	assert x.Repositories[4].Url == 'http://localhost/repositories2x08734/win32/'
@@ -146,7 +139,7 @@ def test_xml_Configuration_Alt_Repositories():
 	assert x.Repositories[3].Url == 'http://localhost/repositories/linux64/'
 	assert x.Repositories[3].Enabled == '1' # OS dependent
 
-def test_xml_Configuration_Alt_Licenses():
+def test_bvi_xml_Configuration_Alt_Licenses():
 	x = Configuration(EXAMPLE, EXAMPLE_PARTIAL)
 	assert x.Licenses[0].Id == 'CECILL_2.1'
 	assert x.Licenses[0].Version == '2.1' 

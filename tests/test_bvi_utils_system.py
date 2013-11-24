@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os.path
+import pytest
 from brainvisa.installer.bvi_utils.system import System
 
-# !!! SPECIFIC PLATFORM TEST !!!
+
+@pytest.mark.specific
 def test_System_platform():
 	assert System.platform() == System.Linux64
 	#assert System.platform == System.Linux32

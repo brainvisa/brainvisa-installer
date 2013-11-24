@@ -2,16 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import xml.etree.ElementTree as ET
+
 from brainvisa.installer.bvi_xml.tag_license import TagLicense
 
+
 EXAMPLE = """<LICENSE ID="CECILL_2.1" VERSION="2.1" NAME="CeCILL v2.1" FILE="licence_cecill_v2.1_en_en.txt" />"""
-
-
-def setup_module(module):
-	pass
-
-def teardown_module(module):
-	pass
 
 
 def test_TagLicense_init_from_configuration():
