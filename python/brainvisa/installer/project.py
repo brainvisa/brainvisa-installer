@@ -3,10 +3,12 @@
 
 import os
 import os.path
+import collections
 
 from brainvisa.installer.package import Package
 from brainvisa.installer.component import Component
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
+from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
 from brainvisa.installer.bvi_utils.bvi_exception import BVIException
 
 from brainvisa.compilation_info import packages_info
@@ -51,11 +53,11 @@ class Project(Component):
 		return package
 
 	def create(self, folder):
+		self.__create_pacakges(folder)
 		for type_ in self.types:
 			self.type = type_
 			self.__create_subcategorie(folder)
 			super(Project, self).create(folder)
-		self.__create_pacakges(folder)
 
 	def __init__(self, name, configuration, types = None): #pylint: disable=W0231
 		types = types or ['run', 'usrdoc', 'dev', 'devdoc']
@@ -71,6 +73,7 @@ class Project(Component):
 		self.licenses = None
 		self.data = None
 		self.configuration = configuration
+		self.dep_packages = collections.defaultdict(list)
 
 	def __create_subcategorie(self, folder):
 		cat = self.configuration.category_by_id(self.type)
@@ -85,7 +88,8 @@ class Project(Component):
 						Version 	= self.version, 
 						ReleaseDate = self.date, 
 						Name 		= name, 
-						Virtual 	= 'false')
+						Virtual 	= 'false',
+						TagDependencies = self.__clean_dependencies_doublons())
 		p.save("%s/%s/meta/package.xml" % (folder, name))
 
 	def __create_pacakges(self, folder):
@@ -97,4 +101,32 @@ class Project(Component):
 					ext = ''
 				full_name = "%s%s" % (package_name, ext)
 				if full_name in packages_info:
-					Package(full_name).create(folder)
+					pack = Package(full_name)
+					pack.create(folder)
+					if not self.__is_in_dependencies(pack, type_name):
+						self.dep_packages[type_name].append(pack)
+
+	def __is_in_dependencies(self, package, type_name):
+		for dep in self.dep_packages[type_name]:
+			if dep.ifwname == package.ifwname:
+				return True
+		return False
+
+	@classmethod
+	def __is_in_tagdependencies(cls, tagdepency, tagdependencies):
+		for tag in tagdependencies:
+			if tag.text == tagdepency:
+				return True
+		return False
+
+	def __clean_dependencies_doublons(self):
+		clean_tagdependencies = list()
+		for dep_pack in self.dep_packages[self.type]:
+			tagdependency = TagDependency(
+				name=dep_pack.ifwname, 
+				version=dep_pack.version, 
+				comparison='=')
+			if not self.__is_in_tagdependencies(tagdependency, clean_tagdependencies):
+				clean_tagdependencies.append(tagdependency)					
+		return clean_tagdependencies
+

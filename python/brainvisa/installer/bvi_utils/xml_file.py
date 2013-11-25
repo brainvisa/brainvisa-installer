@@ -27,7 +27,7 @@ class XmlFile(object):
 		"Update and the save the XML file."
 		self.update(filename)
 		with open(filename, 'w') as fo_xml:
-			pretty_root	= HTMLParser.HTMLParser().unescape(self.prettify(self.root))
+			pretty_root	= self.prettify(self.root) #HTMLParser.HTMLParser().unescape(self.prettify(self.root))
 			fo_xml.write(pretty_root)
 
 	@classmethod

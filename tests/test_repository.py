@@ -15,15 +15,14 @@ from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 from brainvisa.installer.bvi_utils.paths import Paths
 
-OUTPUT = r'/home/hakim/Development/CEA/BrainVISA/Workpackage/05_Sources/python/brainvisa/installer.test/test_repository/Repository_0xFFF'
-CONFIG = r'/home/hakim/Development/CEA/BrainVISA/Workpackage/05_Sources/share/brainvisa/installer/xml/configuration.xml'
+FULLPATH = os.path.dirname(os.path.abspath(__file__))
 
 # def test_Repository__create_config():
-# 	x = Configuration(CONFIG)
-# 	folder = "test_repository/New_Repository"
+# 	x = Configuration()
+# 	folder = "%s/out/New_Repository" % FULLPATH
 # 	os.mkdir(folder)
 # 	y = Repository(	name='New_Repository', 
-# 					folder='test_repository', 
+# 					folder='%s/out' % FULLPATH, 
 # 					configuration=x, 
 # 					components=list())
 # 	y._Repository__create_config()
@@ -85,45 +84,43 @@ CONFIG = r'/home/hakim/Development/CEA/BrainVISA/Workpackage/05_Sources/share/br
 # 	assert d.root.find('DisplayName').text == 'BrainVISA Development'
 # 	shutil.rmtree(folder)
 
-# def test_Repository_create():
-# 	x = Configuration(CONFIG)
-# 	y = list()
-# 	z = Repository(	name = 'Repository 0x82F93', 
-# 					folder = 'test_repository', 
-# 					configuration = x, 
-# 					components = y)
-# 	z.create()
+def test_Repository_create_empty():
+	x = Configuration()
+	y = list()
+	z = Repository(	folder = '%s/out/Repository 0x82F93' % FULLPATH, 
+					configuration = x, 
+					components = y)
+	z.create()
 
-# 	folders = ( 	'test_repository/Repository_0x82F93',
-# 					'test_repository/Repository_0x82F93/config',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.app',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.app/meta',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.app.licenses',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.app.licenses/meta',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.app.thirdparty',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.app.thirdparty/meta',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.dev',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.dev/meta',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.app.licenses.cecill_v2.1',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.app.licenses.cecill_v2.1/meta')
-# 	files = (		'test_repository/Repository_0x82F93/packages/brainvisa.app/meta/package.xml',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.app.licenses/meta/package.xml',
-# 					'test_repository/Repository_0x82F93/packages/brainvisa.app.licenses.cecill_v2.1/meta/package.xml')
+	folders = ( 'Repository_0x82F93',
+				'Repository_0x82F93/config',
+				'Repository_0x82F93/packages/brainvisa.app',
+				'Repository_0x82F93/packages/brainvisa.app/meta',
+				'Repository_0x82F93/packages/brainvisa.app.licenses',
+				'Repository_0x82F93/packages/brainvisa.app.licenses/meta',
+				'Repository_0x82F93/packages/brainvisa.app.thirdparty',
+				'Repository_0x82F93/packages/brainvisa.app.thirdparty/meta',
+				'Repository_0x82F93/packages/brainvisa.dev',
+				'Repository_0x82F93/packages/brainvisa.dev/meta',
+				'Repository_0x82F93/packages/brainvisa.app.licenses.cecill_v2.1',
+				'Repository_0x82F93/packages/brainvisa.app.licenses.cecill_v2.1/meta')
+	files = (	'Repository_0x82F93/packages/brainvisa.app/meta/package.xml',
+				'Repository_0x82F93/packages/brainvisa.app.licenses/meta/package.xml',
+				'Repository_0x82F93/packages/brainvisa.app.licenses.cecill_v2.1/meta/package.xml')
 	
-# 	for f in folders:
-# 		assert os.path.isdir(f)
+	# for f in folders:
+	# 	assert os.path.isdir("%s/out/%s" % (FULLPATH, f))
 
-# 	for f in files:
-# 		assert os.path.isfile(f)
+	# for f in files:
+	# 	assert os.path.isfile("%s/out/%s" % (FULLPATH, f))
 
-# 	shutil.rmtree('test_repository/Repository_0x82F93')
+	#shutil.rmtree('test_repository/Repository_0x82F93')
 
 def test_Repository_create():
-	FOLDER = '/home/hakim/Development/CEA/BrainVISA/Sandbox/tmp3/repository_tmp'
 	x = Configuration()
-	#y = [Project('soma', x, ['run', 'usrdoc']), Package('axon-usrdoc')]
-	y = [Project('soma', x)]
-	z = Repository(	folder = FOLDER, 
+	y = [Project('soma', x), Project('aims', x), Project('anatomist', x), Project('axon', x)]
+	#y = [Project('soma', x, types = ['run', 'usrdoc'])]
+	z = Repository(	folder = "%s/out/Repository_ALL" % FULLPATH, 
 					configuration = x, 
 					components = y)
 	z.create()

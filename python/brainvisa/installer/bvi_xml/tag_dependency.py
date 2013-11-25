@@ -20,12 +20,11 @@ class TagDependency(object):
 		The version numbers is defined with a comparison operator (=, >, <, \
 		>= or <=).
 		"""
-		res = self.Name
-		if self.Version:
-			res = "%s - %s %s" % (self.Name,  self.Comparison, self.Version)
-		return self.format(res)
+		separator = '' if self.Version == '' else '-'
+		res = "%s%s%s%s" % (self.Name, separator, self.Comparison, self.Version)
+		return self.escape(self.format(res))
 
-	def __init__(self, name, version=None, comparison='', depends=True):
+	def __init__(self, name, version='', comparison='', depends=True):
 		self.Name = name
 		self.Version = version
 		self.Comparison = comparison
@@ -38,4 +37,19 @@ class TagDependency(object):
 		res = res.replace(r'<<', r'<')
 		res = res.replace(r'>>', r'>')
 		res = res.replace(r';', r' ') 		
+		return res
+
+	@classmethod
+	def escape(cls, string):
+		"Escape the invalid characters."
+		res = string.strip()
+		characters = {
+			"\"" : "&quot;",
+			"'" : "&apos;",
+			"<" : "&lt;",
+			">" : "&gt;",
+			"&" : "&amp;",
+			" " : ""}
+		for char, escape in characters.iteritems():
+			res = res.replace(char, escape)
 		return res

@@ -116,14 +116,14 @@ class Repository(object):
 			License(tag_license).create("%s/packages" % self.folder)
 
 	def __create_package(self, package_name,
-						DisplayName, 
-						Description, 
-						Version , 
-						ReleaseDate, 
-						Name, 
-						Virtual = None,
-						SortingPriority = None,
-						Default = None): #pylint: disable=C0103
+			DisplayName, 
+			Description, 
+			Version , 
+			ReleaseDate, 
+			Name, 
+			Virtual = None,
+			SortingPriority = None,
+			Default = None): #pylint: disable=C0103
 		package = IFWPackage(	
 			DisplayName = DisplayName, 
 			Description = Description, 

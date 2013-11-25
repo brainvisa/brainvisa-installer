@@ -7,7 +7,7 @@ import shutil
 
 from brainvisa.installer.bvi_utils.tools import binarycreator, repogen, archivegen, bv_packaging
 
-FULLPATH = '/home/hakim/Development/CEA/BrainVISA_Installer/05_Repository/brainvisa-installer/trunk/tests'
+FULLPATH = os.path.dirname(os.path.abspath(__file__))
 
 def test_bvi_utils_tools_binarycreator_fullpath():
 	repository_path = "%s/in/repository" % FULLPATH
@@ -41,7 +41,15 @@ def test_bvi_utils_tools_archivegen():
 	os.remove(filename)
 
 def test_bvi_utils_tools_bv_packaging():
-	bv_packaging('soma-base', 'run', 'out/soma_base_test')
-	bv_packaging('soma-base-usrdoc', 'usrdoc', 'out/soma_base_usrdoc')
-	assert os.path.isdir('out/soma_base_test')
-	assert os.path.isdir('out/soma_base_usrdoc')
+	folder = '%s/out/soma_base_test' % FULLPATH
+	bv_packaging('soma-base', 'run', folder)
+	assert os.path.isdir(folder)
+	assert os.path.isdir("%s/bin" % folder)
+	assert os.path.isdir("%s/python" % folder)
+	assert os.path.isdir("%s/share" % folder)
+	shutil.rmtree(folder)
+	folder = '%s/out/soma_base_usrdoc' % FULLPATH
+	bv_packaging('soma-base-usrdoc', 'usrdoc', folder)
+	assert os.path.isdir(folder)
+	assert os.path.isfile("%s/README" % folder)
+	shutil.rmtree(folder)

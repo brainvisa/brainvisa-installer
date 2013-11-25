@@ -63,12 +63,18 @@ class Component(object):
 		
 	def __init_infos(self):
 		"Initialize the component information."
-		infos = packages_info[self.name]
-		self.project = infos['project']
-		self.type = infos['type']
-		self.version = infos['version']
-		if 'licences' in infos:
-			self.licenses = infos['licences']
+		if self.name in packages_info:
+			infos = packages_info[self.name]
+			self.project = infos['project']
+			self.type = infos['type']
+			self.version = infos['version']
+			if 'licences' in infos:
+				self.licenses = infos['licences']
+		else:
+			print "[ BVI ]: WARNING no information for %s" % self.name
+			self.project = ''
+			self.type = 'thirdparty'
+			self.version = '1.0'
 
 	def __init_date(self):
 		"Initialize the date."

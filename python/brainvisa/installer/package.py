@@ -12,8 +12,8 @@ class Package(Component):
 
 	@property
 	def ifwname(self):
-		p_name = self.project.replace('-', '_').lower()
-		c_name = self.name.replace('-', '_').lower()
+		p_name = self.__valid_name(self.project)
+		c_name = self.__valid_name(self.name)
 		res = {
 			'run' 		: "brainvisa.app.%s.run.%s" % (p_name, c_name),
 			'usrdoc'	: "brainvisa.app.%s.usrdoc.%s" % (p_name, c_name),
@@ -25,14 +25,18 @@ class Package(Component):
 
 	@property
 	def ifwpackage(self):
-		deps = self.dependencies
+		tag_deps = list()
+		if self.dependencies:
+			for dep_pack in self.dependencies:
+				tag_dep = TagDependency(name=dep_pack.ifwname, 
+					version=dep_pack.version)
+				tag_deps.append(tag_dep)
 		if self.licenses:
-			if not deps:
-				deps = list()
 			for lic in self.licenses:
-				valid_name = lic.lower().replace('-', '_')
+				valid_name = self.__valid_name(lic)
 				license_component = "brainvisa.app.licenses.%s" % valid_name
-				deps.append(TagDependency(name=license_component))
+				tag_dep = TagDependency(name=license_component)
+				tag_deps.append(tag_dep)
 
 		package = IFWPackage(
 			DisplayName = self.name.title(), 
@@ -40,7 +44,7 @@ class Package(Component):
 			Version = self.version, 
 			ReleaseDate = self.date, 
 			Name = self.ifwname, 
-			TagDependencies = deps, 
+			TagDependencies = tag_deps, 
 			Virtual = 'true',
 			TagLicenses = None)
 		return package
@@ -49,9 +53,11 @@ class Package(Component):
 		super(Package, self).create(folder)
 		if self.dependencies is None:
 			return
-		for dep in self.dependencies:
-			if dep.Name in packages_info:
-				Package(dep.Name).create(folder)
+		for dep_pack in self.dependencies:
+			if dep_pack.name in packages_info:
+				dep_pack.create(folder)
+			# if dep.Name in packages_info:
+			# 	Package(dep.Name).create(folder)
 		
 	def __init__(self, name):
 		super(Package, self).__init__(name, True)
@@ -62,12 +68,21 @@ class Package(Component):
 		if not self.name in packages_dependencies:
 			return
 		infos_deps = list(packages_dependencies[self.name])
-		res = list()
+		# res = list()
+		if len(infos_deps) > 0:
+			self.dependencies = list()
 		for info in infos_deps:
-			depends = True if info[0] == 'DEPENDS' else False
-			dep = TagDependency(
-				name = info[1].decode('utf-8'), 
-				version= info[2].decode('utf-8'), 
-				depends=depends)
-			res.append(dep)
-		self.dependencies =  res
+			dep_name = info[1].decode('utf-8')
+			dep_pack = Package(dep_name)
+			self.dependencies.append(dep_pack)
+		# 	depends = True if info[0] == 'DEPENDS' else False
+		# 	dep = TagDependency(
+		# 		name = Package(info[1].decode('utf-8')).ifwname, 
+		# 		version = info[2].decode('utf-8'), 
+		# 		depends = depends)
+		# 	res.append(dep)
+		# self.dependencies =  res
+
+	@classmethod
+	def __valid_name(cls, name):
+		return name.lower().replace('-', '_').replace(' ', '_').replace('.', '_')
