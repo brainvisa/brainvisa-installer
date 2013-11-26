@@ -103,7 +103,7 @@ def bv_packaging(name, type_, folder):
 	type_  : type of package: run, doc, usrdoc, devdoc.
 	folder : destination full path.
 	"""
-	args = ['./bv_env ./bv_packaging dir -o %s --no-deps +name=%s,type=%s' % 
+	args = ['./bv_env ./bv_packaging dir -o %s --bv-env --no-deps +name=%s,type=%s' % 
 	(folder, name, type_)]
 	process = subprocess.Popen(args, cwd = Paths.BV_BIN, shell=True)
 	result = process.wait()
