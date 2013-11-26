@@ -25,7 +25,7 @@ Status: 	dev
 		<PRODUCTURL>http://brainvisa.info/</PRODUCTURL>
 		<TARGETDIR>@homeDir@/brainvisa</TARGETDIR>
 		<ADMINTARGETDIR>@rootDir@/brainvisa</ADMINTARGETDIR>
-		<ICON>share/brainvisa/installer/img/logo</ICON>
+		<ICON>logo</ICON>
 		<UNINSTALLERNAME>BrainVISA_Suite-Update</UNINSTALLERNAME>
 		<ALLOWNONASCIICHARACTERS>true</ALLOWNONASCIICHARACTERS>
 		<ALLOWSPACEINPATH>true</ALLOWSPACEINPATH>
