@@ -92,8 +92,8 @@ class Component(object):
 		data_folder = "%s/data" % folder
 		os.mkdir(data_folder)
 		self.__bv_packaging(data_folder)
-		archivegen(folder)
-		self.__clean_data(data_folder)
+		#archivegen(folder)
+		#self.__clean_data(data_folder)
 
 	def __bv_packaging(self, folder_data):
 		"Use bv_packaging to package the component data."
