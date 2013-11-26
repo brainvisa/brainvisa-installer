@@ -1,7 +1,5 @@
 cmake_minimum_required( VERSION 2.6 )
 
-message( "BV INSTALLER HERE !" )
-
 find_package( brainvisa-cmake REQUIRED )
 BRAINVISA_PROJECT()
 
