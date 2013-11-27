@@ -19,8 +19,7 @@ class System(object):
 		if system == 'Windows':
 			if machine == 'x86_64':
 				return System.Win64
-			elif machine == 'x86_32':
-				return System.Win32
+			return System.Win32
 		elif system == 'Linux':
 			if machine == 'x86_64':
 				return System.Linux64
