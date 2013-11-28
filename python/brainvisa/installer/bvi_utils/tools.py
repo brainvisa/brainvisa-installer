@@ -74,7 +74,6 @@ def repogen(path_repository_in, path_repository_out,
 		param_updateurl, 
 		param_components, 
 		path_repository_out)
-	print cmd
 	os.system(cmd)
 
 
@@ -103,9 +102,12 @@ def bv_packaging(name, type_, folder):
 	type_  : type of package: run, doc, usrdoc, devdoc.
 	folder : destination full path.
 	"""
-	args = ['./bv_env ./bv_packaging dir -o %s --bv-env --no-deps +name=%s,type=%s' % 
-	(folder, name, type_)]
-	process = subprocess.Popen(args, cwd = Paths.BV_BIN, shell=True)
-	result = process.wait()
-	if result < 0:
-		raise BVIException(BVIException.PACKAGING_FAILED, folder)
+	args = ["%s/%s" % (Paths.BV_BIN, Paths.BV_ENV), 
+			'python', 
+			"%s/%s" % (Paths.BV_BIN,Paths.BV_PACKAGING), 
+			'dir', 
+			'-o %s' % folder,
+			'--bv-env',
+			'--no-deps',
+			'+name=%s,type=%s' % (name, type_)]
+	os.system(' '.join(args))

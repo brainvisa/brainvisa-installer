@@ -33,9 +33,10 @@ class XmlFile(object):
 	@classmethod
 	def prettify(cls, element):
 		"Return a pretty-printed XML string for the Element."
-		rough_string = ET.tostring(element, 'utf-8') # TMP: HTMLParser.HTMLParser().unescape(ET.tostring(element, 'utf-8'))
+		rough_string = ET.tostring(element, 'utf-8')
 		reparsed = minidom.parseString(rough_string)
-		return reparsed.toprettyxml(indent="\t", newl="\n", encoding='utf-8')
+		return reparsed.toxml(encoding='utf-8')
+		#return reparsed.toprettyxml(encoding='utf-8')
 
 	def base(self, tag_name):
 		"Equivalent to root_subelement but if the element does not exist else \
