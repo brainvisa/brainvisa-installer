@@ -4,22 +4,23 @@
 import os
 import os.path
 import shutil
+import subprocess
 
+from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.tools import binarycreator, repogen, archivegen, bv_packaging
 
 FULLPATH = os.path.dirname(os.path.abspath(__file__))
 
 def test_bvi_utils_tools_binarycreator_fullpath():
 	repository_path = "%s/in/repository" % FULLPATH
-	installer_file = "%s/out/offline_installer" % FULLPATH
+	installer_file = "%s/out/offline_installer%s" % (FULLPATH, Paths.WIN_EXT)
 	binarycreator(installer_file, repository_path, offline_only=True)
 	assert os.path.isfile(installer_file)
 	os.remove(installer_file)
 
-
 def test_bvi_utils_tools_binarycreator_relativepath():
 	repository_path = "in/repository"
-	installer_file = "out/offline_installer"
+	installer_file = "out/offline_installer%s" % Paths.WIN_EXT
 	binarycreator(installer_file, repository_path, offline_only=True)
 	assert os.path.isfile(installer_file)
 	os.remove(installer_file)

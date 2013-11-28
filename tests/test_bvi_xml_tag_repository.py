@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pytest
 import xml.etree.ElementTree as ET
 from brainvisa.installer.bvi_xml.tag_repository import TagRepository
 
@@ -16,7 +17,7 @@ DISPLAYNAME="Display Name 0xH3HF">
 http://localhost/repositories/win32/ 0xJEH34
 </URL>"""
 
-
+@pytest.mark.specific
 def test_TagRepository_init_from_configuration1():
 	element = ET.fromstring(EXAMPLE1)
 	x = TagRepository()
@@ -27,7 +28,7 @@ def test_TagRepository_init_from_configuration1():
 	assert x.Password 		== None
 	assert x.DisplayName 	== None
 
-
+@pytest.mark.specific
 def test_TagRepository_init_from_configuration2():
 	element = ET.fromstring(EXAMPLE2)
 	x = TagRepository()
@@ -38,7 +39,7 @@ def test_TagRepository_init_from_configuration2():
 	assert x.Password 		== 'Password 0x7283'
 	assert x.DisplayName 	== 'Display Name 0xH3HF'
 
-
+@pytest.mark.specific
 def test_TagRepository_element1():
 	element = ET.fromstring(EXAMPLE1)
 	x = TagRepository()
@@ -51,7 +52,7 @@ def test_TagRepository_element1():
 	assert e[1].text == '0'
 	assert len(e) == 2
 
-
+@pytest.mark.specific
 def test_TagRepository_element2():
 	element = ET.fromstring(EXAMPLE2)
 	x = TagRepository()

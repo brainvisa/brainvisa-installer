@@ -28,6 +28,7 @@ def test_XmlFile_save():
 	x.read(EXAMPLE)
 	assert x.root[5].text == 'brainvisa_icon'
 	x.root[5].text = '0x83fdfs83'
+	print "test1: " + x.root[5].text
 	x.save(OUTPUT)
 	assert os.path.isfile(OUTPUT)
 	del x

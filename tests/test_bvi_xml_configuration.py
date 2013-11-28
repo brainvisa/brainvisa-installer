@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pytest
 import xml.etree.ElementTree as ET
+
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_xml.configuration import Configuration
@@ -40,6 +42,7 @@ def test_bvi_xml_Configuration():
 	assert x.Allownonasciicharacters == 'true'
 	assert x.Allowspaceinpath == 'true'
 
+@pytest.mark.specific
 def test_bvi_xml_Configuration_Repostiroy():
 	"""
 	<REPOSITORIES>
@@ -126,6 +129,7 @@ def test_bvi_xml_Configuration_Alt():
 	assert x.Title == 'BrainVISA Installer 2'
 	assert x.Publisher == 'CEA 0x829307'
 
+@pytest.mark.specific
 def test_bvi_xml_Configuration_Alt_Repositories():
 	x = Configuration(EXAMPLE, EXAMPLE_PARTIAL)
 	assert len(x.Repositories) == 6
