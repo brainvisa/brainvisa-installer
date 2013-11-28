@@ -28,7 +28,8 @@ class Package(Component):
 		tag_deps = list()
 		if self.dependencies:
 			for dep_pack in self.dependencies:
-				tag_dep = TagDependency(name=dep_pack.ifwname, 
+				tag_dep = TagDependency(
+					name=dep_pack.ifwname, 
 					version=dep_pack.version)
 				tag_deps.append(tag_dep)
 		if self.licenses:
@@ -54,10 +55,8 @@ class Package(Component):
 		if self.dependencies is None:
 			return
 		for dep_pack in self.dependencies:
-			if dep_pack.name in packages_info:
-				dep_pack.create(folder)
-			# if dep.Name in packages_info:
-			# 	Package(dep.Name).create(folder)
+			#if dep_pack.name in packages_info:
+			dep_pack.create(folder)
 		
 	def __init__(self, name):
 		super(Package, self).__init__(name, True)
@@ -68,20 +67,13 @@ class Package(Component):
 		if not self.name in packages_dependencies:
 			return
 		infos_deps = list(packages_dependencies[self.name])
-		# res = list()
 		if len(infos_deps) > 0:
 			self.dependencies = list()
 		for info in infos_deps:
 			dep_name = info[1].decode('utf-8')
 			dep_pack = Package(dep_name)
 			self.dependencies.append(dep_pack)
-		# 	depends = True if info[0] == 'DEPENDS' else False
-		# 	dep = TagDependency(
-		# 		name = Package(info[1].decode('utf-8')).ifwname, 
-		# 		version = info[2].decode('utf-8'), 
-		# 		depends = depends)
-		# 	res.append(dep)
-		# self.dependencies =  res
+
 
 	@classmethod
 	def __valid_name(cls, name):
