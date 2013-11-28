@@ -169,7 +169,7 @@ def main():
 		repogen("%s_tmp" % args.repository, args.repository, update=True)
 		if not args.only_repository:
 			print "Create installer binary"
-			binarycreator(args.installer, args.repository, 
+			binarycreator(args.installer, "%s_tmp" % args.repository, 
 				online_only= args.only_online, 
 				offline_only= args.only_offline)
 	# except ValueError as e:
