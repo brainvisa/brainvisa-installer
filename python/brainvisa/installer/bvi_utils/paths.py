@@ -30,11 +30,13 @@ class Paths(object): #pylint: disable=R0903
 	# BrainVISA Installer files
 	BVI_CONFIGURATION = '%s/xml/configuration.xml' % BVI_SHARE
 
-	# IFW Binaries
+	# Apps
 	WIN_EXT = '.exe' if (
 		System.platform() == System.Win32 or 
 		System.platform() == System.Win64
 	) else ''
+	BV_ENV 				= 'bv_env%s' % WIN_EXT
+	BV_PACKAGING 		= 'bv_packaging'
 	IFW_BINARYCREATOR 	= 'binarycreator%s' % WIN_EXT
 	IFW_REPOGEN 		= 'repogen%s' % WIN_EXT
 	IFW_ARCHIVEGEN 		= 'archivegen%s' % WIN_EXT
