@@ -89,16 +89,19 @@ class Component(object):
 		ex_description 	= conf.exception_by_name(self.name, 'DESCRIPTION')
 		ex_displayname 	= conf.exception_by_name(self.name, 'DISPLAYNAME')
 		ex_virtual 		= conf.exception_by_name(self.name, 'VIRTUAL')
-
+		msg = "[ BVI ] Package: %s => exception for %s: %s"
 		if ex_virtual is not None:
 			self.virtual = ex_virtual
+			print msg % (self.name, 'Virtual', ex_virtual)
 		if ex_description is not None:
 			self.description = ex_description
+			print msg % (self.name, 'Description', ex_description)
 		if ex_displayname is not None:
 			self.displayname = ex_displayname
+			print msg % (self.name, 'DisplayName', ex_displayname)
 		if ex_version is not None:
 			self.version = ex_version
-
+			print msg % (self.name, 'Version', ex_version)
 
 	def __init_date(self):
 		"Initialize the date."

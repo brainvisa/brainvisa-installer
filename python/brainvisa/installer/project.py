@@ -61,6 +61,7 @@ class Project(Component):
 			super(Project, self).create(folder)
 
 	def __init__(self, name, configuration, types = None): #pylint: disable=W0231
+		print "[ BVI ] => PROJECT: %s" % name
 		types = types or ['run', 'usrdoc', 'dev', 'devdoc']
 		if not name in brainvisaProjects:
 			raise BVIException(BVIException.PROJECT_NONEXISTENT, name)
@@ -107,7 +108,7 @@ class Project(Component):
 					ext = ''
 				full_name = "%s%s" % (package_name, ext)
 				if full_name in packages_info:
-					pack = Package(full_name, configuration=self.configuration)
+					pack = Package(full_name, self.configuration)
 					pack.create(folder)
 					if not self.__is_in_dependencies(pack, type_name):
 						self.dep_packages[type_name].append(pack)

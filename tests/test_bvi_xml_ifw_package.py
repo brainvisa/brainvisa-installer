@@ -65,7 +65,7 @@ def test_utils_IFWPackage():
 	assert x.root.find('SortingPriority').text == 'SortingPriority 0x234'
 	assert x.root.find('Essential').text == 'Essential 0x628'
 	assert x.root.find('Script').text == 'Script 0x273'
-	#assert x.root.find('Dependencies').text == 'Name 0x928 - Comparison 0x288 Version 0xF3E, Name 0x192 - Comparison 0x112 Version 0x111, Name 0x109 - Comparison 0x666 Version 0x128'
+	assert x.root.find('Dependencies').text == 'Name 0x928 - Comparison 0x288 Version 0xF3E, Name 0x192 - Comparison 0x112 Version 0x111, Name 0x109 - Comparison 0x666 Version 0x128'
 	assert x.root.find('Licenses')[0].attrib['file'] == 'File 0x11F'
 	assert x.root.find('Licenses')[2].attrib['name'] == 'Name 0x122'
 	assert x.root.find('UserInterfaces')[1].text == 'UserInterfaces 0x6722'

@@ -16,7 +16,7 @@ def test_TagDependency_text():
 		version= 'Version 0x28UDS', 
 		comparison = '>>', 
 		depends=False)
-	assert x.text == 'MyDep0x293D2-&gt;Version0x28UDS'
+	assert x.text == 'My Dep 0x293D2 - > Version 0x28UDS'
 	assert x.Depends == False
 	assert x.Name == 'My Dep 0x293D2'
 	assert x.Comparison == '>>'

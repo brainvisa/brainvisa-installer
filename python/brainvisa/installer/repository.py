@@ -58,6 +58,7 @@ class Repository(object):
 		self.configuration.ifwconfig.save("%s/config.xml" % f_config)
 
 	def __create_packages(self):
+		print "[ BVI ]: Create packages..."
 		path = "%s/packages" % self.folder
 		self.__mkdir(path)
 		self.__create_packages_app()
@@ -68,6 +69,7 @@ class Repository(object):
 			component.create(path)
 
 	def __create_packages_app(self):
+		print "[ BVI ]: Create Application category..."
 		package_name = "brainvisa.app"
 		cat = self.configuration.category_by_id('APP')
 		self.__create_package(package_name, 
@@ -81,6 +83,7 @@ class Repository(object):
 			Default = cat.Default)
 
 	def __create_packages_dev(self):
+		print "[ BVI ]: Create Development category..."
 		package_name = "brainvisa.dev"
 		cat = self.configuration.category_by_id('DEV')
 		self.__create_package(package_name, 
@@ -94,6 +97,7 @@ class Repository(object):
 			Default = cat.Default)
 		
 	def __create_packages_thirdparty(self):
+		print "[ BVI ]: Create Thirdparty category..."
 		package_name = "brainvisa.app.thirdparty"
 		self.__create_package(package_name, 
 			DisplayName = 'Thirdparty', 
@@ -104,6 +108,7 @@ class Repository(object):
 			Virtual = 'true')
 
 	def __create_packages_licenses(self):
+		print "[ BVI ]: Create Licenses category..."
 		package_name = "brainvisa.app.licenses"
 		self.__create_package(package_name,
 			DisplayName = 'Licenses', 

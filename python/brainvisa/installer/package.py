@@ -61,6 +61,7 @@ class Package(Component):
 			dep_pack.create(folder)
 		
 	def __init__(self, name, configuration=None):
+		print "[ BVI ] -> PACKAGE: %s" % name
 		super(Package, self).__init__(name, True, configuration)
 		self.dependencies = None
 		if self.displayname is None:
@@ -75,7 +76,7 @@ class Package(Component):
 			self.dependencies = list()
 		for info in infos_deps:
 			dep_name = info[1].decode('utf-8')
-			dep_pack = Package(dep_name)
+			dep_pack = Package(dep_name, self.configuration)
 			self.dependencies.append(dep_pack)
 
 	
