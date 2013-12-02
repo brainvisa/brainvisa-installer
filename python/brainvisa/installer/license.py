@@ -5,6 +5,7 @@ import shutil
 
 from brainvisa.installer.component import Component
 from brainvisa.installer.bvi_utils.paths import Paths
+import brainvisa.installer.bvi_utils.format as format
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 
 
@@ -21,7 +22,7 @@ class License(Component):
 
 	@property
 	def ifwname(self):
-		p_name = self.name.replace('-', '_').replace(' ', '_').lower()
+		p_name = format.ifw_name(self.name)
 		return "brainvisa.app.licenses.%s" % p_name
 
 	@property

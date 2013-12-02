@@ -27,7 +27,8 @@ class XmlFile(object):
 		"Update and the save the XML file."
 		self.update(filename)
 		with open(filename, 'w') as fo_xml:
-			pretty_root	= self.prettify(self.root) #HTMLParser.HTMLParser().unescape(self.prettify(self.root))
+			#pretty_root = HTMLParser.HTMLParser().unescape(self.prettify(self.root))
+			pretty_root	= self.prettify(self.root) 
 			fo_xml.write(pretty_root)
 
 	@classmethod
@@ -35,8 +36,8 @@ class XmlFile(object):
 		"Return a pretty-printed XML string for the Element."
 		rough_string = ET.tostring(element, 'utf-8')
 		reparsed = minidom.parseString(rough_string)
-		return reparsed.toxml(encoding='utf-8')
 		#return reparsed.toprettyxml(encoding='utf-8')
+		return reparsed.toxml(encoding='utf-8')
 
 	def base(self, tag_name):
 		"Equivalent to root_subelement but if the element does not exist else \
@@ -71,7 +72,6 @@ class XmlFile(object):
 		parent_element=None):
 		"Add and return a element if it does not exist to \
 		tree and return it. If element is None, element is equal to root element."
-		
 		if parent_element is None: 
 			parent_element = self.root
 		element = parent_element.find(new_element_name)

@@ -50,16 +50,22 @@ class Component(object):
 		if self.data: 
 			self.__package_data(path)
 
-	def __init__(self, name, data=False):
+	def __init__(self, name, data=False, configuration=None):
 		self.name = name
+		self.configuration = configuration
+		self.description = ''
 		self.project = None
 		self.type = None
 		self.version = None
 		self.licenses = None
+		self.virtual = 'true'
+		self.displayname = None
 		self.date = None
 		self.data = data
-		self.__init_infos()
 		self.__init_date()
+		self.__init_infos()
+		if configuration is not None:
+			self.__init_config()
 		
 	def __init_infos(self):
 		"Initialize the component information."
@@ -75,6 +81,24 @@ class Component(object):
 			self.project = ''
 			self.type = 'thirdparty'
 			self.version = '1.0'
+
+	def __init_config(self):
+		"Initialize from the configuration file."
+		conf =  self.configuration
+		ex_version 		= conf.exception_by_name(self.name, 'VERSION')
+		ex_description 	= conf.exception_by_name(self.name, 'DESCRIPTION')
+		ex_displayname 	= conf.exception_by_name(self.name, 'DISPLAYNAME')
+		ex_virtual 		= conf.exception_by_name(self.name, 'VIRTUAL')
+
+		if ex_virtual is not None:
+			self.virtual = ex_virtual
+		if ex_description is not None:
+			self.description = ex_description
+		if ex_displayname is not None:
+			self.displayname = ex_displayname
+		if ex_version is not None:
+			self.version = ex_version
+
 
 	def __init_date(self):
 		"Initialize the date."

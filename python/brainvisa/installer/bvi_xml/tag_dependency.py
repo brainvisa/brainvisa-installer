@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import brainvisa.installer.bvi_utils.format as format
+
 
 class TagDependency(object):
 	"""Model dependency.
@@ -17,39 +19,18 @@ class TagDependency(object):
 	def text(self):
 		"""Format for the IFW package.xml file. The version numbers is \
 		separated by a dash (-). 
+
 		The version numbers is defined with a comparison operator (=, >, <, \
 		>= or <=).
 		"""
 		separator = '' if self.Version == '' else '-'
 		res = "%s%s%s%s" % (self.Name, separator, self.Comparison, self.Version)
-		return self.escape(self.format(res))
+		res = format.ifw_version(res)
+		res = format.xml_escape(res)
+		return res
 
 	def __init__(self, name, version='', comparison='', depends=True):
 		self.Name = name
 		self.Version = version
 		self.Comparison = comparison
 		self.Depends = depends
-
-	@classmethod
-	def format(cls, string):
-		"Format to specify the version in QT"
-		res = string.strip()
-		res = res.replace(r'<<', r'<')
-		res = res.replace(r'>>', r'>')
-		res = res.replace(r';', r' ') 		
-		return res
-
-	@classmethod
-	def escape(cls, string):
-		"Escape the invalid characters."
-		res = string.strip()
-		characters = {
-			"\"" : "&quot;",
-			"'" : "&apos;",
-			"<" : "&lt;",
-			">" : "&gt;",
-			"&" : "&amp;",
-			" " : ""}
-		for char, escape in characters.iteritems():
-			res = res.replace(char, escape)
-		return res

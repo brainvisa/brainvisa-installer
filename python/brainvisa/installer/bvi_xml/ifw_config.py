@@ -42,42 +42,37 @@ class IFWConfig(XmlFile): #pylint: disable=R0902
 
 	def update(self, filename):
 		self.init('Installer')
-		# Root subelements
-		self.set_root_subelement_text('Name', self.Name)
-		self.set_root_subelement_text('Version', self.Version)
-		self.set_root_subelement_text('Title', self.Title)
-		self.set_root_subelement_text('Publisher', self.Publisher)
-		self.set_root_subelement_text('ProductUrl', self.ProductUrl)
-		self.set_root_subelement_text('Icon', self.Icon)
-		# if platform.system() != 'Linux:'
-		# 	self.set_root_subelement_text('InstallerApplicationIcon', self.InstallerApplicationIcon)
-		# self.set_root_subelement_text('InstallerWindowIcon', self.InstallerWindowIcon)
-		self.set_root_subelement_text('Logo', self.Logo)
-		self.set_root_subelement_text('Watermark', self.Watermark)
-		self.set_root_subelement_text('Banner', self.Banner)
-		self.set_root_subelement_text('Background', self.Background)
-		self.set_root_subelement_text('RunProgram', self.RunProgram)
-		self.set_root_subelement_text('RunProgramArguments', self.RunProgramArguments)
-		self.set_root_subelement_text('RunProgramDescription', 
-			self.RunProgramDescription)
-		self.set_root_subelement_text('StartMenuDir', self.StartMenuDir)
-		self.set_root_subelement_text('TargetDir', self.TargetDir)
-		self.set_root_subelement_text('AdminTargetDir', self.AdminTargetDir)		
-		self.set_root_subelement_text('UninstallerName', self.UninstallerName)
-		self.set_root_subelement_text('UninstallerIniFile', self.UninstallerIniFile)
-		self.set_root_subelement_text('RemoveTargetDir', self.RemoveTargetDir)
-		self.set_root_subelement_text('AllowNonAsciiCharacters', 
-			self.AllowNonAsciiCharacters)
-		self.set_root_subelement_text('RepositorySettingsPageVisible', 
-			self.RepositorySettingsPageVisible)
-		self.set_root_subelement_text('AllowSpaceInPath', self.AllowSpaceInPath)
-		self.set_root_subelement_text('DependsOnLocalInstallerBinary', 
-			self.DependsOnLocalInstallerBinary)
-		self.set_root_subelement_text('TargetConfigurationFile', 
-			self.TargetConfigurationFile)
-		self.set_root_subelement_text('Translations', self.Translations)
-		self.set_root_subelement_text('UrlQueryString', self.UrlQueryString)
-		# List subelements
+		root_subelements = {
+			'Name' : self.Name,
+			'Version' : self.Version,
+			'Title' : self.Title,
+			'Publisher' : self.Publisher,
+			'ProductUrl' : self.ProductUrl,
+			'Icon' : self.Icon,
+			'Logo' : self.Logo,
+			'Watermark' : self.Watermark,
+			'Banner' : self.Banner,
+			'Background' : self.Background,
+			'RunProgram' : self.RunProgram,
+			'RunProgramArguments' : self.RunProgramArguments,
+			'RunProgramDescription' : self.RunProgramDescription,
+			'StartMenuDir' : self.StartMenuDir,
+			'TargetDir' : self.TargetDir,
+			'AdminTargetDir' : self.AdminTargetDir,		
+			'UninstallerName' : self.UninstallerName,
+			'UninstallerIniFile' : self.UninstallerIniFile,
+			'RemoveTargetDir' : self.RemoveTargetDir,
+			'AllowNonAsciiCharacters' : self.AllowNonAsciiCharacters,
+			'RepositorySettingsPageVisible' : self.RepositorySettingsPageVisible,
+			'AllowSpaceInPath' : self.AllowSpaceInPath,
+			'DependsOnLocalInstallerBinary' : self.DependsOnLocalInstallerBinary,
+			'TargetConfigurationFile' : self.TargetConfigurationFile,
+			'Translations' : self.Translations,
+			'UrlQueryString' : self.UrlQueryString
+		}
+		for name, value in root_subelements.iteritems():
+			self.set_root_subelement_text(name, value)
+
 		if self.TagRepositories:
 			e = self.add_element('RemoteRepositories')
 			for tr in self.TagRepositories:

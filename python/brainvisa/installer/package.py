@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
 from brainvisa.installer.component import Component
+import brainvisa.installer.bvi_utils.format as format
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
-from brainvisa.compilation_info import packages_info, packages_dependencies
+
+from brainvisa.compilation_info import packages_dependencies
 
 
 class Package(Component):
@@ -12,8 +15,8 @@ class Package(Component):
 
 	@property
 	def ifwname(self):
-		p_name = self.__valid_name(self.project)
-		c_name = self.__valid_name(self.name)
+		p_name = format.ifw_name(self.project)
+		c_name = format.ifw_name(self.name)
 		res = {
 			'run' 		: "brainvisa.app.%s.run.%s" % (p_name, c_name),
 			'usrdoc'	: "brainvisa.app.%s.usrdoc.%s" % (p_name, c_name),
@@ -34,19 +37,19 @@ class Package(Component):
 				tag_deps.append(tag_dep)
 		if self.licenses:
 			for lic in self.licenses:
-				valid_name = self.__valid_name(lic)
+				valid_name = format.ifw_name(lic)
 				license_component = "brainvisa.app.licenses.%s" % valid_name
 				tag_dep = TagDependency(name=license_component)
 				tag_deps.append(tag_dep)
 
 		package = IFWPackage(
-			DisplayName = self.name.title(), 
-			Description = '', 
+			DisplayName = self.displayname, 
+			Description = self.description, 
 			Version = self.version, 
 			ReleaseDate = self.date, 
 			Name = self.ifwname, 
 			TagDependencies = tag_deps, 
-			Virtual = 'true',
+			Virtual = self.virtual,
 			TagLicenses = None)
 		return package
 
@@ -55,12 +58,13 @@ class Package(Component):
 		if self.dependencies is None:
 			return
 		for dep_pack in self.dependencies:
-			#if dep_pack.name in packages_info:
 			dep_pack.create(folder)
 		
-	def __init__(self, name):
-		super(Package, self).__init__(name, True)
+	def __init__(self, name, configuration=None):
+		super(Package, self).__init__(name, True, configuration)
 		self.dependencies = None
+		if self.displayname is None:
+			self.displayname = self.name.title()
 		self.__init_dependencies()
 
 	def __init_dependencies(self):
@@ -74,7 +78,4 @@ class Package(Component):
 			dep_pack = Package(dep_name)
 			self.dependencies.append(dep_pack)
 
-
-	@classmethod
-	def __valid_name(cls, name):
-		return name.lower().replace('-', '_').replace(' ', '_').replace('.', '_')
+	

@@ -36,24 +36,26 @@ class IFWPackage(XmlFile): #pylint: disable=R0902
 	def update(self, filename):
 		"Update the properties in memory."
 		self.init('Package')
-		# Root subelements
-		self.set_root_subelement_text('DisplayName', self.DisplayName)
-		self.set_root_subelement_text('Description', self.Description)
-		self.set_root_subelement_text('Version', self.Version)
-		self.set_root_subelement_text('ReleaseDate', self.ReleaseDate)
-		self.set_root_subelement_text('Name', self.Name)
-		self.set_root_subelement_text('AutoDependOn', self.AutoDependOn)
-		if self.Virtual == 'true':
-			self.set_root_subelement_text('Virtual', self.Virtual)
-		self.set_root_subelement_text('SortingPriority', self.SortingPriority)
-		self.set_root_subelement_text('UpdateText', self.UpdateText)
-		self.set_root_subelement_text('Default', self.Default)
-		self.set_root_subelement_text('Essential', self.Essential)
-		self.set_root_subelement_text('ForcedInstallation', self.ForcedInstallation)
-		self.set_root_subelement_text('Replaces', self.Replaces)
-		self.set_root_subelement_text('DownloadableArchives', 
-			self.DownloadableArchives)
-		self.set_root_subelement_text('Script', self.Script)
+		root_subelements = {
+			'DisplayName' : self.DisplayName,
+			'Description' : self.Description,
+			'Version' : self.Version,
+			'ReleaseDate' : self.ReleaseDate,
+			'Name' :  self.Name,
+			'AutoDependOn' : self.AutoDependOn,
+			'SortingPriority' : self.SortingPriority,
+			'UpdateText' : self.UpdateText,
+			'Default' : self.Default,
+			'Essential' : self.Essential,
+			'ForcedInstallation' : self.ForcedInstallation,
+			'Replaces' : self.Replaces,
+			'DownloadableArchives' : self.DownloadableArchives,
+			'Script' : self.Script,
+			'Virtual' : None if self.Virtual != 'true' else 'true'
+
+		}
+		for name, value in root_subelements.iteritems():
+			self.set_root_subelement_text(name, value)
 		# List subelements
 		if self.TagDependencies:
 			el = self.add_element('Dependencies')

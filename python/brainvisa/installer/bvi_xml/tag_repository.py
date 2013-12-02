@@ -23,16 +23,16 @@ class TagRepository(object):
 		e = ET.Element("Repository")
 		e_Url = ET.SubElement(e, "Url")
 		e_Url.text = self.Url
-		if self.Enabled: 
+		if self.Enabled is not None: 
 			e_Enabled = ET.SubElement(e, "Enabled")
 			e_Enabled.text = self.Enabled
-		if self.Username: 
+		if self.Username is not None: 
 			e_Username = ET.SubElement(e, "Username")
 			e_Username.text = self.Username
-		if self.Password:
+		if self.Password is not None:
 			e_Password = ET.SubElement(e, "Password")
 			e_Password.text = self.Password
-		if self.DisplayName:
+		if self.DisplayName is not None:
 			e_DisplayName = ET.SubElement(e, "DisplayName")
 			e_DisplayName.text = self.DisplayName
 		return e

@@ -22,7 +22,18 @@ class Configuration(object): #pylint: disable=R0902
 				   the primary filename.
 	"""
 
+	def exception_by_name(self, name, param):
+		"Return the exception value from name and param."
+		exceptions = self.root.find('EXCEPTIONS')
+		for exception in exceptions:
+			if (exception.attrib.get('NAME') == name and 
+				exception.attrib.get('PARAM') == param):
+				return exception.attrib.get('VALUE')
+		return None
+
+
 	def category_by_id(self, id_value):
+		"Return a TagCategory object from id."
 		for cat in self.Categories:
 			if cat.Id == id_value:
 				return cat
@@ -33,43 +44,11 @@ class Configuration(object): #pylint: disable=R0902
 
 	def general(self, tag_name):
 		"Return the values of <GENERAL> part."
-		general = self.root.find('GENERAL')
-		elt = general.find(tag_name)
+		generals = self.root.find('GENERAL')
+		elt = generals.find(tag_name)
 		if elt is None:
 			return None
 		return elt.text
-
-	@classmethod
-	def repositories(cls, element_repositories):
-		"Return the values of <REPOSITORIES> part (list of TagRepository objects)."
-		res = list()
-		for url in element_repositories:
-			res.append(TagRepository().init_from_configuration(url))
-		return res
-
-	@classmethod
-	def licenses(cls, element):
-		"Return the values of <LICENSES> part (list of TagLicense objects)."
-		res = list()
-		for elt_lic in element:
-			res.append(TagLicense().init_from_configuration(elt_lic))
-		return res
-
-	@classmethod
-	def categories(cls, element):
-		"Return the values of <CATEGORIES> part (list of TagCategory objects)."
-		main_categories = list()
-		for cat in element:
-			sub_cateogires = list()
-			for subcat in cat:
-				sub_sub_cateogires = list()
-				for subsubcat in subcat:
-					sub_sub_cateogires.append(TagCategory().init_from_configuration(subsubcat))
-				sub_cateogires.append(
-					TagCategory().init_from_configuration(subcat, sub_sub_cateogires))
-			main_categories.append(
-				TagCategory().init_from_configuration(cat, sub_cateogires))
-		return main_categories
 
 	@property
 	def ifwconfig(self):
@@ -120,18 +99,9 @@ class Configuration(object): #pylint: disable=R0902
 		self.Uninstallername = self.general('UNINSTALLERNAME')
 		self.Allownonasciicharacters = self.general('ALLOWNONASCIICHARACTERS')
 		self.Allowspaceinpath = self.general('ALLOWSPACEINPATH')
-
-		reps = self.root.find('REPOSITORIES')
-		if reps is not None:
-			self.Repositories += self.repositories(reps)
-
-		lics = self.root.find('LICENSES')
-		if lics is not None:
-			self.Licenses += self.licenses(lics)
-
-		cats = self.root.find('CATEGORIES')
-		if cats is not None:
-			self.Categories += self.categories(cats)
+		self.__init_repositories()
+		self.__init_licenses()
+		self.__init_categories()
 
 	def __init__(self, filename = Paths.BVI_CONFIGURATION, alt_filename=None):
 		"filename is the default configuration file in share, \
@@ -153,10 +123,38 @@ class Configuration(object): #pylint: disable=R0902
 		self.Repositories = list()
 		self.Licenses = list()
 		self.Categories = list()
-
 		self.read(filename)
-		if alt_filename: 
+		if alt_filename is not None: 
 			self.read(alt_filename)
 
-	
+	def __init_repositories(self):
+		"Return the values of <REPOSITORIES> part (list of TagRepository objects)."
+		reps = self.root.find('REPOSITORIES')
+		if reps is None:
+			return
+		for rep in reps:
+			self.Repositories.append(TagRepository().init_from_configuration(rep))
 
+	def __init_licenses(self):
+		"Return the values of <LICENSES> part (list of TagLicense objects)."
+		lics = self.root.find('LICENSES')
+		if lics is None:
+			return
+		for lic in lics:
+			self.Licenses.append(TagLicense().init_from_configuration(lic))
+
+	def __init_categories(self):
+		"Return the values of <CATEGORIES> part (list of TagCategory objects)."
+		cats = self.root.find('CATEGORIES')
+		if cats is None:
+			return
+		for cat in cats:
+			sub_cateogires = list()
+			for subcat in cat:
+				sub_sub_cateogires = list()
+				for subsubcat in subcat:
+					sub_sub_cateogires.append(TagCategory().init_from_configuration(subsubcat))
+				sub_cateogires.append(
+					TagCategory().init_from_configuration(subcat, sub_sub_cateogires))
+			self.Categories.append(
+				TagCategory().init_from_configuration(cat, sub_cateogires))

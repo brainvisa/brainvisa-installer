@@ -7,6 +7,7 @@ import collections
 
 from brainvisa.installer.package import Package
 from brainvisa.installer.component import Component
+import brainvisa.installer.bvi_utils.format as format
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
 from brainvisa.installer.bvi_utils.bvi_exception import BVIException
@@ -32,7 +33,7 @@ class Project(Component):
 
 	@property
 	def ifwname(self):
-		p_name = self.name.replace('-', '_').lower()
+		p_name = format.ifw_name(self.name)
 		res = {
 			'run' 		: "brainvisa.app.%s" % (p_name),
 			'usrdoc'	: "brainvisa.app.%s" % (p_name),
@@ -68,12 +69,17 @@ class Project(Component):
 		self.project = name
 		self.types = types
 		self.type = None
-		first_component = brainvisaComponentsPerProject[self.name][0]
-		self.version = packages_info[first_component]['version']
+		self.configuration = configuration
 		self.licenses = None
 		self.data = None
-		self.configuration = configuration
 		self.dep_packages = collections.defaultdict(list)
+		first_component = brainvisaComponentsPerProject[self.name][0]
+		ex_version = self.configuration.exception_by_name(first_component,
+			'VERSION')
+		if ex_version is None:
+			self.version = packages_info[first_component]['version']
+		else:
+			self.version = ex_version
 
 	def __create_subcategorie(self, folder):
 		cat = self.configuration.category_by_id(self.type)
@@ -101,7 +107,7 @@ class Project(Component):
 					ext = ''
 				full_name = "%s%s" % (package_name, ext)
 				if full_name in packages_info:
-					pack = Package(full_name)
+					pack = Package(full_name, configuration=self.configuration)
 					pack.create(folder)
 					if not self.__is_in_dependencies(pack, type_name):
 						self.dep_packages[type_name].append(pack)

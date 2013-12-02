@@ -88,4 +88,16 @@ Status: 	dev
 		<LICENSE ID="LGPL_3.0" VERSION="3.0" NAME="LGPL 3.0" FILE="License_LGPL-3.0_en_EN.txt" />
 	</LICENSES>
 
+	<!-- Exceptions
+	Syntax:
+		<PACKAGE
+			NAME
+			PARAM = "DISPLAYNAME|DESCRIPTION|VERSION|VIRTUAL"
+			VALUE />
+	-->
+	<EXCEPTIONS>
+		<PACKAGE NAME="libsqlite3-0" PARAM="VERSION" VALUE="3.7.17" />
+		<PACKAGE NAME="liblapack3gf-0" PARAM="VERSION" VALUE="3.0" />
+	</EXCEPTIONS>
+
  </INSTALLER>
