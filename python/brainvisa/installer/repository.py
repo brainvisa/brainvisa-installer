@@ -49,7 +49,7 @@ class Repository(object):
 
 	def __create_config(self):
 		f_config = "%s/config" % self.folder
-		files = ("logo.png", "logo.ico", "logo.icns", "watermark.png")
+		files = ("logo.png", "logo.ico", "watermark.png")
 		self.__mkdir(f_config)
 		for asset in files:
 			file_src = "%s/%s" % (Paths.BVI_SHARE_IMAGES, asset)
