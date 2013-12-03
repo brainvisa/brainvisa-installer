@@ -147,9 +147,6 @@ def main():
 
 	# try:
 	args = parser.parse_args()
-	
-	if args.only_offline:
-		return
 
 	config = Configuration(alt_filename = args.config)
 	components = list()
@@ -158,17 +155,29 @@ def main():
 			components.append(Project(project, config, args.types))
 	if args.names:
 		for name in args.names:
-			components.append(Package(name))
+			components.append(Package(name, config))
 	if args.repository:
+		print "\n\n"
+		print "==============================================================="
+		print "========= [ BVI ]: Create configuration repository... ========="
+		print "==============================================================="
 		rep = Repository(
 			folder="%s_tmp" % args.repository, 
 			components=components, 
 			configuration=config)
-		print "Create repository..."
 		rep.create()
+
+		print "\n\n"
+		print "==============================================================="
+		print "============== [ BVI ]: Create final repository... ============"
+		print "==============================================================="
 		repogen("%s_tmp" % args.repository, args.repository, update=True)
+
 		if not args.only_repository:
-			print "Create installer binary"
+			print "\n\n"
+			print "==============================================================="
+			print "============== [ BVI ]: Create installer binary... ============"
+			print "==============================================================="
 			binarycreator(args.installer, "%s_tmp" % args.repository, 
 				online_only= args.only_online, 
 				offline_only= args.only_offline)
@@ -202,5 +211,4 @@ def valid_config(arg):
 	return arg
 
 if __name__ == "__main__":
-	"Entry point of BrainVISA Installer."
 	main()
