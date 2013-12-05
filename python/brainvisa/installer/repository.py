@@ -49,9 +49,8 @@ class Repository(object):
 
 	def __create_config(self):
 		f_config = "%s/config" % self.folder
-		files = ("logo.png", "logo.ico", "watermark.png")
 		self.__mkdir(f_config)
-		for asset in files:
+		for asset in self.configuration.images():
 			file_src = "%s/%s" % (Paths.BVI_SHARE_IMAGES, asset)
 			file_des = "%s/%s" % (f_config, asset)
 			shutil.copyfile(file_src, file_des)
@@ -65,7 +64,10 @@ class Repository(object):
 		self.__create_packages_dev()
 		self.__create_packages_thirdparty()
 		self.__create_packages_licenses()
+		self.__create_package_bv_env()
 		for component in self.components:
+			if self.configuration.is_package_excluded(component.name):
+				continue
 			component.create(path)
 
 	def __create_packages_app(self):
@@ -119,6 +121,25 @@ class Repository(object):
 			Virtual = 'true')
 		for tag_license in self.configuration.Licenses:
 			License(tag_license).create("%s/packages" % self.folder)
+
+	def __create_package_bv_env(self):
+		print "[ BVI ]: Create bv_env package..."
+		package_name = "brainvisa.app.thirdparty.bv_env"
+		self.__create_package(package_name,
+			DisplayName = 'BrainVISA Environment', 
+			Description = '', 
+			Version = '1.0', 
+			ReleaseDate = self.date, 
+			Name = 'brainvisa.app.thirdparty.bv_env', 
+			Virtual = 'true')
+		path_data = "%s/packages/%s/data"  % (self.folder, package_name)
+		path_data_bin = "%s/bin" % path_data
+		self.__mkdir(path_data)
+		self.__mkdir(path_data_bin)
+		for cmd in Paths.ENV_COMMANDS:
+			file_src = "%s/%s" % (Paths.BV_BIN, cmd)
+			file_dest = "%s/%s" % (path_data_bin, cmd)
+			shutil.copy(file_src, file_dest)
 
 	def __create_package(self, package_name,
 			DisplayName, 

@@ -90,14 +90,19 @@ Status: 	dev
 
 	<!-- Exceptions
 	Syntax:
-		<PACKAGE
+		<INFO
 			NAME
 			PARAM = "DISPLAYNAME|DESCRIPTION|VERSION|VIRTUAL"
 			VALUE />
+		<PACKAGE
+			PLATFORM = "WIN32|WIN64|LINUX32|LINUX64|OSX" [optional]
+			NAME
+			TYPE = "PACKAGING|ALL" />
 	-->
 	<EXCEPTIONS>
-		<PACKAGE NAME="libsqlite3-0" PARAM="VERSION" VALUE="3.7.17" />
-		<PACKAGE NAME="liblapack3gf-0" PARAM="VERSION" VALUE="3.0" />
+		<INFO NAME="libsqlite3-0" PARAM="VERSION" VALUE="3.7.17" />
+		<INFO NAME="liblapack3gf-0" PARAM="VERSION" VALUE="3.0" />
+		<PACKAGE PLATFORM="WIN32" NAME="brainvisa-share" TYPE="PACKAGING" />
 	</EXCEPTIONS>
 
  </INSTALLER>

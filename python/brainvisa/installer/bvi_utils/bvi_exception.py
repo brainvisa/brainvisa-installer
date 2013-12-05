@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
+# OBSELETE
 class BVIException(Exception):
 	"""Custom exception for BrainVISA Installer. 
 

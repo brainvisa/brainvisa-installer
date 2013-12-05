@@ -5,8 +5,10 @@ import os
 import os.path
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 
-EXAMPLE = r'in/ifw_config_example.xml'
-OUTPUT = r'out/out.xml'
+FULLPATH = os.path.dirname(os.path.abspath(__file__))
+
+EXAMPLE = r'%s/in/ifw_config_example.xml' % FULLPATH
+OUTPUT = r'%s/out/out.xml' % FULLPATH
 
 def test_XmlFile_init():
 	x = XmlFile()

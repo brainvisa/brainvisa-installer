@@ -7,12 +7,8 @@ from brainvisa.installer.bvi_xml.tag_category import TagCategory
 
 EXAMPLE = """
 <CATEGORY NAME="BrainVISA Suite" PRIORITY="10" VERSION="1.0" DESCRIPTION="Description of BrainVISA Suite category">
-	<CATEGORY NAME="Application" PRIORITY="10" DEFAULT="true">
-		<CATEGORY ID="run" NAME="Application" PRIORITY="10"/>
-	</CATEGORY>
-	<CATEGORY NAME="Documentation" PRIORITY="1">
-		<CATEGORY ID="usrdoc" NAME="Documentation" />
-	</CATEGORY> 
+	<CATEGORY ID="run" NAME="Application" PRIORITY="10" DEFAULT="true" />
+	<CATEGORY ID="usrdoc" NAME="Documentation" PRIORITY="1" />
 </CATEGORY>
 """
 
@@ -21,16 +17,8 @@ def test_TagCategory_init_from_configuration():
 	x = TagCategory()
 	x.init_from_configuration(element, 
 		[
-			TagCategory().init_from_configuration(element[0], 
-				[
-					TagCategory().init_from_configuration(element[0][0])
-				]
-			), 
-			TagCategory().init_from_configuration(element[1], 
-				[
-					TagCategory().init_from_configuration(element[1][0])
-				]
-			)
+			TagCategory().init_from_configuration(element[0]), 
+			TagCategory().init_from_configuration(element[1])
 		]
 	)
 	assert x.Id == None
@@ -43,7 +31,5 @@ def test_TagCategory_init_from_configuration():
 	assert x.Subcategories[0].Name == 'Application'
 	assert x.Subcategories[0].Priority == '10'
 	assert x.Subcategories[0].Default == 'true'
-	assert x.Subcategories[0].Subcategories[0].Id == 'run'
-	assert x.Subcategories[0].Subcategories[0].Name == 'Application'
-	assert x.Subcategories[0].Subcategories[0].Priority == '10'
-	assert x.Subcategories[1].Subcategories[0].Id == 'usrdoc'
+	assert x.Subcategories[0].Id == 'run'
+	assert x.Subcategories[1].Id == 'usrdoc'

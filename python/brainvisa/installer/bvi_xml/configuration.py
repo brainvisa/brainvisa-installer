@@ -4,6 +4,7 @@
 import xml.etree.ElementTree as ET
 
 from brainvisa.installer.bvi_utils.paths import Paths
+from brainvisa.installer.bvi_utils.system import System
 from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_xml.tag_license import TagLicense
 from brainvisa.installer.bvi_xml.tag_category import TagCategory
@@ -22,15 +23,55 @@ class Configuration(object): #pylint: disable=R0902
 				   the primary filename.
 	"""
 
-	def exception_by_name(self, name, param):
+	def images(self):
+		"Return the BVI images (logo, watermark, icon)."
+		res = list()
+		if self.Logo != None and self.Logo != '':
+			res.append(self.Logo)
+		if self.Icon != None and self.Icon != '':
+			res.append(self.Icon)
+		if self.Watermark != None and self.Watermark != '':
+			res.append(self.Watermark)
+		return res
+
+	def exception_info_by_name(self, name, param):
 		"Return the exception value from name and param."
 		exceptions = self.root.find('EXCEPTIONS')
 		for exception in exceptions:
-			if (exception.attrib.get('NAME') == name and 
-				exception.attrib.get('PARAM') == param):
+			if exception.tag == 'INFO' and \
+			exception.attrib.get('NAME') == name and \
+			exception.attrib.get('PARAM') == param:
 				return exception.attrib.get('VALUE')
 		return None
 
+	def is_packaging_excluded(self, name):
+		"Return True if the packaging must be excluded."
+		exceptions = self.root.find('EXCEPTIONS')
+		for exception in exceptions:
+			if (exception.tag == 'PACKAGE' and
+			exception.attrib.get('NAME') == name and
+			(exception.attrib.get('TYPE') == 'PACKAGING' or 
+			 exception.attrib.get('TYPE') == 'ALL')):
+				platform = exception.attrib.get('PLATFORM')
+				if platform:
+					if platform != System.platform():
+						return False
+				return True
+		return False
+
+	def is_package_excluded(self, name):
+		"Return False if the package must be excluded."
+		exceptions = self.root.find('EXCEPTIONS')
+		for exception in exceptions:
+			if (exception.tag == 'PACKAGE' and
+				exception.attrib.get('NAME') == name and 
+				exception.attrib.get('TYPE') == 'ALL'):
+				platform = exception.attrib.get('PLATFORM')
+				if platform:
+					if platform != System.platform():
+						return False
+				return True
+		return False
 
 	def category_by_id(self, id_value):
 		"Return a TagCategory object from id."
@@ -60,12 +101,12 @@ class Configuration(object): #pylint: disable=R0902
 			Publisher  						= self.Publisher, 
 			ProductUrl  					= self.Producturl, 
 			Icon  							= None, # Deprecated 
-			InstallerApplicationIcon  		= self.Icon, 
+			InstallerApplicationIcon  		= None, # Not portable
 			InstallerWindowIcon  			= self.Icon, 
-			Logo 							= self.Icon + '.png', 
-			#Watermark 						= self.Icon + '.png',
-			Banner 							= None, 
-			Background 						= None, 
+			Logo 							= self.Logo, 
+			Watermark 						= self.Watermark,
+			Banner 							= None, # Not portable
+			Background 						= None, # Not portable
 			RunProgram 						= None, 
 			RunProgramArguments 			= None, 
 			RunProgramDescription 			= None, 
@@ -77,7 +118,7 @@ class Configuration(object): #pylint: disable=R0902
 			UninstallerIniFile 				= None, 
 			RemoveTargetDir 				= None, 
 			AllowNonAsciiCharacters 		= self.Allownonasciicharacters, 
-			RepositorySettingsPageVisible 	= None, 
+			RepositorySettingsPageVisible 	= None, # Default true
 			AllowSpaceInPath 				= self.Allowspaceinpath, 
 			DependsOnLocalInstallerBinary 	= None, 
 			TargetConfigurationFile 		= None, 
@@ -96,6 +137,8 @@ class Configuration(object): #pylint: disable=R0902
 		self.Targetdir = self.general('TARGETDIR')
 		self.Admintargetdir = self.general('ADMINTARGETDIR')
 		self.Icon = self.general('ICON')
+		self.Logo = self.general('LOGO')
+		self.Watermark = self.general('WATERMARK')
 		self.Uninstallername = self.general('UNINSTALLERNAME')
 		self.Allownonasciicharacters = self.general('ALLOWNONASCIICHARACTERS')
 		self.Allowspaceinpath = self.general('ALLOWSPACEINPATH')
@@ -117,6 +160,8 @@ class Configuration(object): #pylint: disable=R0902
 		self.Targetdir = None
 		self.Admintargetdir = None
 		self.Icon = None
+		self.Logo = None
+		self.Watermark = None
 		self.Uninstallername = None
 		self.Allownonasciicharacters = None
 		self.Allowspaceinpath = None

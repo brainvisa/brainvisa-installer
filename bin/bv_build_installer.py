@@ -1,6 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+__author__ 		= "Hakim Taklanti"
+__copyright__ 	= "Copyright 2013, CEA / Saclay"
+__credits__ 	= [	"Hakim Taklanti", 
+					"Yann Cointepas", 
+					"Denis Rivière", 
+					"Nicolas Souedet"]
+__license__ 	= "CeCILL V2"
+__version__ 	= "0.1"
+__maintainer__ 	= "Hakim Taklanti"
+__email__ 		= "hakim.taklanti@altran.com"
+__status__ 		= "release"
+
+
 #  This software and supporting documentation are distributed by
 #      Institut Federatif de Recherche 49
 #      CEA/NeuroSpin, Batiment 145,
@@ -33,182 +46,280 @@
 # The fact that you are presently reading this means that you have had
 # knowledge of the CeCILL-B license and that you accept its terms.
 
-__author__ = "Hakim Taklanti"
-__copyright__ = "Copyright 2013, CEA / Saclay"
-__credits__ = ["Hakim Taklanti", "Yann Cointepas", "Denis Rivière", "Nicolas Souedet"]
-__license__ = "CeCILL V2"
-__version__ = "0.1"
-__maintainer__ = "Hakim Taklanti"
-__email__ = "hakim.taklanti@altran.com"
-__status__ = "dev"
-
-
 import os.path
 import argparse
 
 from brainvisa.installer.project import Project
 from brainvisa.installer.package import Package
 from brainvisa.installer.repository import Repository
-from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_xml.configuration import Configuration
-from brainvisa.installer.bvi_utils.bvi_exception import BVIException
 from brainvisa.installer.bvi_utils.tools import repogen, binarycreator
 
-from brainvisa.maker.brainvisa_projects import brainvisaProjects, brainvisaComponentsPerProject
+from brainvisa.maker.brainvisa_projects import brainvisaProjects
+from brainvisa.maker.brainvisa_projects import brainvisaComponentsPerProject
 from brainvisa.compilation_info import packages_info
+from brainvisa.compilation_info import packages_dependencies
+
 
 #-----------------------------------------------------------------------------
 # Constants
 #-----------------------------------------------------------------------------
 
-DESCRIPTION = '''BrainVISA Build Installer allows to build:
+MESSAGE_HELP_HEADER = """BrainVISA Installer Help
+BrainVISA Build Installer allows to build:
   - an offline installer binary that contains all specified BrainVISA packages and the dependencies;
-  - an online installer binary and a repository.
-'''
+  - an online installer binary;
+  - a repository for the online installer.
+"""
 
-EPIGOG = '''
-Remarks:
-If the option --only-offline is specified then -r/--repository will be ignored.
+MESSAGE_HELP_EPILOG = """
+Example:
+> ./bv_build_installer.py -p soma aims anatomist axon -i $HOME/brainvisa/installer -r $HOME/brainvisa/repository --online-only
+"""
 
-Examples:
-> ./bv_build_installer.py -p soma,aims,anatomist,axon -i $HOME/brainvisa/installer -r $HOME/brainvisa/repository
+INFO_TABLE_ROW = """<tr>
+	<td>%s</td>
+	<td>%s</td>
+	<td>%s</td>
+	<td>%s</td>
+	<td>%s</td>
+</tr>
+"""
 
-> ./bv_build_installer.py
+MESSAGE_INVALID_PROJECT = "[ BVI ] Error: The project %s does not exist!."
+MESSAGE_INVALID_NAME = "[ BVI ] Error: The component %s does not exist!."
+MESSAGE_INVALID_CONFIG = "[ BVI ] Error: The file %s does not exist!."
 
-'''
+MESSAGE_BVI_HEADER = """
+===============================================================
+=================== [ BrainVISA Installer ] ===================
+===============================================================
+"""
+
+MESSAGE_BVI_CONFIGURATION = """
+===============================================================
+========= [ BVI ]: Create configuration repository... =========
+===============================================================
+"""
+
+MESSAGE_BVI_INFORMATION = """
+===============================================================
+============ [ BVI ]: Generate packages infos... ==============
+===============================================================
+"""
+
+MESSAGE_BVI_REPOSITORY = """
+===============================================================
+============== [ BVI ]: Create final repository... ============
+===============================================================
+"""
+
+MESSAGE_BVI_INSTALLER = """
+===============================================================
+============== [ BVI ]: Create installer binary... ============
+===============================================================
+"""
+
+
+#-----------------------------------------------------------------------------
+# Applications
+#-----------------------------------------------------------------------------
+
+class Application(object):
+	"Entry point of BrainVISA Installer."
+
+	def start(self):
+		"Start BrainVISA Installer process."
+		print MESSAGE_BVI_HEADER
+		self.__create_configuration()
+		self.__create_information()
+		self.__create_repository()
+		self.__create_installer()
+		print "End.\n"
+
+	def __init__(self, argv):
+		"Parse the command line arguments."
+		parser = argparse.ArgumentParser(
+			formatter_class = argparse.RawDescriptionHelpFormatter,
+			description 	= MESSAGE_HELP_HEADER,
+			epilog 			= MESSAGE_HELP_EPILOG)
+		
+		parser.add_argument('-p', '--projects',
+			type 	= valid_projects,  
+			nargs 	= '+', 
+			metavar = 'project', 
+			help 	= 'Projects to include in the installer and the repository')
+
+		parser.add_argument('-n', '--names',
+			type 	= valid_names,
+			nargs 	= '+', 
+			metavar = 'name', 
+			help 	= 'Package\'s names to include in the installer and the repository')
+
+		parser.add_argument('-t', '--types', 
+			nargs 	= '+', 
+			choices = ['run', 'dev', 'usrdoc', 'devdoc'], 
+			default = ['run', 'dev', 'usrdoc', 'devdoc'],
+			metavar = 'name', 
+			help 	= 'Package\'s types (default: "run", "dev", "doc" and "devdoc")')
+
+		parser.add_argument('--online-only', 
+			action 	= 'store_true', 
+			help 	= 'Create only an online installer')
+
+		parser.add_argument('--offline-only', 
+			action 	= 'store_true', 
+			help 	= 'Create only an offline installer')
+
+		parser.add_argument('--repository-only', 
+			action 	= 'store_true', 
+			help 	= 'Create only the repository for the online installer')
+
+		parser.add_argument('-i', '--installer', 
+			default ='BrainVISA_Suite-Installer', 
+			metavar ='file', 
+			help 	='Installer name (optional only if --repository-only is specified).')
+
+		parser.add_argument('-r', '--repository', 
+			default = None, 
+			metavar = 'dir', 
+			required= True,
+			help 	= 'Repository name.')
+
+		parser.add_argument('-c', '--config', 
+			type 	= valid_config, 
+			default = None, 
+			metavar = 'file', 
+			help 	= 'Additional configuration XML file')
+
+		parser.add_argument('-v', '--version',
+			action 	= 'version',
+			version = '%(prog)s [' + __status__ + '] - ' + __version__,
+			help 	= 'Show the version number.')
+
+		args = parser.parse_args(argv[1:])
+
+		if args.online_only + args.offline_only + args.repository_only > 1:
+			print "[ BVI ] Error: --online-only, --offline-only and \
+			--repository-only are incompatible."
+			exit(1)
+		
+		self.args = args
+		self.config = Configuration(alt_filename = self.args.config)
+		self.components = self.__group_components()
+
+	def __group_components(self):
+		"Group the projets et packages in one list. The projects and the \
+		packages have the same interface."
+		res = list()
+		if self.args.projects:
+			for project in self.args.projects:
+				res.append(Project(project, self.config, self.args.types))
+		if self.args.names:
+			for name in self.args.names:
+				res.append(Package(name, self.config))
+		return res
+
+	def __create_configuration(self):
+		"Create the temporary repository for the configuration."
+		print MESSAGE_BVI_CONFIGURATION
+		temporary_folder = "%s_tmp" % self.args.repository
+		rep = Repository(temporary_folder, self.config, self.components)
+		rep.create()
+
+	def __create_information(self):
+		"Create the packages information file."
+		print MESSAGE_BVI_INFORMATION
+		info_file = "%s_infos.html" % self.args.repository
+		write_info(info_file, self.args.projects, self.args.names)
+
+	def __create_repository(self):
+		"Create the online repository."
+		if not self.args.offline_only:
+			print MESSAGE_BVI_REPOSITORY
+			repogen("%s_tmp" % self.args.repository, self.args.repository, update=True)
+
+	def __create_installer(self):
+		"Create the binary installer."
+		if not self.args.repository_only:
+			print MESSAGE_BVI_INSTALLER
+			binarycreator(self.args.installer, "%s_tmp" % self.args.repository, 
+				online_only = self.args.online_only, 
+				offline_only = self.args.offline_only)
+
 
 #-----------------------------------------------------------------------------
 # Methods
 #-----------------------------------------------------------------------------
-
-def main():
-	"""Main method of BrainVISA Installer.
-
-	It parses the arguments and create the repository and the installer binaries.
-	"""
-
-	parser = argparse.ArgumentParser(
-		formatter_class=argparse.RawDescriptionHelpFormatter,
-		description=DESCRIPTION,
-		epilog=EPIGOG)
-	
-	parser.add_argument('-p', '--projects',
-		type=valid_projects,  
-		nargs='+', 
-		metavar='project', 
-		help='Projects to include in the installer and the repository')
-
-	parser.add_argument('-n', '--names',
-		type=valid_names,
-		nargs='+', 
-		metavar='name', 
-		help='Package\'s names to include in the installer and the repository')
-
-	parser.add_argument('-t', '--types', 
-		nargs='+', 
-		choices=['run', 'dev', 'usrdoc', 'devdoc'], 
-		default=['run', 'dev', 'usrdoc', 'devdoc'],
-		metavar='name', 
-		help='Package\'s types (run, dev, doc, devdoc)')
-
-	parser.add_argument('--only-online', 
-		action='store_true', 
-		help='Create only an online installer')
-
-	parser.add_argument('--only-offline', 
-		action='store_true', 
-		help='Create only an offline installer')
-
-	parser.add_argument('--only-repository', 
-		action='store_true', 
-		help='Create only the repository for the onfline installer')
-
-	parser.add_argument('-i', '--installer', 
-		default='BrainVISA_Suite-Installer', 
-		metavar='file', 
-		help='Installer name (the extension \'_offline\' and \'_online\' will\
-		 be added for the offline and online installer.')
-
-	parser.add_argument('-r', '--repository', 
-		default=None, 
-		metavar='dir', 
-		help='Repository name (by default: \'repository\')')
-
-	parser.add_argument('-c', '--config', 
-		type=valid_config, 
-		default=None, 
-		metavar='file', 
-		help='Configuration XML file')
-
-	parser.add_argument('-v', '--version',
-		action='version',
-		version='%(prog)s [' + __status__ + '] - ' + __version__,
-		help='Configuration XML file')
-
-	# try:
-	args = parser.parse_args()
-
-	config = Configuration(alt_filename = args.config)
-	components = list()
-	if args.projects:
-		for project in args.projects:
-			components.append(Project(project, config, args.types))
-	if args.names:
-		for name in args.names:
-			components.append(Package(name, config))
-	if args.repository:
-		print "\n\n"
-		print "==============================================================="
-		print "========= [ BVI ]: Create configuration repository... ========="
-		print "==============================================================="
-		rep = Repository(
-			folder="%s_tmp" % args.repository, 
-			components=components, 
-			configuration=config)
-		rep.create()
-
-		print "\n\n"
-		print "==============================================================="
-		print "============== [ BVI ]: Create final repository... ============"
-		print "==============================================================="
-		repogen("%s_tmp" % args.repository, args.repository, update=True)
-
-		if not args.only_repository:
-			print "\n\n"
-			print "==============================================================="
-			print "============== [ BVI ]: Create installer binary... ============"
-			print "==============================================================="
-			binarycreator(args.installer, "%s_tmp" % args.repository, 
-				online_only= args.only_online, 
-				offline_only= args.only_offline)
-	# except ValueError as e:
-	# 	print e.value
-	# except BVIException as e:
-	# 	print e.value
-	# finally:
-	# 	print "BrainVISA Build Installer failed!"
-	# 	exit(1)
-
 def valid_projects(arg):
 	"Check if the project exists."
 	if not arg in brainvisaProjects:
-		raise BVIException(BVIException.PROJECT_NONEXISTENT, arg)
-	else:
-		for component in brainvisaComponentsPerProject[arg]:
-			valid_names(component)
+		error = MESSAGE_INVALID_PROJECT % arg
+		raise argparse.ArgumentTypeError(error)
+	for component in brainvisaComponentsPerProject[arg]:
+		valid_names(component)
 	return arg
+
 
 def valid_names(arg):
 	"Check if the component exists."
 	if not arg in packages_info:
-		raise BVIException(BVIException.COMPONENT_NONEXISTENT, arg)
+		error = MESSAGE_INVALID_NAME % arg
+		raise argparse.ArgumentTypeError(error)
 	return arg
+
 
 def valid_config(arg):
 	"Check if the config file exist."
 	if not os.path.isfile(arg):
-		raise ValueError("%s does not exist!" % arg)
+		error = MESSAGE_INVALID_CONFIG % arg
+		raise argparse.ArgumentTypeError(error)
 	return arg
 
+
+def write_info(filename, projects, names):
+	"Write a HTML table with the list of packages."
+	list_packages = set()
+	with open(filename, 'w') as fo:
+		if projects:
+			for project in projects:
+				for component in brainvisaComponentsPerProject[project]:
+					write_info_package(fo, component, list_packages)
+		if names:
+			for name in names:
+				write_info_package(fo, name, list_packages)
+
+
+def write_info_package(fo, component, list_packages):
+	"Write a HTML row with the package's information."
+	info_package 	= component
+	info_project 	= ''
+	info_type 		= ''
+	info_version 	= ''
+	info_licenses 	= ''
+	infos = packages_info.get(component)
+	if infos:
+		info_type = infos.get('type', '')
+		info_version = infos.get('version', '')
+		info_licenses = infos.get('licences', '')
+		info_project = infos.get('project', '')
+		info_licenses = ', '.join(info_licenses)
+
+	html = INFO_TABLE_ROW % (info_project, info_package, info_type, 
+		info_version, info_licenses)
+	if not info_package in list_packages:
+		fo.write(html)
+		list_packages.add(info_package)
+
+	dependencies = packages_dependencies.get(info_package)
+	if dependencies:
+		for dependency in dependencies:
+			write_info_package(fo, dependency[1], list_packages)
+
+#-----------------------------------------------------------------------------
+# Main
+#-----------------------------------------------------------------------------
 if __name__ == "__main__":
-	main()
+	import sys
+	app = Application(sys.argv)
+	app.start()

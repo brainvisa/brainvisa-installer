@@ -16,111 +16,149 @@ from brainvisa.installer.bvi_utils.xml_file import XmlFile
 from brainvisa.installer.bvi_utils.paths import Paths
 
 FULLPATH = os.path.dirname(os.path.abspath(__file__))
+CURRENTDATE = datetime.datetime.now().strftime("%Y-%m-%d")
 
-# def test_Repository__create_config():
-# 	x = Configuration()
-# 	folder = "%s/out/New_Repository" % FULLPATH
-# 	os.mkdir(folder)
-# 	y = Repository(	name='New_Repository', 
-# 					folder='%s/out' % FULLPATH, 
-# 					configuration=x, 
-# 					components=list())
-# 	y._Repository__create_config()
-# 	assert os.path.isdir('test_repository/New_Repository/config')
-# 	z = XmlFile()
-# 	z.read('test_repository/New_Repository/config/config.xml')
-# 	assert z.root.find('Name').text == 'BrainVISA Installer'
-# 	assert z.root.find('Version').text == '1.0.0'
-# 	assert z.root.find('Title').text == 'BrainVISA Installer'
-# 	assert z.root.find('Publisher').text == 'CEA IFR49 / I2BM'
-# 	assert z.root.find('ProductUrl').text == 'http://brainvisa.info/'
-# 	rr = z.root.find('RemoteRepositories')
-# 	assert rr[0].find('Url').text == 'http://localhost/repositories/win32/'
-# 	assert rr[0].find('Enabled').text == '0'
-# 	assert rr[3].find('Url').text == 'http://localhost/repositories/linux64/'
-# 	assert rr[3].find('Enabled').text == '1'
-# 	shutil.rmtree(folder)
 
-# def test_Repository__create_packages():
-# 	x = Configuration(CONFIG)
-# 	folder = "test_repository/New_Repository"
-# 	os.mkdir(folder)
-# 	y = Repository(	name='New_Repository', 
-# 					folder='test_repository', 
-# 					configuration=x, 
-# 					components=list())
-# 	y._Repository__create_packages()
-	
-# 	assert os.path.isdir('test_repository/New_Repository/packages')
+def test_Repository_init():
+	x = Configuration("%s/in/configuration.xml" % FULLPATH)
+	folder = "%s/out/repository" % FULLPATH
+	y = Repository(folder, x, None)
+	assert y.folder == folder
+	assert y.configuration == x
+	assert y.date == CURRENTDATE
+	assert y.components == None
 
-# 	assert os.path.isdir('test_repository/New_Repository/packages/brainvisa.app')
-# 	assert os.path.isdir('test_repository/New_Repository/packages/brainvisa.app/meta')
-# 	a = XmlFile()
-# 	a.read('test_repository/New_Repository/packages/brainvisa.app/meta/package.xml')
-# 	assert a.root.find('Virtual').text == 'false'
-# 	assert a.root.find('DisplayName').text == 'BrainVISA Suite'
-	
-# 	assert os.path.isdir('test_repository/New_Repository/packages/brainvisa.app.licenses')
-# 	assert os.path.isdir('test_repository/New_Repository/packages/brainvisa.app.licenses/meta')
-# 	assert os.path.isdir('test_repository/New_Repository/packages/brainvisa.app.licenses.cecill_v2.1')
-# 	assert os.path.isdir('test_repository/New_Repository/packages/brainvisa.app.licenses.cecill_v2.1/meta')
-# 	b = XmlFile()
-# 	b.read('test_repository/New_Repository/packages/brainvisa.app.licenses/meta/package.xml')
-# 	assert b.root.find('Virtual').text == 'true'
-# 	assert b.root.find('DisplayName').text == 'Licenses'
 
-# 	assert os.path.isdir('test_repository/New_Repository/packages/brainvisa.app.thirdparty')
-# 	assert os.path.isdir('test_repository/New_Repository/packages/brainvisa.app.thirdparty/meta')
-# 	c = XmlFile()
-# 	c.read('test_repository/New_Repository/packages/brainvisa.app.thirdparty/meta/package.xml')
-# 	assert c.root.find('Virtual').text == 'true'
-# 	assert c.root.find('DisplayName').text == 'Thirdparty'
+def test_Repository_mkdir():
+	folder_exists = "%s/out/exists" % FULLPATH
+	os.mkdir(folder_exists)
+	assert os.path.isdir(folder_exists)
+	assert Repository._Repository__mkdir(folder_exists) == False
+	folder_not_exists =  "%s/out/notexists" % FULLPATH
+	assert Repository._Repository__mkdir(folder_not_exists) == True
+	assert os.path.isdir(folder_not_exists)
 
-# 	assert os.path.isdir('test_repository/New_Repository/packages/brainvisa.dev')
-# 	assert os.path.isdir('test_repository/New_Repository/packages/brainvisa.dev/meta')
-# 	d = XmlFile()
-# 	d.read('test_repository/New_Repository/packages/brainvisa.dev/meta/package.xml')
-# 	assert d.root.find('Virtual').text == 'false'
-# 	assert d.root.find('DisplayName').text == 'BrainVISA Development'
-# 	shutil.rmtree(folder)
 
-def test_Repository_create_empty():
-	x = Configuration()
-	y = list()
-	z = Repository(	folder = '%s/out/Repository 0x82F93' % FULLPATH, 
-					configuration = x, 
-					components = y)
-	z.create()
+def test_Repository__create_config():
+	x = Configuration("%s/in/configuration.xml" % FULLPATH)
+	folder = "%s/out/repository" % FULLPATH
+	os.mkdir(folder)
+	y = Repository(folder, x, None)
+	y._Repository__create_config()
+	assert os.path.isdir("%s/config" % folder)
+	assert os.path.isfile("%s/config/config.xml" % folder)
+	z = XmlFile()
+	z.read("%s/config/config.xml" % folder)
+	assert z.root.find('Name').text == 'BrainVISA Installer'
+	assert z.root.find('Version').text == '1.0.0'
+	assert z.root.find('Title').text == 'BrainVISA Installer'
+	assert z.root.find('Publisher').text == 'CEA IFR49 / I2BM'
+	assert z.root.find('ProductUrl').text == 'http://brainvisa.info/'
+	rr = z.root.find('RemoteRepositories')
+	assert rr[0].find('Url').text == 'http://localhost/repositories/win32/'
+	assert rr[3].find('Url').text == 'http://localhost/repositories/linux64/'
 
-	folders = ( 'Repository_0x82F93',
-				'Repository_0x82F93/config',
-				'Repository_0x82F93/packages/brainvisa.app',
-				'Repository_0x82F93/packages/brainvisa.app/meta',
-				'Repository_0x82F93/packages/brainvisa.app.licenses',
-				'Repository_0x82F93/packages/brainvisa.app.licenses/meta',
-				'Repository_0x82F93/packages/brainvisa.app.thirdparty',
-				'Repository_0x82F93/packages/brainvisa.app.thirdparty/meta',
-				'Repository_0x82F93/packages/brainvisa.dev',
-				'Repository_0x82F93/packages/brainvisa.dev/meta',
-				'Repository_0x82F93/packages/brainvisa.app.licenses.cecill_v2.1',
-				'Repository_0x82F93/packages/brainvisa.app.licenses.cecill_v2.1/meta')
-	files = (	'Repository_0x82F93/packages/brainvisa.app/meta/package.xml',
-				'Repository_0x82F93/packages/brainvisa.app.licenses/meta/package.xml',
-				'Repository_0x82F93/packages/brainvisa.app.licenses.cecill_v2.1/meta/package.xml')
-	
-	# for f in folders:
-	# 	assert os.path.isdir("%s/out/%s" % (FULLPATH, f))
 
-	# for f in files:
-	# 	assert os.path.isfile("%s/out/%s" % (FULLPATH, f))
+def test_Repository__create_packages_app():
+	x = Configuration("%s/in/configuration.xml" % FULLPATH)
+	folder = "%s/out/repository_pack_app" % FULLPATH
+	os.mkdir(folder)
+	os.mkdir("%s/packages" % folder)
+	y = Repository(folder, x, None)
+	y._Repository__create_packages_app()
+	filename = '%s/packages/brainvisa.app/meta/package.xml' % folder
+	assert os.path.isdir('%s/packages/brainvisa.app' % folder)
+	assert os.path.isdir('%s/packages/brainvisa.app/meta' % folder)
+	assert os.path.isfile(filename)
+	assert '<DisplayName>%s</DisplayName>' % x.category_by_id('APP').Name in open(filename, 'r').read()
+	assert '<ReleaseDate>%s</ReleaseDate>' % CURRENTDATE in open(filename, 'r').read()
+	assert '<Name>brainvisa.app</Name>' in open(filename, 'r').read()
 
-	#shutil.rmtree('test_repository/Repository_0x82F93')
+
+def test_Repository__create_packages_dev():
+	x = Configuration("%s/in/configuration.xml" % FULLPATH)
+	folder = "%s/out/repository_pack_dev" % FULLPATH
+	os.mkdir(folder)
+	os.mkdir("%s/packages" % folder)
+	y = Repository(folder, x, None)
+	y._Repository__create_packages_dev()
+	filename = '%s/packages/brainvisa.dev/meta/package.xml' % folder
+	assert os.path.isdir('%s/packages/brainvisa.dev' % folder)
+	assert os.path.isdir('%s/packages/brainvisa.dev/meta' % folder)
+	assert os.path.isfile(filename)
+	assert '<DisplayName>%s</DisplayName>' % x.category_by_id('DEV').Name in open(filename, 'r').read()
+	assert '<ReleaseDate>%s</ReleaseDate>' % CURRENTDATE in open(filename, 'r').read()
+	assert '<Name>brainvisa.dev</Name>' in open(filename, 'r').read()
+
+
+def test_Repository__create_packages_thirdparty():
+	x = Configuration("%s/in/configuration.xml" % FULLPATH)
+	folder = "%s/out/repository_pack_tp" % FULLPATH
+	os.mkdir(folder)
+	os.mkdir("%s/packages" % folder)
+	y = Repository(folder, x, None)
+	y._Repository__create_packages_thirdparty()
+	filename = '%s/packages/brainvisa.app.thirdparty/meta/package.xml' % folder
+	assert os.path.isdir('%s/packages/brainvisa.app.thirdparty' % folder)
+	assert os.path.isdir('%s/packages/brainvisa.app.thirdparty/meta' % folder)
+	assert os.path.isfile(filename)
+	assert '<DisplayName>Thirdparty</DisplayName>' in open(filename, 'r').read()
+	assert '<ReleaseDate>%s</ReleaseDate>' % CURRENTDATE in open(filename, 'r').read()
+	assert '<Name>brainvisa.app.thirdparty</Name>' in open(filename, 'r').read()
+	assert '<Virtual>true</Virtual>' in open(filename, 'r').read()
+
+
+def test_Repository__create_packages_licenses():
+	x = Configuration("%s/in/configuration.xml" % FULLPATH)
+	folder = "%s/out/repository_pack_lic" % FULLPATH
+	os.mkdir(folder)
+	os.mkdir("%s/packages" % folder)
+	y = Repository(folder, x, None)
+	y._Repository__create_packages_licenses()
+	filename = '%s/packages/brainvisa.app.licenses/meta/package.xml' % folder
+	assert os.path.isdir('%s/packages/brainvisa.app.licenses' % folder)
+	assert os.path.isdir('%s/packages/brainvisa.app.licenses/meta' % folder)
+	assert os.path.isfile(filename)
+	assert '<DisplayName>Licenses</DisplayName>' in open(filename, 'r').read()
+	assert '<ReleaseDate>%s</ReleaseDate>' % CURRENTDATE in open(filename, 'r').read()
+	assert '<Name>brainvisa.app.licenses</Name>' in open(filename, 'r').read()
+	assert '<Virtual>true</Virtual>' in open(filename, 'r').read()
+
+	assert os.path.isdir('%s/packages/brainvisa.app.licenses.cecill_b' % folder)
+	assert os.path.isdir('%s/packages/brainvisa.app.licenses.cecill_b/meta' % folder)
+	filename_lic = '%s/packages/brainvisa.app.licenses.cecill_b/meta/package.xml' % folder
+	assert os.path.isfile(filename_lic)
+	assert os.path.isfile('%s/packages/brainvisa.app.licenses.cecill_b/meta/Licence_CeCILL-B_V1_en_EN.txt' % folder)
+	assert '<License' in open(filename_lic, 'r').read()
+	assert 'name="CeCILL-B"' in open(filename_lic, 'r').read()
+	assert 'file="Licence_CeCILL-B_V1_en_EN.txt"' in open(filename_lic, 'r').read()
+
+
+def test_Repository__create_package_bv_env():
+	x = Configuration("%s/in/configuration.xml" % FULLPATH)
+	folder = "%s/out/repository_pack_bv_env" % FULLPATH
+	os.mkdir(folder)
+	os.mkdir("%s/packages" % folder)
+	y = Repository(folder, x, None)
+	y._Repository__create_package_bv_env()
+	filename = '%s/packages/brainvisa.app.thirdparty.bv_env/meta/package.xml' % folder
+	assert os.path.isdir('%s/packages/brainvisa.app.thirdparty.bv_env/meta' % folder)
+	assert os.path.isdir('%s/packages/brainvisa.app.thirdparty.bv_env/data' % folder)
+	assert os.path.isfile(filename)
+	assert '<Version>1.0</Version>' in open(filename, 'r').read()
+	assert '<Name>brainvisa.app.thirdparty.bv_env</Name>' in open(filename, 'r').read()
+	assert '<Virtual>true</Virtual>' in open(filename, 'r').read()
+	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/data/bin/bv_env.py' % folder)
+	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/data/bin/bv_env.sh' % folder)
+	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/data/bin/bv_unenv' % folder)
+	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/data/bin/bv_unenv.sh' % folder)
+
+
 
 def test_Repository_create():
 	x = Configuration()
 	y = [Project('soma', x), Project('aims', x), Project('anatomist', x), Project('axon', x)]
-	#y = [Project('soma', x, types = ['run', 'usrdoc'])]
-	z = Repository(	folder = "%s/out/Repository_ALL" % FULLPATH, 
+	z = Repository(	folder = "%s/out/Repository_Final" % FULLPATH, 
 					configuration = x, 
 					components = y)
 	z.create()

@@ -9,8 +9,9 @@ from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 from brainvisa.installer.bvi_xml.tag_license import TagLicense
 from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
 
-
-OUTPUT = r'out/IFWPackage_out.xml'
+FULLPATH = os.path.dirname(os.path.abspath(__file__))
+OUTPUT = r'%s/out/IFWPackage_out.xml' % FULLPATH
+OUTPUT2 = r'%s/out/IFWPackage_out2.xml' % FULLPATH
 
 
 def test_utils_IFWPackage():
@@ -65,8 +66,20 @@ def test_utils_IFWPackage():
 	assert x.root.find('SortingPriority').text == 'SortingPriority 0x234'
 	assert x.root.find('Essential').text == 'Essential 0x628'
 	assert x.root.find('Script').text == 'Script 0x273'
-	assert x.root.find('Dependencies').text == 'Name 0x928 - Comparison 0x288 Version 0xF3E, Name 0x192 - Comparison 0x112 Version 0x111, Name 0x109 - Comparison 0x666 Version 0x128'
+	assert x.root.find('Dependencies').text == 'Name0x928-Comparison0x288Version0xF3E, Name0x192-Comparison0x112Version0x111, Name0x109-Comparison0x666Version0x128'
 	assert x.root.find('Licenses')[0].attrib['file'] == 'File 0x11F'
 	assert x.root.find('Licenses')[2].attrib['name'] == 'Name 0x122'
 	assert x.root.find('UserInterfaces')[1].text == 'UserInterfaces 0x6722'
-	#os.remove(OUTPUT)
+	assert x.root.find('Virtual') == None
+
+def test_utils_IFWPackage_2():
+	x = IFWPackage(
+		DisplayName = 'DisplayName 0x38434', 
+		Virtual = 'true')
+	x.save(OUTPUT)
+	assert os.path.isfile(OUTPUT)
+	del x
+	x = XmlFile()
+	x.read(OUTPUT)
+	assert x.root.find('DisplayName').text == 'DisplayName 0x38434'
+	assert x.root.find('Virtual').text == 'true'

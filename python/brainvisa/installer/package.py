@@ -35,6 +35,8 @@ class Package(Component):
 					name=dep_pack.ifwname, 
 					version=dep_pack.version)
 				tag_deps.append(tag_dep)
+		if self.type == 'run':
+			tag_deps.append(TagDependency(name="brainvisa.app.thirdparty.bv_env"))
 		if self.licenses:
 			for lic in self.licenses:
 				valid_name = format.ifw_name(lic)

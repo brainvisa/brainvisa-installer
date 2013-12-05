@@ -73,12 +73,13 @@ class Project(Component):
 		self.configuration = configuration
 		self.licenses = None
 		self.data = None
+		self.version = '0.0.0'
 		self.dep_packages = collections.defaultdict(list)
 		first_component = brainvisaComponentsPerProject[self.name][0]
-		ex_version = self.configuration.exception_by_name(first_component,
-			'VERSION')
+		ex_version = self.configuration.exception_info_by_name(first_component, 'VERSION')
 		if ex_version is None:
-			self.version = packages_info[first_component]['version']
+			if first_component in packages_info:
+				self.version = packages_info[first_component]['version']
 		else:
 			self.version = ex_version
 
@@ -109,6 +110,8 @@ class Project(Component):
 				full_name = "%s%s" % (package_name, ext)
 				if full_name in packages_info:
 					pack = Package(full_name, self.configuration)
+					if self.configuration.is_package_excluded(full_name):
+						continue
 					pack.create(folder)
 					if not self.__is_in_dependencies(pack, type_name):
 						self.dep_packages[type_name].append(pack)

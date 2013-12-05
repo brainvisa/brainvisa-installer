@@ -36,3 +36,18 @@ class Paths(object): #pylint: disable=R0903
 	IFW_BINARYCREATOR 	= 'binarycreator%s' % WIN_EXT
 	IFW_REPOGEN 		= 'repogen%s' % WIN_EXT
 	IFW_ARCHIVEGEN 		= 'archivegen%s' % WIN_EXT
+
+	ENV_COMMANDS = [
+		BV_ENV, 
+		'bv_env.py', 
+		'bv_env.sh', 
+		'bv_unenv',  
+		'bv_unenv.sh', 
+		'brainvisa'
+		] if (	System.platform() == System.Win32 or 
+				System.platform() == System.Win64) else [
+		BV_ENV, 
+		'bv_env.py', 
+		'bv_env.sh', 
+		'bv_unenv',  
+		'bv_unenv.sh']

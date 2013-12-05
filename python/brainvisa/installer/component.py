@@ -64,7 +64,7 @@ class Component(object):
 		self.data = data
 		self.__init_date()
 		self.__init_infos()
-		if configuration is not None:
+		if self.configuration is not None:
 			self.__init_config()
 		
 	def __init_infos(self):
@@ -85,10 +85,10 @@ class Component(object):
 	def __init_config(self):
 		"Initialize from the configuration file."
 		conf =  self.configuration
-		ex_version 		= conf.exception_by_name(self.name, 'VERSION')
-		ex_description 	= conf.exception_by_name(self.name, 'DESCRIPTION')
-		ex_displayname 	= conf.exception_by_name(self.name, 'DISPLAYNAME')
-		ex_virtual 		= conf.exception_by_name(self.name, 'VIRTUAL')
+		ex_version 		= conf.exception_info_by_name(self.name, 'VERSION')
+		ex_description 	= conf.exception_info_by_name(self.name, 'DESCRIPTION')
+		ex_displayname 	= conf.exception_info_by_name(self.name, 'DISPLAYNAME')
+		ex_virtual 		= conf.exception_info_by_name(self.name, 'VIRTUAL')
 		msg = "[ BVI ] Package: %s => exception for %s: %s"
 		if ex_virtual is not None:
 			self.virtual = ex_virtual
@@ -116,6 +116,9 @@ class Component(object):
 
 	def __package_data(self, folder):
 		"Create the data folder of IFW component."
+		if self.configuration is not None:
+			if self.configuration.is_packaging_excluded(self.name):
+				return
 		data_folder = "%s/data" % folder
 		os.mkdir(data_folder)
 		self.__bv_packaging(data_folder)
@@ -125,7 +128,7 @@ class Component(object):
 	def __bv_packaging(self, folder_data):
 		"Use bv_packaging to package the component data."
 		bv_packaging(self.name, self.type, folder_data)
-		readme = "%s/../data.README" % folder_data
+		readme = "%s/README" % folder_data
 		if os.path.isfile(readme):
 			os.remove(readme)
 
