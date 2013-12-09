@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- General configuration for BrainVISA Installer building. 
+<!-- General configuration for BrainVISA Installer. 
 The user can create a partial configuration file to change several options.
 
 Author: 	Hakim Taklanti
@@ -14,8 +14,8 @@ Status: 	dev
 <INSTALLER>
 
  	<!-- Main options for the installer binary.
- 	The options are described in the IFW documentation:
- 		http://doc-snapshot.qt-project.org/qtifw-1.4/ifw-globalconfig.html
+ 		 The options are described in the Qt IFW documentation:
+ 		 http://doc-snapshot.qt-project.org/qtifw-1.4/ifw-globalconfig.html
  	-->
 	<GENERAL>
 		<NAME>BrainVISA Installer</NAME>
@@ -44,10 +44,10 @@ Status: 	dev
 		</URL>
 	-->
 	<REPOSITORIES>
-		<URL PLATFORM="WIN32">http://localhost/repositories/win32/</URL>
-		<URL PLATFORM="OSX">http://localhost/repositories/osx/</URL>
-		<URL PLATFORM="LINUX32">http://localhost/repositories/linux32/</URL>
-		<URL PLATFORM="LINUX64">http://localhost/repositories/linux64/</URL>
+		<URL PLATFORM="WIN32">http://brainvisa.fr/repositories/win32/</URL>
+		<URL PLATFORM="OSX">http://brainvisa.fr/repositories/osx/</URL>
+		<URL PLATFORM="LINUX32">http://brainvisa.fr/repositories/linux32/</URL>
+		<URL PLATFORM="LINUX64">http://brainvisa.fr/repositories/linux64/</URL>
 	</REPOSITORIES>
 
 	<!-- Categories
