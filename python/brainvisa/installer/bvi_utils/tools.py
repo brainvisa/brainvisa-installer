@@ -107,7 +107,7 @@ def bv_packaging(name, type_, folder):
 			"%s/%s" % (Paths.BV_BIN,Paths.BV_PACKAGING), 
 			'dir', 
 			'-o %s' % folder,
-			'--bv_env',
+			'--wrappers',
 			'--no-deps',
 			'+name=%s,type=%s' % (name, type_)]
 	os.system(' '.join(args))
