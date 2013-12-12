@@ -107,3 +107,14 @@ def test_Project_create():
 	assert os.path.isfile('%s/out/brainvisa.app.aims.run.aims_free/data/bin/AimsClosing' % FULLPATH)
 	assert os.path.isfile('%s/out/brainvisa.app.aims.run.aims_free/data/bin/AimsElevationMap' % FULLPATH)
 	assert os.path.isfile('%s/out/brainvisa.app.aims.run.aims_free/data/bin/AimsImageScaleSpace' % FULLPATH)
+
+def test_Project_create_script():
+	x = Configuration("%s/in/configuration_script.xml" % FULLPATH)
+	y = Project('axon', x)
+	folder = '%s/out/scripts' % FULLPATH
+	os.mkdir(folder)
+	y.create(folder)
+	assert os.path.isdir('%s/out/brainvisa.app.axon' % folder)
+	assert os.path.isdir('%s/out/brainvisa.app.axon/meta' % folder)
+	assert os.path.isfile('%s/out/brainvisa.app.axon/meta/package.xml' % folder)
+	assert os.path.isfile('%s/out/brainvisa.app.axon/meta/script.js' % folder)

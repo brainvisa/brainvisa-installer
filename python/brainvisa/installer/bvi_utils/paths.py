@@ -22,6 +22,7 @@ class Paths(object): #pylint: disable=R0903
 	BVI_SHARE_XML = '%s/xml' % BVI_SHARE
 	BVI_SHARE_IMAGES = '%s/images' % BVI_SHARE
 	BVI_SHARE_LICENSES = '%s/licenses' % BVI_SHARE
+	BVI_SHARE_SCRIPTS = '%s/scripts' % BVI_SHARE
 	
 	# BrainVISA Installer files
 	BVI_CONFIGURATION = '%s/xml/configuration.xml' % BVI_SHARE

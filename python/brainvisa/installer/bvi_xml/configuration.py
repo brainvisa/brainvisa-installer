@@ -34,6 +34,14 @@ class Configuration(object): #pylint: disable=R0902
 			res.append(self.Watermark)
 		return res
 
+	def script_package(self, name):
+		"Return the name from the package's name."
+		return self.__get_script_value(name, 'PACKAGES')
+
+	def script_project(self, name):
+		"Return the name from the project's name."
+		return self.__get_script_value(name, 'PROJECTS')
+
 	def exception_info_by_name(self, name, param):
 		"Return the exception value from name and param."
 		exceptions = self.root.find('EXCEPTIONS')
@@ -203,3 +211,13 @@ class Configuration(object): #pylint: disable=R0902
 					TagCategory().init_from_configuration(subcat, sub_sub_cateogires))
 			self.Categories.append(
 				TagCategory().init_from_configuration(cat, sub_cateogires))
+
+	def __get_script_value(self, name, tagname):
+		"Return the name from the package's name."
+		scripts = self.root.find('SCRIPTS')
+		for script in scripts:
+			if script.tag == tagname:
+				for pack in script:
+					if pack.attrib.get('NAME') == name:
+						return pack.attrib.get('SCRIPT')
+		return None

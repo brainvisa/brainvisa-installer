@@ -2,19 +2,23 @@
 # -*- coding: utf-8 -*-
 
 import os
+
 import os.path
 import collections
 
 from brainvisa.installer.package import Package
 from brainvisa.installer.component import Component
-import brainvisa.installer.bvi_utils.format as format
+import brainvisa.installer.bvi_utils.format as ft
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
 from brainvisa.installer.bvi_utils.bvi_exception import BVIException
 
+
 from brainvisa.compilation_info import packages_info
 from brainvisa.maker.brainvisa_projects import brainvisaProjects
 from brainvisa.maker.brainvisa_projects import brainvisaComponentsPerProject
+from brainvisa.maker.brainvisa_projects_versions import project_version
+from brainvisa.maker.brainvisa_projects_versions import project_description
 
 
 class Project(Component):
@@ -33,7 +37,7 @@ class Project(Component):
 
 	@property
 	def ifwname(self):
-		p_name = format.ifw_name(self.name)
+		p_name = ft.ifw_name(self.name)
 		res = {
 			'run' 		: "brainvisa.app.%s" % (p_name),
 			'usrdoc'	: "brainvisa.app.%s" % (p_name),
@@ -46,15 +50,17 @@ class Project(Component):
 	def ifwpackage(self):
 		package = IFWPackage(
 			DisplayName 	= self.name.title(), 
-			Description 	= "%s project." % self.name.title(), 
+			Description 	= self.description, 
 			Version 		= self.version, 
 			ReleaseDate 	= self.date, 
 			Name 			= self.ifwname, 
+			Script 			= self.script,
 			Virtual 		= 'false')
 		return package
 
 	def create(self, folder):
 		self.__create_pacakges(folder)
+
 		for type_ in self.types:
 			self.type = type_
 			self.__create_subcategorie(folder)
@@ -73,7 +79,9 @@ class Project(Component):
 		self.configuration = configuration
 		self.licenses = None
 		self.data = None
-		self.version = '0.0.0'
+		self.script = None
+		self.version = project_version(self.name)
+		self.description = project_description(self.name)
 		self.dep_packages = collections.defaultdict(list)
 		first_component = brainvisaComponentsPerProject[self.name][0]
 		ex_version = self.configuration.exception_info_by_name(first_component, 'VERSION')
@@ -95,6 +103,7 @@ class Project(Component):
 						Description = cat.Description, 
 						Version 	= self.version, 
 						ReleaseDate = self.date, 
+						SortingPriority = cat.Priority,
 						Name 		= name, 
 						Virtual 	= 'false',
 						TagDependencies = self.__clean_dependencies_doublons())

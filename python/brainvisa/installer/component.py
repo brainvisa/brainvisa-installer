@@ -7,7 +7,9 @@ import shutil
 import datetime
 import os.path
 
-from brainvisa.installer.bvi_utils.tools import archivegen, bv_packaging
+from brainvisa.installer.bvi_utils.paths import Paths
+from brainvisa.installer.bvi_utils.tools import bv_packaging
+#from brainvisa.installer.bvi_utils.tools import archivegen
 
 from brainvisa.compilation_info import packages_info
 
@@ -47,6 +49,7 @@ class Component(object):
 			return
 		os.mkdir(path)
 		self.__package_meta(path)
+		self.__copy_script(path)
 		if self.data: 
 			self.__package_data(path)
 
@@ -61,6 +64,7 @@ class Component(object):
 		self.virtual = 'true'
 		self.displayname = None
 		self.date = None
+		self.script = None
 		self.data = data
 		self.__init_date()
 		self.__init_infos()
@@ -139,3 +143,12 @@ class Component(object):
 		file_src = "%s.7z" % (folder_data)
 		file_des = "%s/%s.7z" % (folder_data, self.name.replace('-', '_'))
 		shutil.move(file_src, file_des)
+
+	def __copy_script(self, folder):
+		value_script = self.configuration.script_project(self.name)
+		if value_script is None:
+			return
+		self.script = 'script.js'
+		src = "%s/%s" % (Paths.BVI_SHARE_SCRIPTS, value_script)
+		dst = "%s/meta/script.js" % folder
+		shutil.copyfile(src, dst)

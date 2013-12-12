@@ -10,6 +10,7 @@ from brainvisa.installer.bvi_xml.configuration import Configuration
 FULLPATH = os.path.dirname(os.path.abspath(__file__))
 
 EXAMPLE = r'%s/in/configuration.xml' % FULLPATH
+EXAMPLE_SCRIPT = r'%s/in/configuration_script.xml' % FULLPATH
 EXAMPLE_PARTIAL = r'%s/in/configuration_partial.xml' % FULLPATH
 OUTPUT = r'%s/out/out.xml' % FULLPATH
 
@@ -109,3 +110,13 @@ def test_bvi_xml_Configuration_Alt_Licenses():
 	assert len(x.Licenses) == 7
 	assert x.Licenses[5].Id == 'License 02.3X.1'
 	assert x.Licenses[6].Name == 'License 0x9'
+
+def test_bvi_xml_Configuration_script_package():
+	x = Configuration(EXAMPLE_SCRIPT)
+	assert x.script_package('bv_env') == 'script_bv_env.js'
+
+def test_bvi_xml_Configuration_script_project():
+	x = Configuration(EXAMPLE_SCRIPT)
+	assert x.script_project('axon') == 'script_axon.js'
+	assert x.script_project('anatomist') == 'script_anatomist.js'
+

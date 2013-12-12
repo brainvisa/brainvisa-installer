@@ -48,6 +48,8 @@ __status__ 		= "release"
 
 import os.path
 import argparse
+import logging
+from logging.handlers import RotatingFileHandler
 
 from brainvisa.installer.project import Project
 from brainvisa.installer.package import Package
@@ -120,6 +122,56 @@ MESSAGE_BVI_INSTALLER = """
 ===============================================================
 """
 
+HTML_HEADER = """<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="Hakim Taklanti" name="author" />
+		<meta content="2013-10-14T17:24:52+0200" name="date" />
+		<meta content="CEA / Saclay" name="copyright" />
+		<meta content="BrainVISA; Neurospin; CEA; Saclay; MIRCEN" name="keywords" />
+		<meta content="" name="description" />
+		<meta content="NOINDEX, NOFOLLOW" name="ROBOTS" />
+		<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+		<meta content="application/xhtml+xml; charset=UTF-8" http-equiv="content-type" />
+		<meta content="text/css" http-equiv="content-style-type" />
+		<meta content="0" http-equiv="expires" />
+		<title>BrainVISA Packages</title>
+	</head>
+	<body>
+		<header>
+			<h1>BrainVISA Packages</h1>
+		</header>
+		<section>
+			<article>
+    			<table>
+				   <caption>Packages List</caption>
+				   <thead>
+				       <tr>
+							<th>Project</th>
+							<th>Package</th>
+							<th>Type</th>
+							<th>Version</th>
+							<th>License</th>
+				       </tr>
+				   </thead>
+				   <tbody>			   
+"""
+
+HTML_FOOTER = """
+					</tbody>
+				</table>
+			</article>
+		</section>
+		
+		<footer>
+			<p>Copyright CEA - Tous droits réservés<br />
+			<a href="http://brainvisa.info">BrainVISA.info</a></p>
+		</footer>
+	</body>
+</html>
+"""
+
 
 #-----------------------------------------------------------------------------
 # Applications
@@ -130,12 +182,12 @@ class Application(object):
 
 	def start(self):
 		"Start BrainVISA Installer process."
-		print MESSAGE_BVI_HEADER
+		logging.getLogger().info(MESSAGE_BVI_HEADER)
 		self.__create_configuration()
 		self.__create_information()
 		self.__create_repository()
 		self.__create_installer()
-		print "End.\n"
+		logging.getLogger().info("End.\n")
 
 	def __init__(self, argv):
 		"Parse the command line arguments."
@@ -200,8 +252,8 @@ class Application(object):
 		args = parser.parse_args(argv[1:])
 
 		if args.online_only + args.offline_only + args.repository_only > 1:
-			print "[ BVI ] Error: --online-only, --offline-only and \
-			--repository-only are incompatible."
+			logging.getLogger().info("[ BVI ] Error: --online-only, --offline-only and \
+			--repository-only are incompatible.")
 			exit(1)
 		
 		self.args = args
@@ -222,27 +274,27 @@ class Application(object):
 
 	def __create_configuration(self):
 		"Create the temporary repository for the configuration."
-		print MESSAGE_BVI_CONFIGURATION
+		logging.getLogger().info(MESSAGE_BVI_CONFIGURATION)
 		temporary_folder = "%s_tmp" % self.args.repository
 		rep = Repository(temporary_folder, self.config, self.components)
 		rep.create()
 
 	def __create_information(self):
 		"Create the packages information file."
-		print MESSAGE_BVI_INFORMATION
+		logging.getLogger().info(MESSAGE_BVI_INFORMATION)
 		info_file = "%s_infos.html" % self.args.repository
 		write_info(info_file, self.args.projects, self.args.names)
 
 	def __create_repository(self):
 		"Create the online repository."
 		if not self.args.offline_only:
-			print MESSAGE_BVI_REPOSITORY
+			logging.getLogger().info(MESSAGE_BVI_REPOSITORY)
 			repogen("%s_tmp" % self.args.repository, self.args.repository, update=True)
 
 	def __create_installer(self):
 		"Create the binary installer."
 		if not self.args.repository_only:
-			print MESSAGE_BVI_INSTALLER
+			logging.getLogger().info(MESSAGE_BVI_INSTALLER)
 			binarycreator(self.args.installer, "%s_tmp" % self.args.repository, 
 				online_only = self.args.online_only, 
 				offline_only = self.args.offline_only)
@@ -255,6 +307,7 @@ def valid_projects(arg):
 	"Check if the project exists."
 	if not arg in brainvisaProjects:
 		error = MESSAGE_INVALID_PROJECT % arg
+		logging.getLogger().error(error)
 		raise argparse.ArgumentTypeError(error)
 	for component in brainvisaComponentsPerProject[arg]:
 		valid_names(component)
@@ -265,6 +318,7 @@ def valid_names(arg):
 	"Check if the component exists."
 	if not arg in packages_info:
 		error = MESSAGE_INVALID_NAME % arg
+		logging.getLogger().error(error)
 		raise argparse.ArgumentTypeError(error)
 	return arg
 
@@ -273,6 +327,7 @@ def valid_config(arg):
 	"Check if the config file exist."
 	if not os.path.isfile(arg):
 		error = MESSAGE_INVALID_CONFIG % arg
+		logging.getLogger().error(error)
 		raise argparse.ArgumentTypeError(error)
 	return arg
 
@@ -281,6 +336,7 @@ def write_info(filename, projects, names):
 	"Write a HTML table with the list of packages."
 	list_packages = set()
 	with open(filename, 'w') as fo:
+		fo.write(HTML_HEADER)
 		if projects:
 			for project in projects:
 				for component in brainvisaComponentsPerProject[project]:
@@ -288,6 +344,7 @@ def write_info(filename, projects, names):
 		if names:
 			for name in names:
 				write_info_package(fo, name, list_packages)
+		fo.write(HTML_FOOTER)
 
 
 def write_info_package(fo, component, list_packages):
@@ -321,5 +378,19 @@ def write_info_package(fo, component, list_packages):
 #-----------------------------------------------------------------------------
 if __name__ == "__main__":
 	import sys
+
+	# Configuration logger
+	logger = logging.getLogger()
+	logger.setLevel(logging.DEBUG)
+	formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
+	file_handler = RotatingFileHandler('bv_build_installer.log', 'a', 1000000, 1)
+	file_handler.setLevel(logging.DEBUG)
+	file_handler.setFormatter(formatter)
+	logger.addHandler(file_handler)
+	steam_handler = logging.StreamHandler()
+	steam_handler.setLevel(logging.DEBUG)
+	logger.addHandler(steam_handler)
+
+	logger.info('Start Application...')
 	app = Application(sys.argv)
 	app.start()

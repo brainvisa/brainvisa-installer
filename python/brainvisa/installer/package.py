@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
+import brainvisa.installer.bvi_utils.format as ft
 from brainvisa.installer.component import Component
-import brainvisa.installer.bvi_utils.format as format
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
-
 from brainvisa.compilation_info import packages_dependencies
 
 
@@ -15,8 +13,8 @@ class Package(Component):
 
 	@property
 	def ifwname(self):
-		p_name = format.ifw_name(self.project)
-		c_name = format.ifw_name(self.name)
+		p_name = ft.ifw_name(self.project)
+		c_name = ft.ifw_name(self.name)
 		res = {
 			'run' 		: "brainvisa.app.%s.run.%s" % (p_name, c_name),
 			'usrdoc'	: "brainvisa.app.%s.usrdoc.%s" % (p_name, c_name),
@@ -39,7 +37,7 @@ class Package(Component):
 			tag_deps.append(TagDependency(name="brainvisa.app.thirdparty.bv_env"))
 		if self.licenses:
 			for lic in self.licenses:
-				valid_name = format.ifw_name(lic)
+				valid_name = ft.ifw_name(lic)
 				license_component = "brainvisa.app.licenses.%s" % valid_name
 				tag_dep = TagDependency(name=license_component)
 				tag_deps.append(tag_dep)
@@ -47,11 +45,12 @@ class Package(Component):
 		package = IFWPackage(
 			DisplayName = self.displayname, 
 			Description = self.description, 
-			Version = self.version, 
+			Version 	= self.version, 
 			ReleaseDate = self.date, 
-			Name = self.ifwname, 
+			Name 		= self.ifwname, 
 			TagDependencies = tag_deps, 
-			Virtual = self.virtual,
+			Virtual 	= self.virtual,
+			Script 		= self.script,
 			TagLicenses = None)
 		return package
 
@@ -63,7 +62,6 @@ class Package(Component):
 			dep_pack.create(folder)
 		
 	def __init__(self, name, configuration=None):
-		print "[ BVI ] -> PACKAGE: %s" % name
 		super(Package, self).__init__(name, True, configuration)
 		self.dependencies = None
 		if self.displayname is None:
@@ -80,5 +78,3 @@ class Package(Component):
 			dep_name = info[1].decode('utf-8')
 			dep_pack = Package(dep_name, self.configuration)
 			self.dependencies.append(dep_pack)
-
-	
