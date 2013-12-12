@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Package>
+	<DisplayName>Library 4</DisplayName>
+	<Description>Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede.</Description>
+	<Version>2.12</Version>
+	<ReleaseDate>2013-10-21</ReleaseDate>
+	<Name>brainvisa.thirdparty.lib4</Name>
+	<Licenses>
+		<License name="CeCILL V2" file="license.txt" />
+	</Licenses>
+	<Dependencies>
+	</Dependencies>
+	
+	<SortingPriority></SortingPriority>
+	<Default>true</Default>
+	<Script>installscript.qs</Script>
+	<ForcedInstallation></ForcedInstallation>
+	<Replaces></Replaces>
+	<DownloadableArchives></DownloadableArchives>
+ </Package>

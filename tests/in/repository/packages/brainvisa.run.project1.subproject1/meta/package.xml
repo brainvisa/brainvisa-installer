@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Package>
+	<DisplayName>BrainVISA Project 1 - Subproject 1</DisplayName>
+	<Description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricieue congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede.</Description>
+	<Version>3.2</Version>
+	<ReleaseDate>2013-10-01</ReleaseDate>
+	<Name>brainvisa.run.project1.subproject1</Name>
+	<Licenses>
+		<License name="CeCILL V2" file="license.txt" />
+	</Licenses>
+	<Dependencies>
+		brainvisa.thirdparty.lib1
+	</Dependencies>
+	<SortingPriority></SortingPriority>
+	<Default>true</Default>
+	<Script>installscript.qs</Script>
+	<ForcedInstallation></ForcedInstallation>
+	<Replaces></Replaces>
+	<DownloadableArchives></DownloadableArchives>
+ </Package>

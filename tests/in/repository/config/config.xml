@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Installer>
+    <Name>Test App</Name>
+    <Version>1.0.0</Version>
+    <Title>Test App_Hurra</Title>
+    <Publisher>Digia</Publisher>
+    <ProductUrl>http://qt.digia.com</ProductUrl>
+    <Watermark>watermark.png</Watermark>
+    <Logo>logo.png</Logo>
+    <UninstallerName>TestAppUninstaller</UninstallerName>
+    <TargetDir>@homeDir@/testinstall</TargetDir>
+    <AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
+    <AllowSpaceInPath>true</AllowSpaceInPath>
+    <RepositorySettingsPageVisible>true</RepositorySettingsPageVisible>
+    <RemoteRepositories>
+         <Repository>
+             <Url>http://localhost/repositories/test</Url>
+             <Enabled>1</Enabled>
+              <DisplayName>Example repository</DisplayName>
+         </Repository>
+     </RemoteRepositories>
+</Installer>

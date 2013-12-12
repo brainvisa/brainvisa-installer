@@ -102,7 +102,7 @@ Status: 	dev
 	<EXCEPTIONS>
 		<INFO NAME="libsqlite3-0" PARAM="VERSION" VALUE="3.7.17" />
 		<INFO NAME="liblapack3gf-0" PARAM="VERSION" VALUE="3.0" />
-                <INFO NAME="liblapack3gf" PARAM="VERSION" VALUE="3.0" />
+        <INFO NAME="liblapack3gf" PARAM="VERSION" VALUE="3.0" />
 		<INFO NAME="libcairo2" PARAM="VERSION" VALUE="2.0" />
 		<INFO NAME="libexpat1" PARAM="VERSION" VALUE="1.0" />
 		<INFO NAME="libjpeg62" PARAM="VERSION" VALUE="1.0" />

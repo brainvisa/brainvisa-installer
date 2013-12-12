@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Package>
+	<DisplayName>BrainVISA Project 2</DisplayName>
+	<Description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultricesibero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede.</Description>
+	<Version>5.4</Version>
+	<ReleaseDate>2013-02-20</ReleaseDate>
+	<Name>brainvisa.run.project2</Name>
+	<Licenses>
+		<License name="CeCILL V2" file="license.txt" />
+	</Licenses>
+	<Dependencies>
+	</Dependencies>
+	
+	<SortingPriority></SortingPriority>
+	<Default>true</Default>
+	<Script>installscript.qs</Script>
+	<ForcedInstallation></ForcedInstallation>
+	<Replaces></Replaces>
+	<DownloadableArchives></DownloadableArchives>
+ </Package>
