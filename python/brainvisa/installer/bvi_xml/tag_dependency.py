@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import brainvisa.installer.bvi_utils.format as format
+import brainvisa.installer.bvi_utils.format as ft
 
 
 class TagDependency(object):
@@ -25,8 +25,8 @@ class TagDependency(object):
 		"""
 		separator = '' if self.Version == '' else '-'
 		res = "%s%s%s%s" % (self.Name, separator, self.Comparison, self.Version)
-		res = format.ifw_version(res)
-		res = format.xml_escape(res)
+		res = ft.ifw_version(res)
+		res = ft.xml_escape(res)
 		return res
 
 	def __init__(self, name, version='', comparison='', depends=True):

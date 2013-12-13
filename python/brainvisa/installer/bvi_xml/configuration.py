@@ -34,51 +34,50 @@ class Configuration(object): #pylint: disable=R0902
 			res.append(self.Watermark)
 		return res
 
-	def script_package(self, name):
+	def script_by_name(self, name):
 		"Return the name from the package's name."
 		return self.__get_script_value(name, 'PACKAGES')
-
-	def script_project(self, name):
-		"Return the name from the project's name."
-		return self.__get_script_value(name, 'PROJECTS')
 
 	def exception_info_by_name(self, name, param):
 		"Return the exception value from name and param."
 		exceptions = self.root.find('EXCEPTIONS')
-		for exception in exceptions:
-			if exception.tag == 'INFO' and \
-			exception.attrib.get('NAME') == name and \
-			exception.attrib.get('PARAM') == param:
-				return exception.attrib.get('VALUE')
+		if exceptions is not None:
+			for exception in exceptions:
+				if exception.tag == 'INFO' and \
+				exception.attrib.get('NAME') == name and \
+				exception.attrib.get('PARAM') == param:
+					return exception.attrib.get('VALUE')
 		return None
 
 	def is_packaging_excluded(self, name):
 		"Return True if the packaging must be excluded."
 		exceptions = self.root.find('EXCEPTIONS')
-		for exception in exceptions:
-			if (exception.tag == 'PACKAGE' and
-			exception.attrib.get('NAME') == name and
-			(exception.attrib.get('TYPE') == 'PACKAGING' or 
-			 exception.attrib.get('TYPE') == 'ALL')):
-				platform = exception.attrib.get('PLATFORM')
-				if platform:
-					if platform != System.platform():
-						return False
-				return True
+		if exceptions is not None:
+			for exception in exceptions:
+				if (exception.tag == 'PACKAGE' and
+				exception.attrib.get('NAME') == name and
+				(exception.attrib.get('TYPE') == 'PACKAGING' or 
+				 exception.attrib.get('TYPE') == 'ALL')):
+					platform = exception.attrib.get('PLATFORM')
+					if platform:
+						if platform != System.platform():
+							return False
+					return True
 		return False
 
 	def is_package_excluded(self, name):
 		"Return False if the package must be excluded."
 		exceptions = self.root.find('EXCEPTIONS')
-		for exception in exceptions:
-			if (exception.tag == 'PACKAGE' and
-				exception.attrib.get('NAME') == name and 
-				exception.attrib.get('TYPE') == 'ALL'):
-				platform = exception.attrib.get('PLATFORM')
-				if platform:
-					if platform != System.platform():
-						return False
-				return True
+		if exceptions  is not None:
+			for exception in exceptions:
+				if (exception.tag == 'PACKAGE' and
+					exception.attrib.get('NAME') == name and 
+					exception.attrib.get('TYPE') == 'ALL'):
+					platform = exception.attrib.get('PLATFORM')
+					if platform:
+						if platform != System.platform():
+							return False
+					return True
 		return False
 
 	def category_by_id(self, id_value):
@@ -94,10 +93,12 @@ class Configuration(object): #pylint: disable=R0902
 	def general(self, tag_name):
 		"Return the values of <GENERAL> part."
 		generals = self.root.find('GENERAL')
-		elt = generals.find(tag_name)
-		if elt is None:
-			return None
-		return elt.text
+		if generals is not None:
+			elt = generals.find(tag_name)
+			if elt is None:
+				return None
+			return elt.text
+		return None
 
 	@property
 	def ifwconfig(self):
@@ -212,12 +213,17 @@ class Configuration(object): #pylint: disable=R0902
 			self.Categories.append(
 				TagCategory().init_from_configuration(cat, sub_cateogires))
 
-	def __get_script_value(self, name, tagname):
+	def __get_script_value(self, name, tagname, type_ = None):
 		"Return the name from the package's name."
 		scripts = self.root.find('SCRIPTS')
-		for script in scripts:
-			if script.tag == tagname:
-				for pack in script:
-					if pack.attrib.get('NAME') == name:
-						return pack.attrib.get('SCRIPT')
+		if scripts is not None:
+			for script in scripts:
+				if script.tag == tagname:
+					for pack in script:
+						if pack.attrib.get('NAME') == name:
+							if type_ is None:
+								return pack.attrib.get('SCRIPT')
+							else:
+								if pack.attrib.get('TYPE') == type_:
+									return pack.attrib.get('SCRIPT')
 		return None

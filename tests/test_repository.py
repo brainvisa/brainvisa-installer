@@ -135,7 +135,7 @@ def test_Repository__create_packages_licenses():
 
 
 def test_Repository__create_package_bv_env():
-	x = Configuration("%s/in/configuration.xml" % FULLPATH)
+	x = Configuration("%s/in/configuration_script.xml" % FULLPATH)
 	folder = "%s/out/repository_pack_bv_env" % FULLPATH
 	os.mkdir(folder)
 	os.mkdir("%s/packages" % folder)
@@ -153,6 +153,7 @@ def test_Repository__create_package_bv_env():
 	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/data/bin/bv_unenv' % folder)
 	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/data/bin/bv_unenv.sh' % folder)
 
+	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/meta/script.qs' % folder)
 
 
 def test_Repository_create():

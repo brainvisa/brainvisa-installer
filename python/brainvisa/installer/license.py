@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import shutil
+import logging
 
 from brainvisa.installer.component import Component
 from brainvisa.installer.bvi_utils.paths import Paths
-import brainvisa.installer.bvi_utils.format as format
+import brainvisa.installer.bvi_utils.format as ft
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 
 
@@ -22,7 +23,7 @@ class License(Component):
 
 	@property
 	def ifwname(self):
-		p_name = format.ifw_name(self.name)
+		p_name = ft.ifw_name(self.name)
 		return "brainvisa.app.licenses.%s" % p_name
 
 	@property
@@ -51,5 +52,6 @@ class License(Component):
 		self.licenses = [taglicense]
 		self.data = None
 		self.file = taglicense.File
+		self.configuration = None
+		logging.getLogger().debug("[ BVI ] License: %s" % self.name)
 		super(License, self)._Component__init_date()
-		

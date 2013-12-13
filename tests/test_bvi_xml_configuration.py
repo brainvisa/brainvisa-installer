@@ -113,10 +113,10 @@ def test_bvi_xml_Configuration_Alt_Licenses():
 
 def test_bvi_xml_Configuration_script_package():
 	x = Configuration(EXAMPLE_SCRIPT)
-	assert x.script_package('bv_env') == 'script_bv_env.js'
+	assert x.script_package('brainvisa.app.thirdparty.bv_env') == 'script_bv_env.js'
 
 def test_bvi_xml_Configuration_script_project():
 	x = Configuration(EXAMPLE_SCRIPT)
-	assert x.script_project('axon') == 'script_axon.js'
-	assert x.script_project('anatomist') == 'script_anatomist.js'
+	assert x.script_project('axon', 'run') == 'script_axon.js'
+	assert x.script_project('anatomist', 'run') == 'script_anatomist.js'
 

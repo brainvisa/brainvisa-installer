@@ -76,7 +76,7 @@ def test_Package_dependencies():
 	x = Package(name='axon')
 	deps = x.dependencies
 	s_got = set([x.name for x in deps])
-	s_expected = set(['python', 'python-qt4', 'soma-base', 'soma-qtgui', 
+	s_expected = set(['python', 'python-qt4', 'soma-base', 'soma-qtgui', 'soma-workflow', 
 		'aims-free', 'brainvisa-share', 'graphviz'])
 	assert s_got == s_expected
 
@@ -153,3 +153,15 @@ def test_Package_create_with_dependencies():
 	is_package('brainvisa.app.thirdparty.python_qt4')
 	is_package('brainvisa.app.thirdparty.python_sip4')
 	is_package('brainvisa.app.thirdparty.zlib')
+
+
+def test_create_script():
+	y = Configuration("%s/in/configuration_script.xml" % FULLPATH)
+	x = Package('anatomist-free', y)
+	x.create("%s/out" % FULLPATH)
+	assert os.path.isdir("%s/out/brainvisa.app.anatomist.run.anatomist_free" % FULLPATH)
+	assert os.path.isdir("%s/out/brainvisa.app.anatomist.run.anatomist_free/meta" % FULLPATH)
+	assert os.path.isdir("%s/out/brainvisa.app.anatomist.run.anatomist_free/data" % FULLPATH)
+	assert os.path.isdir("%s/out/brainvisa.app.anatomist.run.anatomist_free/data/bin" % FULLPATH)
+	assert os.path.isfile("%s/out/brainvisa.app.anatomist.run.anatomist_free/meta/package.xml" % FULLPATH)
+	assert os.path.isfile("%s/out/brainvisa.app.anatomist.run.anatomist_free/meta/script.qs" % FULLPATH)

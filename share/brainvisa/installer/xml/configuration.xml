@@ -92,7 +92,7 @@ Status: 	dev
 
 	<!-- Exceptions
 	Syntax:
-		<ITEM
+		<INFO | PACKAGE
 			NAME
 			PLATFORM = "WIN32|WIN64|LINUX32|LINUX64|OSX" [optional]
 			PARAM = "DISPLAYNAME|DESCRIPTION|VERSION|VIRTUAL"
@@ -113,12 +113,9 @@ Status: 	dev
 
 	<SCRIPTS>
 		<PACKAGES>
-			<ITEM NAME="bv_env" SCRIPT="script_bv_env.js" />
+			<ITEM NAME="brainvisa.app.thirdparty.bv_env" SCRIPT="script_bv_env.js" />
+			<ITEM NAME="anatomist-free" SCRIPT="script_anatomist_free.js" />
 		</PACKAGES>
-		<PROJECTS>
-			<ITEM NAME="axon" SCRIPT="script_axon.js" />
-			<ITEM NAME="anatomist" SCRIPT="script_anatomist.js" />
-		</PROJECTS>
 	</SCRIPTS>
 
  </INSTALLER>

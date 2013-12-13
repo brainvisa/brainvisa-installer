@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os.path
-
 from brainvisa.installer.bvi_utils.system import System
 
 from brainvisa.compilation_info import build_directory

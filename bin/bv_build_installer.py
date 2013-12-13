@@ -137,6 +137,17 @@ HTML_HEADER = """<!DOCTYPE html>
 		<meta content="text/css" http-equiv="content-style-type" />
 		<meta content="0" http-equiv="expires" />
 		<title>BrainVISA Packages</title>
+		<style type="text/css">
+			table {
+				border:1px solid black;
+				text-align: center;
+			}
+
+			td, th {
+				border:1px solid black;
+				padding:8px;
+			}
+		</style>
 	</head>
 	<body>
 		<header>
@@ -165,8 +176,8 @@ HTML_FOOTER = """
 		</section>
 		
 		<footer>
-			<p>Copyright CEA - Tous droits réservés<br />
-			<a href="http://brainvisa.info">BrainVISA.info</a></p>
+			<p style="text-align:center;">Copyright CEA - Tous droits réservés<br />
+			<a style="text-align:center;" href="http://brainvisa.info">BrainVISA.info</a></p>
 		</footer>
 	</body>
 </html>
@@ -183,6 +194,7 @@ class Application(object):
 	def start(self):
 		"Start BrainVISA Installer process."
 		logging.getLogger().info(MESSAGE_BVI_HEADER)
+		self.__configure_logging()
 		self.__create_configuration()
 		self.__create_information()
 		self.__create_repository()
@@ -222,7 +234,7 @@ class Application(object):
 		parser.add_argument('--offline-only', 
 			action 	= 'store_true', 
 			help 	= 'Create only an offline installer')
-
+		
 		parser.add_argument('--repository-only', 
 			action 	= 'store_true', 
 			help 	= 'Create only the repository for the online installer')
@@ -257,8 +269,21 @@ class Application(object):
 			exit(1)
 		
 		self.args = args
+		self.logging_level = logging.DEBUG
 		self.config = Configuration(alt_filename = self.args.config)
 		self.components = self.__group_components()
+
+	def __configure_logging(self):
+		logger = logging.getLogger()
+		logger.setLevel(logging.DEBUG)
+		formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
+		file_handler = RotatingFileHandler('bv_build_installer.log', 'a', 1000000, 1)
+		file_handler.setLevel(logging.DEBUG)
+		file_handler.setFormatter(formatter)
+		logger.addHandler(file_handler)
+		steam_handler = logging.StreamHandler()
+		steam_handler.setLevel(logging.DEBUG)
+		logger.addHandler(steam_handler)
 
 	def __group_components(self):
 		"Group the projets et packages in one list. The projects and the \
@@ -377,20 +402,6 @@ def write_info_package(fo, component, list_packages):
 # Main
 #-----------------------------------------------------------------------------
 if __name__ == "__main__":
-	import sys
-
-	# Configuration logger
-	logger = logging.getLogger()
-	logger.setLevel(logging.DEBUG)
-	formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
-	file_handler = RotatingFileHandler('bv_build_installer.log', 'a', 1000000, 1)
-	file_handler.setLevel(logging.DEBUG)
-	file_handler.setFormatter(formatter)
-	logger.addHandler(file_handler)
-	steam_handler = logging.StreamHandler()
-	steam_handler.setLevel(logging.DEBUG)
-	logger.addHandler(steam_handler)
-
-	logger.info('Start Application...')
+	import sys	
 	app = Application(sys.argv)
 	app.start()

@@ -6,6 +6,7 @@ import datetime
 import collections
 from brainvisa.installer.project import Project
 from brainvisa.installer.bvi_xml.configuration import Configuration
+from brainvisa.maker.brainvisa_projects_versions import project_description
 
 FULLPATH = os.path.dirname(os.path.abspath(__file__))
 CURRENTDATE = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -30,7 +31,7 @@ def test_iProject_fwpackage():
 	y.type = 'run'
 	p = y.ifwpackage
 	assert p.DisplayName 	== 'Anatomist'
-	assert p.Description 	== 'Anatomist project.'
+	assert p.Description 	== project_description('anatomist')
 	assert p.Version 		== '4.5.0'
 	assert p.ReleaseDate 	== CURRENTDATE
 	assert p.Name 			== 'brainvisa.app.anatomist'
@@ -107,14 +108,3 @@ def test_Project_create():
 	assert os.path.isfile('%s/out/brainvisa.app.aims.run.aims_free/data/bin/AimsClosing' % FULLPATH)
 	assert os.path.isfile('%s/out/brainvisa.app.aims.run.aims_free/data/bin/AimsElevationMap' % FULLPATH)
 	assert os.path.isfile('%s/out/brainvisa.app.aims.run.aims_free/data/bin/AimsImageScaleSpace' % FULLPATH)
-
-def test_Project_create_script():
-	x = Configuration("%s/in/configuration_script.xml" % FULLPATH)
-	y = Project('axon', x)
-	folder = '%s/out/scripts' % FULLPATH
-	os.mkdir(folder)
-	y.create(folder)
-	assert os.path.isdir('%s/out/brainvisa.app.axon' % folder)
-	assert os.path.isdir('%s/out/brainvisa.app.axon/meta' % folder)
-	assert os.path.isfile('%s/out/brainvisa.app.axon/meta/package.xml' % folder)
-	assert os.path.isfile('%s/out/brainvisa.app.axon/meta/script.js' % folder)

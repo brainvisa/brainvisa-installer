@@ -5,6 +5,7 @@ import os
 
 import os.path
 import collections
+import logging 
 
 from brainvisa.installer.package import Package
 from brainvisa.installer.component import Component
@@ -12,7 +13,6 @@ import brainvisa.installer.bvi_utils.format as ft
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
 from brainvisa.installer.bvi_utils.bvi_exception import BVIException
-
 
 from brainvisa.compilation_info import packages_info
 from brainvisa.maker.brainvisa_projects import brainvisaProjects
@@ -60,14 +60,13 @@ class Project(Component):
 
 	def create(self, folder):
 		self.__create_pacakges(folder)
-
 		for type_ in self.types:
 			self.type = type_
 			self.__create_subcategorie(folder)
 			super(Project, self).create(folder)
 
 	def __init__(self, name, configuration, types = None): #pylint: disable=W0231
-		print "[ BVI ] => PROJECT: %s" % name
+		logging.getLogger().info( "[ BVI ] PROJECT: %s" % name )
 		types = types or ['run', 'usrdoc', 'dev', 'devdoc']
 		if not name in brainvisaProjects:
 			raise BVIException(BVIException.PROJECT_NONEXISTENT, name)
@@ -148,4 +147,3 @@ class Project(Component):
 			if not self.__is_in_tagdependencies(tagdependency, clean_tagdependencies):
 				clean_tagdependencies.append(tagdependency)					
 		return clean_tagdependencies
-

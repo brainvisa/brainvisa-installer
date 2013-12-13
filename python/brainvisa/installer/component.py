@@ -6,6 +6,7 @@ import abc
 import shutil
 import datetime
 import os.path
+import logging
 
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.tools import bv_packaging
@@ -49,7 +50,6 @@ class Component(object):
 			return
 		os.mkdir(path)
 		self.__package_meta(path)
-		self.__copy_script(path)
 		if self.data: 
 			self.__package_data(path)
 
@@ -66,6 +66,7 @@ class Component(object):
 		self.date = None
 		self.script = None
 		self.data = data
+		logging.getLogger().debug("[ BVI ] Component: %s" % self.name)
 		self.__init_date()
 		self.__init_infos()
 		if self.configuration is not None:
@@ -81,7 +82,7 @@ class Component(object):
 			if 'licences' in infos:
 				self.licenses = infos['licences']
 		else:
-			print "[ BVI ]: WARNING no information for %s" % self.name
+			logging.getLogger().warning("[ BVI ]: WARNING no information for %s" % self.name)
 			self.project = ''
 			self.type = 'thirdparty'
 			self.version = '1.0'
@@ -96,16 +97,16 @@ class Component(object):
 		msg = "[ BVI ] Package: %s => exception for %s: %s"
 		if ex_virtual is not None:
 			self.virtual = ex_virtual
-			print msg % (self.name, 'Virtual', ex_virtual)
+			logging.getLogger().info( msg % (self.name, 'Virtual', ex_virtual) )
 		if ex_description is not None:
 			self.description = ex_description
-			print msg % (self.name, 'Description', ex_description)
+			logging.getLogger().info( msg % (self.name, 'Description', ex_description) )
 		if ex_displayname is not None:
 			self.displayname = ex_displayname
-			print msg % (self.name, 'DisplayName', ex_displayname)
+			logging.getLogger().info( msg % (self.name, 'DisplayName', ex_displayname) )
 		if ex_version is not None:
 			self.version = ex_version
-			print msg % (self.name, 'Version', ex_version)
+			logging.getLogger().info( msg % (self.name, 'Version', ex_version) )
 
 	def __init_date(self):
 		"Initialize the date."
@@ -116,6 +117,7 @@ class Component(object):
 		"Create the meta folder of IFW component."
 		meta_folder = "%s/meta" % folder
 		os.mkdir(meta_folder)
+		self.__copy_script(meta_folder)
 		self.ifwpackage.save("%s/package.xml" % meta_folder)
 
 	def __package_data(self, folder):
@@ -145,10 +147,15 @@ class Component(object):
 		shutil.move(file_src, file_des)
 
 	def __copy_script(self, folder):
-		value_script = self.configuration.script_project(self.name)
+		"Copy the script in meta folder. Warning: must be call before \
+		self.ifwpackage."
+		if self.configuration is None:
+			return
+			
+		value_script = self.configuration.script_by_name(self.name)
 		if value_script is None:
 			return
-		self.script = 'script.js'
+		self.script = 'script.qs'
 		src = "%s/%s" % (Paths.BVI_SHARE_SCRIPTS, value_script)
-		dst = "%s/meta/script.js" % folder
+		dst = "%s/script.qs" % folder
 		shutil.copyfile(src, dst)

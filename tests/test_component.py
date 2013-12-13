@@ -117,15 +117,3 @@ def test_create():
 	assert os.path.isdir("%s/out/ifwname/data/bin" % FULLPATH)
 	assert os.path.isdir("%s/out/ifwname/data/share" % FULLPATH)
 	assert os.path.isfile("%s/out/ifwname/meta/package.xml" % FULLPATH)
-
-def test_create_script():
-	y = Configuration("%s/in/configuration_script.xml" % FULLPATH)
-	x = ConcreteComponent('bv_env', True, y, 'bv_env')
-	x.create("%s/out" % FULLPATH)
-	assert os.path.isdir("%s/out/ifwname_bv_env" % FULLPATH)
-	assert os.path.isdir("%s/out/ifwname_bv_env/meta" % FULLPATH)
-	assert os.path.isdir("%s/out/ifwname_bv_env/data" % FULLPATH)
-	assert os.path.isdir("%s/out/ifwname_bv_env/data/bin" % FULLPATH)
-	assert os.path.isdir("%s/out/ifwname_bv_env/data/share" % FULLPATH)
-	assert os.path.isfile("%s/out/ifwname_bv_env/meta/package.xml" % FULLPATH)
-	assert os.path.isfile("%s/out/ifwname_bv_env/meta/script.js" % FULLPATH)
