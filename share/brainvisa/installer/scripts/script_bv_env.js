@@ -1,14 +1,17 @@
 function Component()
 {
-    // constructor
 }
 
 Component.prototype.createOperations = function()
 {
-	try {
-		// call the base create operations function
-		component.createOperations();
-	} catch (e) {
-		print(e);
-	}
+    component.createOperations();
+
+    if (installer.value("os") === "win") {
+		component.addOperation(	"CreateShortcut", 
+								"http://www.brainvisa.info", 
+								"@StartMenuDir@/BrainVISA Website.lnk",
+								"workingDirectory=@TargetDir@", 
+								"iconPath=%SystemRoot%/system32/SHELL32.dll",
+								"iconId=91");
+    }
 }
