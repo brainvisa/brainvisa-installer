@@ -1,14 +1,17 @@
 function Component()
 {
-    // constructor
 }
 
 Component.prototype.createOperations = function()
 {
-	try {
-		// call the base create operations function
-		component.createOperations();
-	} catch (e) {
-		print(e);
-	}
+    component.createOperations();
+
+    if (installer.value("os") === "win") {
+        component.addOperation(	"CreateShortcut", 
+								"@TargetDir@/anatomist.bat", 
+								"@StartMenuDir@/Anatomist.lnk",
+								"workingDirectory=@TargetDir@", 
+								"iconPath=%SystemRoot%/system32/SHELL32.dll",
+								"iconId=71");
+    }
 }
