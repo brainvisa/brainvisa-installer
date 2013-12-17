@@ -24,6 +24,7 @@ Status: 	dev
 		<PUBLISHER>CEA IFR49 / I2BM</PUBLISHER>
 		<PRODUCTURL>http://brainvisa.info/</PRODUCTURL>
 		<TARGETDIR>@homeDir@/brainvisa</TARGETDIR>
+		<STARTMENUDIR>BrainVISA Suite</STARTMENUDIR>
 		<ADMINTARGETDIR>/opt/brainvisa</ADMINTARGETDIR>
 		<ICON>icon.png</ICON>
 		<LOGO>logo.png</LOGO>
@@ -64,11 +65,11 @@ Status: 	dev
 			 [optional] DESCRIPTION="description"
 	-->
 	<CATEGORIES>
-		<CATEGORY ID="APP" NAME="BrainVISA Suite" PRIORITY="10" VERSION="1.0" DESCRIPTION="Description of BrainVISA Suite category">
+		<CATEGORY ID="APP" NAME="BrainVISA Suite" PRIORITY="10" VERSION="1.0" DESCRIPTION="BrainVISA Suite for end users.">
 			<CATEGORY ID="run" NAME="Application" PRIORITY="10" VERSION="1.0" DEFAULT="false" />
 			<CATEGORY ID="usrdoc" NAME="Documentation" PRIORITY="1" VERSION="1.0" DEFAULT="false" />
 		</CATEGORY>
-		<CATEGORY ID="DEV" NAME="BrainVISA Development" PRIORITY="1" VERSION="1.0" DESCRIPTION="Description of BrainVISA Development category">
+		<CATEGORY ID="DEV" NAME="BrainVISA Development" PRIORITY="1" VERSION="1.0" DESCRIPTION="BrainVISA Suite for developers.">
 			<CATEGORY ID="dev" NAME="Sources" PRIORITY="10" VERSION="1.0" DEFAULT="false" />
 			<CATEGORY ID="devdoc" NAME="Documentation" PRIORITY="1" VERSION="1.0" DEFAULT="false" />
 		</CATEGORY>
@@ -113,8 +114,9 @@ Status: 	dev
 
 	<SCRIPTS>
 		<PACKAGES>
-			<ITEM NAME="brainvisa.app.thirdparty.bv_env" SCRIPT="script_bv_env.js" />
-			<ITEM NAME="anatomist-free" SCRIPT="script_anatomist_free.js" />
+			<ITEM NAME="brainvisa.app.thirdparty.bv_env" SCRIPT="script_bv_env.qs" />
+			<ITEM NAME="anatomist-free" SCRIPT="script_anatomist_free.qs" />
+			<ITEM NAME="axon" SCRIPT="script_axon.qs" />
 		</PACKAGES>
 	</SCRIPTS>
 
