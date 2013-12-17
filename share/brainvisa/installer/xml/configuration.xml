@@ -106,6 +106,7 @@ Status: 	dev
         <INFO NAME="liblapack3gf" PARAM="VERSION" VALUE="3.0" />
 		<INFO NAME="libcairo2" PARAM="VERSION" VALUE="2.0" />
 		<INFO NAME="libexpat1" PARAM="VERSION" VALUE="1.0" />
+		<INFO NAME="libexpat1-dev" PARAM="VERSION" VALUE="1.0" />
 		<INFO NAME="libjpeg62" PARAM="VERSION" VALUE="1.0" />
 		<INFO NAME="libtiff" PARAM="VERSION" VALUE="1.0" />
 		<INFO NAME="libgcc1" PARAM="VERSION" VALUE="1.0" />
