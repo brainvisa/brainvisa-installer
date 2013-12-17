@@ -342,7 +342,7 @@ class Application(object):
 				online_only = self.args.online_only, 
 				offline_only = self.args.offline_only)
 				
-	def ____create_hacks(self):
+	def __create_hacks(self):
 		"Regroup all hacks for specific problems."
 		if not self.args.qt_menu_nib is None:
 			src = self.args.qt_menu_nib
