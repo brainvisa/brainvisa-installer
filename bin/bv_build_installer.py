@@ -49,6 +49,7 @@ __status__ 		= "release"
 import os.path
 import argparse
 import logging
+import shutil
 from logging.handlers import RotatingFileHandler
 
 from brainvisa.installer.project import Project
@@ -56,6 +57,7 @@ from brainvisa.installer.package import Package
 from brainvisa.installer.repository import Repository
 from brainvisa.installer.bvi_xml.configuration import Configuration
 from brainvisa.installer.bvi_utils.tools import repogen, binarycreator
+from brainvisa.installer.bvi_utils.system import System
 
 from brainvisa.maker.brainvisa_projects import brainvisaProjects
 from brainvisa.maker.brainvisa_projects import brainvisaComponentsPerProject
@@ -199,6 +201,7 @@ class Application(object):
 		self.__create_information()
 		self.__create_repository()
 		self.__create_installer()
+		self.__create_hacks()
 		logging.getLogger().info("End.\n")
 
 	def __init__(self, argv):
@@ -240,9 +243,9 @@ class Application(object):
 			help 	= 'Create only the repository for the online installer')
 
 		parser.add_argument('-i', '--installer', 
-			default ='BrainVISA_Suite-Installer', 
-			metavar ='file', 
-			help 	='Installer name (optional only if --repository-only is specified).')
+			default = 'BrainVISA_Suite-Installer', 
+			metavar = 'file', 
+			help 	= 'Installer name (optional only if --repository-only is specified).')
 
 		parser.add_argument('-r', '--repository', 
 			default = None, 
@@ -255,6 +258,12 @@ class Application(object):
 			default = None, 
 			metavar = 'file', 
 			help 	= 'Additional configuration XML file')
+			
+		parser.add_argument('--qt_menu_nib', 
+			default = None,
+			help 	= 'For Mac OS X 10.5: copy the specified qt_menu.nib folder in the \
+			installer OSX App package. Use this option, if the OS X installer did not \
+			found the qt_menu.nib folder.')
 
 		parser.add_argument('-v', '--version',
 			action 	= 'version',
@@ -264,10 +273,19 @@ class Application(object):
 		args = parser.parse_args(argv[1:])
 
 		if args.online_only + args.offline_only + args.repository_only > 1:
-			logging.getLogger().info("[ BVI ] Error: --online-only, --offline-only and \
+			logging.getLogger().error("[ BVI ] Error: --online-only, --offline-only and \
 			--repository-only are incompatible.")
 			exit(1)
-		
+			
+		if args.qt_menu_nib is not None:
+			if args.installer is None:
+				logging.getLogger().error("[ BVI ] Error: --installer must be specified if \
+				--qt_menu_nib is used.")
+				exit(1)
+			if System.platform() != System.MacOSX:
+				logging.getLogger().error("[ BVI ] Error: --qt_menu_nib is only for Mac OS X.")
+				exit(1)
+
 		self.args = args
 		self.logging_level = logging.DEBUG
 		self.config = Configuration(alt_filename = self.args.config)
@@ -323,6 +341,13 @@ class Application(object):
 			binarycreator(self.args.installer, "%s_tmp" % self.args.repository, 
 				online_only = self.args.online_only, 
 				offline_only = self.args.offline_only)
+				
+	def ____create_hacks(self):
+		"Regroup all hacks for specific problems."
+		if not self.args.qt_menu_nib is None:
+			src = self.args.qt_menu_nib
+			dst = "%s.app/Contents/Resources/qt_menu.nib" % self.args.installer
+			shutil.copytree(src, dst)
 
 
 #-----------------------------------------------------------------------------
