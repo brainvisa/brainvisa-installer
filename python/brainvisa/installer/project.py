@@ -65,7 +65,7 @@ class Project(Component):
 			self.__create_subcategorie(folder)
 			super(Project, self).create(folder)
 
-	def __init__(self, name, configuration, types = None): #pylint: disable=W0231
+	def __init__(self, name, configuration, types = None, compress=False): #pylint: disable=W0231
 		logging.getLogger().info( "[ BVI ] PROJECT: %s" % name )
 		types = types or ['run', 'usrdoc', 'dev', 'devdoc']
 		if not name in brainvisaProjects:
@@ -75,6 +75,7 @@ class Project(Component):
 		self.project = name
 		self.types = types
 		self.type = None
+		self.compress = compress
 		self.configuration = configuration
 		self.licenses = None
 		self.data = None
@@ -117,7 +118,7 @@ class Project(Component):
 					ext = ''
 				full_name = "%s%s" % (package_name, ext)
 				if full_name in packages_info:
-					pack = Package(full_name, self.configuration)
+					pack = Package(full_name, self.configuration, compress=self.compress)
 					if self.configuration.is_package_excluded(full_name):
 						continue
 					pack.create(folder)

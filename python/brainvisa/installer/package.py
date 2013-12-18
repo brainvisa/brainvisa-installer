@@ -61,8 +61,8 @@ class Package(Component):
 		for dep_pack in self.dependencies:
 			dep_pack.create(folder)
 		
-	def __init__(self, name, configuration=None):
-		super(Package, self).__init__(name, True, configuration)
+	def __init__(self, name, configuration=None, compress=False):
+		super(Package, self).__init__(name, True, configuration, compress)
 		self.dependencies = None
 		if self.displayname is None:
 			self.displayname = self.name.title()

@@ -242,6 +242,10 @@ class Application(object):
 			action 	= 'store_true', 
 			help 	= 'Create only the repository for the online installer')
 
+		parser.add_argument('--compress', 
+			action 	= 'store_true', 
+			help 	= 'The packages data in the temporary repository will be compressed [experimental].')
+
 		parser.add_argument('-i', '--installer', 
 			default = 'BrainVISA_Suite-Installer', 
 			metavar = 'file', 
@@ -309,10 +313,10 @@ class Application(object):
 		res = list()
 		if self.args.projects:
 			for project in self.args.projects:
-				res.append(Project(project, self.config, self.args.types))
+				res.append(Project(project, self.config, self.args.types, compress = self.args.compress))
 		if self.args.names:
 			for name in self.args.names:
-				res.append(Package(name, self.config))
+				res.append(Package(name, self.config, compress = self.args.compress))
 		return res
 
 	def __create_configuration(self):

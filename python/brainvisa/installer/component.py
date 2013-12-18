@@ -4,13 +4,14 @@
 import os
 import abc
 import shutil
+import glob
 import datetime
 import os.path
 import logging
 
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.tools import bv_packaging
-#from brainvisa.installer.bvi_utils.tools import archivegen
+from brainvisa.installer.bvi_utils.tools import archivegen
 
 from brainvisa.compilation_info import packages_info
 
@@ -53,7 +54,7 @@ class Component(object):
 		if self.data: 
 			self.__package_data(path)
 
-	def __init__(self, name, data=False, configuration=None):
+	def __init__(self, name, data=False, configuration=None, compress=False):
 		self.name = name
 		self.configuration = configuration
 		self.description = ''
@@ -66,6 +67,7 @@ class Component(object):
 		self.date = None
 		self.script = None
 		self.data = data
+		self.compress = compress
 		logging.getLogger().debug("[ BVI ] Component: %s" % self.name)
 		self.__init_date()
 		self.__init_infos()
@@ -128,8 +130,21 @@ class Component(object):
 		data_folder = "%s/data" % folder
 		os.mkdir(data_folder)
 		self.__bv_packaging(data_folder)
-		#archivegen(folder)
-		#self.__clean_data(data_folder)
+		
+		if not self.compress:
+			return
+		
+		content_data = glob.glob("%s/*" % data_folder)
+		for content in content_data:
+			if not os.path.exists(content):
+				continue
+			if os.path.islink(content):
+				continue
+			archivegen(content)
+			if os.path.isdir(content):
+				shutil.rmtree(content)
+			else:
+				os.remove(content)
 
 	def __bv_packaging(self, folder_data):
 		"Use bv_packaging to package the component data."
