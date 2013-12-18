@@ -87,12 +87,12 @@ def archivegen(folder):
 	---------
 	folder - folder with data which must be compressed. 
 	"""
-	args = ['archivegen', 'data.7z', 'data']
+	args = ['archivegen', '%s.7z' % folder, '%s' % folder]
 	process = subprocess.Popen(args, stdout=subprocess.PIPE, cwd=folder)
 	result = process.wait()
 	logging.getLogger().info(result)
 	if result < 0:
-		raise BVIException(BVIException.ARCHIVEGEN_FAILED, "%s/data" % folder)
+		raise BVIException(BVIException.ARCHIVEGEN_FAILED, folder)
 
 
 def bv_packaging(name, type_, folder):
