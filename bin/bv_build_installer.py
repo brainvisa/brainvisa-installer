@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__author__ 		= "Hakim Taklanti"
-__copyright__ 	= "Copyright 2013, CEA / Saclay"
-__credits__ 	= [	"Hakim Taklanti", 
-					"Yann Cointepas", 
-					"Denis Rivière", 
-					"Nicolas Souedet"]
-__license__ 	= "CeCILL V2"
-__version__ 	= "0.1"
-__maintainer__ 	= "Hakim Taklanti"
-__email__ 		= "hakim.taklanti@altran.com"
-__status__ 		= "release"
+__author__         = "Hakim Taklanti"
+__copyright__     = "Copyright 2013, CEA / Saclay"
+__credits__     = [    "Hakim Taklanti",
+                    "Yann Cointepas",
+                    "Denis Rivière",
+                    "Nicolas Souedet"]
+__license__     = "CeCILL V2"
+__version__     = "0.1"
+__maintainer__     = "Hakim Taklanti"
+__email__         = "hakim.taklanti@altran.com"
+__status__         = "release"
 
 
 #  This software and supporting documentation are distributed by
@@ -63,6 +63,7 @@ from brainvisa.maker.brainvisa_projects import brainvisaProjects
 from brainvisa.maker.brainvisa_projects import brainvisaComponentsPerProject
 from brainvisa.compilation_info import packages_info
 from brainvisa.compilation_info import packages_dependencies
+import brainvisa.maker.brainvisa_projects_versions as projects_versions
 
 
 #-----------------------------------------------------------------------------
@@ -82,11 +83,11 @@ Example:
 """
 
 INFO_TABLE_ROW = """<tr>
-	<td>%s</td>
-	<td>%s</td>
-	<td>%s</td>
-	<td>%s</td>
-	<td>%s</td>
+    <td>%s</td>
+    <td>%s</td>
+    <td>%s</td>
+    <td>%s</td>
+    <td>%s</td>
 </tr>
 """
 
@@ -126,62 +127,62 @@ MESSAGE_BVI_INSTALLER = """
 
 HTML_HEADER = """<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<meta content="Hakim Taklanti" name="author" />
-		<meta content="2013-10-14T17:24:52+0200" name="date" />
-		<meta content="CEA / Saclay" name="copyright" />
-		<meta content="BrainVISA; Neurospin; CEA; Saclay; MIRCEN" name="keywords" />
-		<meta content="" name="description" />
-		<meta content="NOINDEX, NOFOLLOW" name="ROBOTS" />
-		<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-		<meta content="application/xhtml+xml; charset=UTF-8" http-equiv="content-type" />
-		<meta content="text/css" http-equiv="content-style-type" />
-		<meta content="0" http-equiv="expires" />
-		<title>BrainVISA Packages</title>
-		<style type="text/css">
-			table {
-				border:1px solid black;
-				text-align: center;
-			}
+    <head>
+        <meta charset="utf-8" />
+        <meta content="Hakim Taklanti" name="author" />
+        <meta content="2013-10-14T17:24:52+0200" name="date" />
+        <meta content="CEA / Saclay" name="copyright" />
+        <meta content="BrainVISA; Neurospin; CEA; Saclay; MIRCEN" name="keywords" />
+        <meta content="" name="description" />
+        <meta content="NOINDEX, NOFOLLOW" name="ROBOTS" />
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+        <meta content="application/xhtml+xml; charset=UTF-8" http-equiv="content-type" />
+        <meta content="text/css" http-equiv="content-style-type" />
+        <meta content="0" http-equiv="expires" />
+        <title>BrainVISA Packages</title>
+        <style type="text/css">
+            table {
+                border:1px solid black;
+                text-align: center;
+            }
 
-			td, th {
-				border:1px solid black;
-				padding:8px;
-			}
-		</style>
-	</head>
-	<body>
-		<header>
-			<h1>BrainVISA Packages</h1>
-		</header>
-		<section>
-			<article>
-    			<table>
-				   <caption>Packages List</caption>
-				   <thead>
-				       <tr>
-							<th>Project</th>
-							<th>Package</th>
-							<th>Type</th>
-							<th>Version</th>
-							<th>License</th>
-				       </tr>
-				   </thead>
-				   <tbody>			   
+            td, th {
+                border:1px solid black;
+                padding:8px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>BrainVISA Packages</h1>
+        </header>
+        <section>
+            <article>
+                <table>
+                   <caption>Packages List</caption>
+                   <thead>
+                       <tr>
+                            <th>Project</th>
+                            <th>Package</th>
+                            <th>Type</th>
+                            <th>Version</th>
+                            <th>License</th>
+                       </tr>
+                   </thead>
+                   <tbody>
 """
 
 HTML_FOOTER = """
-					</tbody>
-				</table>
-			</article>
-		</section>
-		
-		<footer>
-			<p style="text-align:center;">Copyright CEA - Tous droits réservés<br />
-			<a style="text-align:center;" href="http://brainvisa.info">BrainVISA.info</a></p>
-		</footer>
-	</body>
+                    </tbody>
+                </table>
+            </article>
+        </section>
+    
+        <footer>
+            <p style="text-align:center;">Copyright CEA - Tous droits réservés<br />
+            <a style="text-align:center;" href="http://brainvisa.info">BrainVISA.info</a></p>
+        </footer>
+    </body>
 </html>
 """
 
@@ -191,246 +192,244 @@ HTML_FOOTER = """
 #-----------------------------------------------------------------------------
 
 class Application(object):
-	"Entry point of BrainVISA Installer."
+    "Entry point of BrainVISA Installer."
 
-	def start(self):
-		"Start BrainVISA Installer process."
-		logging.getLogger().info(MESSAGE_BVI_HEADER)
-		self.__configure_logging()
-		self.__create_configuration()
-		self.__create_information()
-		self.__create_repository()
-		self.__create_installer()
-		self.__create_hacks()
-		logging.getLogger().info("End.\n")
+    def start(self):
+        "Start BrainVISA Installer process."
+        logging.getLogger().info(MESSAGE_BVI_HEADER)
+        self.__configure_logging()
+        self.__create_configuration()
+        self.__create_information()
+        self.__create_repository()
+        self.__create_installer()
+        self.__create_hacks()
+        logging.getLogger().info("End.\n")
 
-	def __init__(self, argv):
-		"Parse the command line arguments."
-		parser = argparse.ArgumentParser(
-			formatter_class = argparse.RawDescriptionHelpFormatter,
-			description 	= MESSAGE_HELP_HEADER,
-			epilog 			= MESSAGE_HELP_EPILOG)
-		
-		parser.add_argument('-p', '--projects',
-			type 	= valid_projects,  
-			nargs 	= '+', 
-			metavar = 'project', 
-			help 	= 'Projects to include in the installer and the repository')
+    def __init__(self, argv):
+        "Parse the command line arguments."
+        parser = argparse.ArgumentParser(
+            formatter_class = argparse.RawDescriptionHelpFormatter,
+            description     = MESSAGE_HELP_HEADER,
+            epilog             = MESSAGE_HELP_EPILOG)
+    
+        parser.add_argument('-p', '--projects',
+            type     = valid_projects,
+            nargs     = '+',
+            metavar = 'project',
+            help     = 'Projects to include in the installer and the repository')
 
-		parser.add_argument('-n', '--names',
-			type 	= valid_names,
-			nargs 	= '+', 
-			metavar = 'name', 
-			help 	= 'Package\'s names to include in the installer and the repository')
+        parser.add_argument('-n', '--names',
+            type     = valid_names,
+            nargs     = '+',
+            metavar = 'name',
+            help     = 'Package\'s names to include in the installer and the repository')
 
-		parser.add_argument('-t', '--types', 
-			nargs 	= '+', 
-			choices = ['run', 'dev', 'usrdoc', 'devdoc'], 
-			default = ['run', 'dev', 'usrdoc', 'devdoc'],
-			metavar = 'name', 
-			help 	= 'Package\'s types (default: "run", "dev", "doc" and "devdoc")')
+        parser.add_argument('-t', '--types',
+            nargs     = '+',
+            choices = ['run', 'dev', 'usrdoc', 'devdoc'],
+            default = ['run', 'dev', 'usrdoc', 'devdoc'],
+            metavar = 'name',
+            help     = 'Package\'s types (default: "run", "dev", "doc" and "devdoc")')
 
-		parser.add_argument('--online-only', 
-			action 	= 'store_true', 
-			help 	= 'Create only an online installer')
+        parser.add_argument('--online-only',
+            action     = 'store_true',
+            help     = 'Create only an online installer')
 
-		parser.add_argument('--offline-only', 
-			action 	= 'store_true', 
-			help 	= 'Create only an offline installer')
-		
-		parser.add_argument('--repository-only', 
-			action 	= 'store_true', 
-			help 	= 'Create only the repository for the online installer')
+        parser.add_argument('--offline-only',
+            action     = 'store_true',
+            help     = 'Create only an offline installer')
+    
+        parser.add_argument('--repository-only',
+            action     = 'store_true',
+            help     = 'Create only the repository for the online installer')
 
-		parser.add_argument('--compress', 
-			action 	= 'store_true', 
-			help 	= 'The packages data in the temporary repository will be compressed [experimental].')
+        parser.add_argument('--compress',
+            action     = 'store_true',
+            help     = 'The packages data in the temporary repository will be compressed [experimental].')
 
-		parser.add_argument('-i', '--installer', 
-			default = 'BrainVISA_Suite-Installer', 
-			metavar = 'file', 
-			help 	= 'Installer name (optional only if --repository-only is specified).')
+        parser.add_argument('-i', '--installer',
+            default = 'BrainVISA_Suite-Installer',
+            metavar = 'file',
+            help     = 'Installer name (optional only if --repository-only is specified).')
 
-		parser.add_argument('-r', '--repository', 
-			default = None, 
-			metavar = 'dir', 
-			required= True,
-			help 	= 'Repository name.')
+        parser.add_argument('-r', '--repository',
+            default = None,
+            metavar = 'dir',
+            required= True,
+            help     = 'Repository name.')
 
-		parser.add_argument('-c', '--config', 
-			type 	= valid_config, 
-			default = None, 
-			metavar = 'file', 
-			help 	= 'Additional configuration XML file')
-			
-		parser.add_argument('--qt_menu_nib', 
-			default = None,
-			help 	= 'For Mac OS X 10.5: copy the specified qt_menu.nib folder in the \
-			installer OSX App package. Use this option, if the OS X installer did not \
-			found the qt_menu.nib folder.')
+        parser.add_argument('-c', '--config',
+            type     = valid_config,
+            default = None,
+            metavar = 'file',
+            help     = 'Additional configuration XML file')
+    
+        parser.add_argument('--qt_menu_nib',
+            default = None,
+            help     = 'For Mac OS X 10.5: copy the specified qt_menu.nib folder in the \
+            installer OSX App package. Use this option, if the OS X installer did not \
+            found the qt_menu.nib folder.')
 
-		parser.add_argument('-v', '--version',
-			action 	= 'version',
-			version = '%(prog)s [' + __status__ + '] - ' + __version__,
-			help 	= 'Show the version number.')
+        parser.add_argument('-v', '--version',
+            action     = 'version',
+            version = '%(prog)s [' + __status__ + '] - ' + __version__,
+            help     = 'Show the version number.')
 
-		args = parser.parse_args(argv[1:])
+        args = parser.parse_args(argv[1:])
 
-		if args.online_only + args.offline_only + args.repository_only > 1:
-			logging.getLogger().error("[ BVI ] Error: --online-only, --offline-only and \
-			--repository-only are incompatible.")
-			exit(1)
-			
-		if args.qt_menu_nib is not None:
-			if args.installer is None:
-				logging.getLogger().error("[ BVI ] Error: --installer must be specified if \
-				--qt_menu_nib is used.")
-				exit(1)
-			if System.platform() != System.MacOSX:
-				logging.getLogger().error("[ BVI ] Error: --qt_menu_nib is only for Mac OS X.")
-				exit(1)
+        if args.online_only + args.offline_only + args.repository_only > 1:
+            logging.getLogger().error("[ BVI ] Error: --online-only, --offline-only and \
+            --repository-only are incompatible.")
+            exit(1)
+    
+        if args.qt_menu_nib is not None:
+            if args.installer is None:
+                logging.getLogger().error("[ BVI ] Error: --installer must be specified if \
+                --qt_menu_nib is used.")
+                exit(1)
+            if System.platform() != System.MacOSX:
+                logging.getLogger().error("[ BVI ] Error: --qt_menu_nib is only for Mac OS X.")
+                exit(1)
 
-		self.args = args
-		self.logging_level = logging.DEBUG
-		self.config = Configuration(alt_filename = self.args.config)
-		self.components = self.__group_components()
+        self.args = args
+        self.logging_level = logging.DEBUG
+        self.config = Configuration(alt_filename = self.args.config)
+        self.components = self.__group_components()
 
-	def __configure_logging(self):
-		logger = logging.getLogger()
-		logger.setLevel(logging.DEBUG)
-		formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
-		file_handler = RotatingFileHandler('bv_build_installer.log', 'a', 1000000, 1)
-		file_handler.setLevel(logging.DEBUG)
-		file_handler.setFormatter(formatter)
-		logger.addHandler(file_handler)
-		steam_handler = logging.StreamHandler()
-		steam_handler.setLevel(logging.DEBUG)
-		logger.addHandler(steam_handler)
+    def __configure_logging(self):
+        logger = logging.getLogger()
+        logger.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
+        file_handler = RotatingFileHandler('bv_build_installer.log', 'a', 1000000, 1)
+        file_handler.setLevel(logging.DEBUG)
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+        steam_handler = logging.StreamHandler()
+        steam_handler.setLevel(logging.DEBUG)
+        logger.addHandler(steam_handler)
 
-	def __group_components(self):
-		"Group the projets et packages in one list. The projects and the \
-		packages have the same interface."
-		res = list()
-		if self.args.projects:
-			for project in self.args.projects:
-				res.append(Project(project, self.config, self.args.types, compress = self.args.compress))
-		if self.args.names:
-			for name in self.args.names:
-				res.append(Package(name, self.config, compress = self.args.compress))
-		return res
+    def __group_components(self):
+        "Group the projets and packages in one list. The projects and the \
+        packages have the same interface."
+        res = list()
+        if self.args.projects:
+            for project in self.args.projects:
+                res.append(Project(project, self.config, self.args.types, compress = self.args.compress))
+        if self.args.names:
+            for name in self.args.names:
+                res.append(Package(name, self.config, compress = self.args.compress))
+        return res
 
-	def __create_configuration(self):
-		"Create the temporary repository for the configuration."
-		logging.getLogger().info(MESSAGE_BVI_CONFIGURATION)
-		temporary_folder = "%s_tmp" % self.args.repository
-		rep = Repository(temporary_folder, self.config, self.components)
-		rep.create()
+    def __create_configuration(self):
+        "Create the temporary repository for the configuration."
+        logging.getLogger().info(MESSAGE_BVI_CONFIGURATION)
+        temporary_folder = "%s_tmp" % self.args.repository
+        rep = Repository(temporary_folder, self.config, self.components)
+        rep.create()
 
-	def __create_information(self):
-		"Create the packages information file."
-		logging.getLogger().info(MESSAGE_BVI_INFORMATION)
-		info_file = "%s_infos.html" % self.args.repository
-		write_info(info_file, self.args.projects, self.args.names)
+    def __create_information(self):
+        "Create the packages information file."
+        logging.getLogger().info(MESSAGE_BVI_INFORMATION)
+        info_file = "%s_infos.html" % self.args.repository
+        write_info(info_file, self.args.projects, self.args.names)
 
-	def __create_repository(self):
-		"Create the online repository."
-		if not self.args.offline_only:
-			logging.getLogger().info(MESSAGE_BVI_REPOSITORY)
-			repogen("%s_tmp" % self.args.repository, self.args.repository, update=True)
+    def __create_repository(self):
+        "Create the online repository."
+        if not self.args.offline_only:
+            logging.getLogger().info(MESSAGE_BVI_REPOSITORY)
+            repogen("%s_tmp" % self.args.repository, self.args.repository, update=True)
 
-	def __create_installer(self):
-		"Create the binary installer."
-		if not self.args.repository_only:
-			logging.getLogger().info(MESSAGE_BVI_INSTALLER)
-			binarycreator(self.args.installer, "%s_tmp" % self.args.repository, 
-				online_only = self.args.online_only, 
-				offline_only = self.args.offline_only)
-				
-	def __create_hacks(self):
-		"Regroup all hacks for specific problems."
-		if not self.args.qt_menu_nib is None:
-			src = self.args.qt_menu_nib
-			dst = "%s.app/Contents/Resources/qt_menu.nib" % self.args.installer
-			shutil.copytree(src, dst)
+    def __create_installer(self):
+        "Create the binary installer."
+        if not self.args.repository_only:
+            logging.getLogger().info(MESSAGE_BVI_INSTALLER)
+            binarycreator(self.args.installer, "%s_tmp" % self.args.repository,
+                online_only = self.args.online_only,
+                offline_only = self.args.offline_only)
+
+    def __create_hacks(self):
+        "Regroup all hacks for specific problems."
+        if not self.args.qt_menu_nib is None:
+            src = self.args.qt_menu_nib
+            dst = "%s.app/Contents/Resources/qt_menu.nib" % self.args.installer
+            shutil.copytree(src, dst)
 
 
 #-----------------------------------------------------------------------------
 # Methods
 #-----------------------------------------------------------------------------
 def valid_projects(arg):
-	"Check if the project exists."
-	if not arg in brainvisaProjects:
-		error = MESSAGE_INVALID_PROJECT % arg
-		logging.getLogger().error(error)
-		raise argparse.ArgumentTypeError(error)
-	for component in brainvisaComponentsPerProject[arg]:
-		valid_names(component)
-	return arg
+    "Check if the project exists."
+    if not arg in brainvisaProjects and arg not in packages_info:
+        error = MESSAGE_INVALID_PROJECT % arg
+        logging.getLogger().error(error)
+        raise argparse.ArgumentTypeError(error)
+    return arg
 
 
 def valid_names(arg):
-	"Check if the component exists."
-	if not arg in packages_info:
-		error = MESSAGE_INVALID_NAME % arg
-		logging.getLogger().error(error)
-		raise argparse.ArgumentTypeError(error)
-	return arg
+    "Check if the component exists."
+    if not arg in packages_info:
+        error = MESSAGE_INVALID_NAME % arg
+        logging.getLogger().error(error)
+        raise argparse.ArgumentTypeError(error)
+    return arg
 
 
 def valid_config(arg):
-	"Check if the config file exist."
-	if not os.path.isfile(arg):
-		error = MESSAGE_INVALID_CONFIG % arg
-		logging.getLogger().error(error)
-		raise argparse.ArgumentTypeError(error)
-	return arg
+    "Check if the config file exist."
+    if not os.path.isfile(arg):
+        error = MESSAGE_INVALID_CONFIG % arg
+        logging.getLogger().error(error)
+        raise argparse.ArgumentTypeError(error)
+    return arg
 
 
 def write_info(filename, projects, names):
-	"Write a HTML table with the list of packages."
-	list_packages = set()
-	with open(filename, 'w') as fo:
-		fo.write(HTML_HEADER)
-		if projects:
-			for project in projects:
-				for component in brainvisaComponentsPerProject[project]:
-					write_info_package(fo, component, list_packages)
-		if names:
-			for name in names:
-				write_info_package(fo, name, list_packages)
-		fo.write(HTML_FOOTER)
+    "Write a HTML table with the list of packages."
+    list_packages = set()
+    with open(filename, 'w') as fo:
+        fo.write(HTML_HEADER)
+        if projects:
+            for project in projects:
+                for component in projects_versions.project_components( project ):
+                    write_info_package(fo, component, list_packages)
+        if names:
+            for name in names:
+                write_info_package(fo, name, list_packages)
+        fo.write(HTML_FOOTER)
 
 
 def write_info_package(fo, component, list_packages):
-	"Write a HTML row with the package's information."
-	info_package 	= component
-	info_project 	= ''
-	info_type 		= ''
-	info_version 	= ''
-	info_licenses 	= ''
-	infos = packages_info.get(component)
-	if infos:
-		info_type = infos.get('type', '')
-		info_version = infos.get('version', '')
-		info_licenses = infos.get('licences', '')
-		info_project = infos.get('project', '')
-		info_licenses = ', '.join(info_licenses)
+    "Write a HTML row with the package's information."
+    info_package     = component
+    info_project     = ''
+    info_type         = ''
+    info_version     = ''
+    info_licenses     = ''
+    infos = packages_info.get(component)
+    if infos:
+        info_type = infos.get('type', '')
+        info_version = infos.get('version', '')
+        info_licenses = infos.get('licences', '')
+        info_project = infos.get('project', '')
+        info_licenses = ', '.join(info_licenses)
 
-	html = INFO_TABLE_ROW % (info_project, info_package, info_type, 
-		info_version, info_licenses)
-	if not info_package in list_packages:
-		fo.write(html)
-		list_packages.add(info_package)
+    html = INFO_TABLE_ROW % (info_project, info_package, info_type,
+        info_version, info_licenses)
+    if not info_package in list_packages:
+        fo.write(html)
+        list_packages.add(info_package)
 
-	dependencies = packages_dependencies.get(info_package)
-	if dependencies:
-		for dependency in dependencies:
-			write_info_package(fo, dependency[1], list_packages)
+    dependencies = packages_dependencies.get(info_package)
+    if dependencies:
+        for dependency in dependencies:
+            write_info_package(fo, dependency[1], list_packages)
 
 #-----------------------------------------------------------------------------
 # Main
 #-----------------------------------------------------------------------------
 if __name__ == "__main__":
-	import sys	
-	app = Application(sys.argv)
-	app.start()
+    import sys
+    app = Application(sys.argv)
+    app.start()
