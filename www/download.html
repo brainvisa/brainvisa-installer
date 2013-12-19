@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="Hakim Taklanti" name="author" />
+		<meta content="2013-10-14T17:24:52+0200" name="date" />
+		<meta content="CEA / Saclay" name="copyright" />
+		<meta content="BrainVISA; Neurospin; CEA; Saclay; MIRCEN" name="keywords" />
+		<meta content="" name="description" />
+		<meta content="NOINDEX, NOFOLLOW" name="ROBOTS" />
+		<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+		<meta content="application/xhtml+xml; charset=UTF-8" http-equiv="content-type" />
+		<meta content="text/css" http-equiv="content-style-type" />
+		<meta content="0" http-equiv="expires" />
+		<link href="styles.css" rel="stylesheet" />
+		<title>BrainVISA</title>
+		<script src="detect.js"></script>
+	</head>
+	<body>
+		<header>
+			<h1>BrainVISA / Download</h1>
+			<img id="logo" class="logo" src="images/brainvisa.png" alt="BrainVISA" />
+		</header>
+		<nav>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="download.html">Download</a></li>
+				<li><a href="packages.html">Packages</a></li>
+				<li><a href="user_guide.html">User's guide</a></li>
+				<li><a href="dev_guide.html">Developpers</a></li>
+			</ul>
+		</nav>
+		<section>
+    		<article>
+    			<h2>Installer</h2>
+    			<div class="download" id="download">
+	    			<a href="#" id="download_link_binary">
+	    				<p><img src="images/download_icon.png" /></p>
+						<script>
+							var dlb = document.getElementById('download_link_binary');
+							dlb.href = myURL;
+							document.write('<p>Download BrainVISA Suite Online Installer ' + myOS + '</p>');
+						</script>
+	    			</a>
+	    			<p><a href="#" id="download_link_md5">Download MD5 checksum</a></p>
+	    			<script>
+	    				var dlm = document.getElementById('download_link_md5');
+	    				dlm.href = myMD5;
+	    			</script>
+    			</div>
+    			<p>See the <a href="user_guide.html">user's guide</a> for more information</p>
+
+    			<h2>Binaries</h2>
+    			<table>
+				   <thead>
+				       <tr>
+							<th>OS</th>
+							<th>Online</th>
+							<th>Online<br/>md5</th>
+							<th>Offline</th>
+							<th>Offline<br/>md5</th>
+				       </tr>
+				   </thead>
+				   <tbody>			   
+						<tr>
+							<td>Linux 64 bits</td>
+							<td><a href="#" id="download_link_installer_x86_64_online">Download (bin)</a></td>
+							<td><a href="#" id="download_link_installer_x86_64_online_md5">Download (txt)</a></td>
+							<td><a href="#" id="download_link_installer_x86_64_offline">Download (bin)</a></td>
+							<td><a href="#" id="download_link_installer_x86_64_offline_md5">Download (txt)</a></td>
+							<script>
+								var dlio = document.getElementById('download_link_installer_x86_64_online');
+								var dlmo = document.getElementById('download_link_installer_x86_64_online_md5');
+								var dlif = document.getElementById('download_link_installer_x86_64_offline');
+								var dlmf = document.getElementById('download_link_installer_x86_64_offline_md5');
+
+								dlio.href = links.linux64[0];
+								dlmo.href = links.linux64[1];
+								dlif.href = links.linux64[3];
+								dlmf.href = links.linux64[4];
+							</script>
+						</tr>
+
+						<tr>
+							<td>Linux 32 bits</td>
+							<td><a href="#" id="download_link_installer_x86_32_online">Download (bin)</a></td>
+							<td><a href="#" id="download_link_installer_x86_32_online_md5">Download (txt)</a></td>
+							<td><a href="#" id="download_link_installer_x86_32_offline">Download (bin)</a></td>
+							<td><a href="#" id="download_link_installer_x86_32_offline_md5">Download (txt)</a></td>
+							<script>
+								var dliol = document.getElementById('download_link_installer_x86_32_online');
+								var dlmol = document.getElementById('download_link_installer_x86_32_online_md5');
+								var dlifl = document.getElementById('download_link_installer_x86_32_offline');
+								var dlmfl = document.getElementById('download_link_installer_x86_32_offline_md5');
+
+								dliol.href = links.linux32[0];
+								dlmol.href = links.linux32[1];
+								dlifl.href = links.linux32[3];
+								dlmfl.href = links.linux32[4];
+							</script>
+						</tr>
+
+						<tr>
+							<td>Windows 32 bits</td>
+							<td><a href="#" id="download_link_installer_win32_online">Download (exe)</a></td>
+							<td><a href="#" id="download_link_installer_win32_online_md5">Download (txt)</a></td>
+							<td><a href="#" id="download_link_installer_win32_offline">Download (exe)</a></td>
+							<td><a href="#" id="download_link_installer_win32_offline_md5">Download (txt)</a></td>
+							<script>
+								var dliow = document.getElementById('download_link_installer_win32_online');
+								var dlmow = document.getElementById('download_link_installer_win32_online_md5');
+								var dlifw = document.getElementById('download_link_installer_win32_offline');
+								var dlmfw = document.getElementById('download_link_installer_win32_offline_md5');
+
+								dliow.href = links.win32[0];
+								dlmow.href = links.win32[1];
+								dlifw.href = links.win32[3];
+								dlmfw.href = links.win32[4];
+							</script>
+						</tr>
+
+						<tr>
+							<td>Mac OS X 10.5</td>
+							<td><a href="#" id="download_link_installer_osx_online">Download (dmg)</a></td>
+							<td><a href="#" id="download_link_installer_osx_online_md5">Download (txt)</a></td>
+							<td>-<a href="#" id="download_link_installer_osx_offline"></a></td>
+							<td>-<a href="#" id="download_link_installer_osx_offline_md5"></a></td>
+							<script>
+								var dliom = document.getElementById('download_link_installer_osx_online');
+								var dlmom = document.getElementById('download_link_installer_osx_online_md5');
+								var dlifm = document.getElementById('download_link_installer_osx_offline');
+								var dlmfm = document.getElementById('download_link_installer_osx_offline_md5');
+
+								dliom.href = links.osx[0];
+								dlmom.href = links.osx[1];
+								dlifm.href = links.osx[3];
+								dlmfm.href = links.osx[4];
+							</script>
+						</tr>
+
+						<tr>
+							<td>Mac OS X 10.5</td>
+							<td><a href="#" id="download_link_installer_osx_online_zip">Download (zip)</a></td>
+							<td><a href="#" id="download_link_installer_osx_online_zip_md5">Download (txt)</a></td>
+							<td>-</td>
+							<td>-</td>
+							<script>
+								var dliomz = document.getElementById('download_link_installer_osx_online_zip');
+								var dlmomz = document.getElementById('download_link_installer_osx_online_zip_md5');
+								dliomz.href = links.osx[5];
+								dlmomz.href = links.osx[6];
+							</script>
+						</tr>
+					</tbody>
+				</table>
+			</article>
+			<article>
+    			<h2>Repositories</h2>
+    			<table>
+				   <tbody>			   
+						<tr>
+							<td>Linux (64 bits)</td>
+							<td style="text-align:left;"><code>http://brainvisa.fr/repositories/linux64</code></td>
+						</tr>
+						<tr>
+							<td>Linux (32 bits)</td>
+							<td style="text-align:left;"><code>http://brainvisa.fr/repositories/linux32</code></td>
+						</tr>
+						<tr>
+							<td>Mac OS X (>= 10.5)</td>
+							<td style="text-align:left;"><code>http://brainvisa.fr/repositories/osx</code></td>
+						</tr>
+						<tr>
+							<td>Windows (32 bits)</td>
+							<td style="text-align:left;"><code>http://brainvisa.fr/repositories/win32</code></td>
+						</tr>
+					</tbody>
+				</table>
+			</article>
+		</section>
+		
+		<footer>
+			<p>Copyright CEA - Tous droits réservés<br />
+			<a href="http://brainvisa.info">BrainVISA.info</a></p>
+		</footer>
+	</body>
+</html>
