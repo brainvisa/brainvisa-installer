@@ -66,7 +66,8 @@ class Project(Component):
             self.__create_subcategory(folder)
             super(Project, self).create(folder)
 
-    def __init__(self, name, configuration, types = None, compress=False): #pylint: disable=W0231
+    def __init__(self, name, configuration, types = None, compress=False,
+            remove_private=False): #pylint: disable=W0231
         logging.getLogger().info( "[ BVI ] PROJECT: %s" % name )
         types = types or ['run', 'usrdoc', 'dev', 'devdoc']
         if not name in brainvisaProjects and not name in packages_info:
@@ -81,10 +82,11 @@ class Project(Component):
         self.licenses = None
         self.data = None
         self.script = None
+        self.remove_private = remove_private
         self.version = project_version(self.name)
         self.description = project_description(self.name)
         self.dep_packages = collections.defaultdict(list)
-        first_component = project_components(self.name)[0]
+        first_component = project_components(self.name, self.remove_private)[0]
         ex_version = self.configuration.exception_info_by_name(first_component, 'VERSION')
         if ex_version is None:
             if first_component in packages_info:
@@ -111,7 +113,7 @@ class Project(Component):
         p.save("%s/%s/meta/package.xml" % (folder, name))
 
     def __create_pacakges(self, folder):
-        components = project_components(self.name)
+        components = project_components(self.name, self.remove_private)
         for package_name in components:
             for type_name in self.types:
                 ext = '-%s' % type_name

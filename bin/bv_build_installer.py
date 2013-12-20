@@ -270,6 +270,10 @@ class Application(object):
             installer OSX App package. Use this option, if the OS X installer did not \
             found the qt_menu.nib folder.')
 
+        parser.add_argument('--i2bm',
+            action  = 'store_true',
+            help    = 'Include I2BM private components - by default such private components are excluded from the package.')
+
         parser.add_argument('-v', '--version',
             action     = 'version',
             version = '%(prog)s [' + __status__ + '] - ' + __version__,
@@ -314,7 +318,9 @@ class Application(object):
         res = list()
         if self.args.projects:
             for project in self.args.projects:
-                res.append(Project(project, self.config, self.args.types, compress = self.args.compress))
+                res.append(Project(project, self.config, self.args.types,
+                    compress = self.args.compress,
+                    remove_private=not self.args.i2bm))
         if self.args.names:
             for name in self.args.names:
                 res.append(Package(name, self.config, compress = self.args.compress))
@@ -331,7 +337,8 @@ class Application(object):
         "Create the packages information file."
         logging.getLogger().info(MESSAGE_BVI_INFORMATION)
         info_file = "%s_infos.html" % self.args.repository
-        write_info(info_file, self.args.projects, self.args.names)
+        write_info(info_file, self.args.projects, self.args.names,
+            remove_private=not self.args.i2bm)
 
     def __create_repository(self):
         "Create the online repository."
@@ -385,14 +392,16 @@ def valid_config(arg):
     return arg
 
 
-def write_info(filename, projects, names):
+def write_info(filename, projects, names, remove_private):
     "Write a HTML table with the list of packages."
     list_packages = set()
     with open(filename, 'w') as fo:
         fo.write(HTML_HEADER)
         if projects:
             for project in projects:
-                for component in projects_versions.project_components( project ):
+                for component in \
+                        projects_versions.project_components(
+                            project,remove_private=remove_private  ):
                     write_info_package(fo, component, list_packages)
         if names:
             for name in names:
