@@ -259,11 +259,15 @@ class Application(object):
             help     = 'Repository name.')
 
         parser.add_argument('-c', '--config',
-            type     = valid_config,
+            type    = valid_config,
             default = None,
             metavar = 'file',
-            help     = 'Additional configuration XML file')
-    
+            help    = 'Additional configuration XML file')
+
+        parser.add_argument('--no-main-config',
+            action  = 'store_true',
+            help    = 'don\'t read the main BrainVisa config file. Must be used with the -c option')
+
         parser.add_argument('--qt_menu_nib',
             default = None,
             help     = 'For Mac OS X 10.5: copy the specified qt_menu.nib folder in the \
@@ -297,7 +301,11 @@ class Application(object):
 
         self.args = args
         self.logging_level = logging.DEBUG
-        self.config = Configuration(alt_filename = self.args.config)
+        if self.args.no_main_config:
+            kwargs = { 'filename': self.args.config }
+        else:
+            kwargs = { 'alt_filename' : self.args.config }
+        self.config = Configuration(**kwargs)
         self.components = self.__group_components()
 
     def __configure_logging(self):

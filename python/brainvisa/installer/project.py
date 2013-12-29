@@ -54,8 +54,8 @@ class Project(Component):
             Description     = self.description,
             Version         = self.version,
             ReleaseDate     = self.date,
-            Name             = self.ifwname,
-            Script             = self.script,
+            Name            = self.ifwname,
+            Script          = self.script,
             Virtual         = 'false')
         return package
 
@@ -107,8 +107,9 @@ class Project(Component):
                         Version     = self.version,
                         ReleaseDate = self.date,
                         SortingPriority = cat.Priority,
-                        Name         = name,
+                        Name        = name,
                         Virtual     = 'false',
+                        Default     = cat.Default,
                         TagDependencies = self.__clean_dependencies_doublons())
         p.save("%s/%s/meta/package.xml" % (folder, name))
 
