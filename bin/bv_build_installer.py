@@ -50,6 +50,7 @@ import os.path
 import argparse
 import logging
 import shutil
+import re
 from logging.handlers import RotatingFileHandler
 
 from brainvisa.installer.project import Project
@@ -94,6 +95,7 @@ INFO_TABLE_ROW = """<tr>
 MESSAGE_INVALID_PROJECT = "[ BVI ] Error: The project %s does not exist!."
 MESSAGE_INVALID_NAME = "[ BVI ] Error: The component %s does not exist!."
 MESSAGE_INVALID_CONFIG = "[ BVI ] Error: The file %s does not exist!."
+MESSAGE_INVALID_RELEASE = "[ BVI ] Error: The release number %s does not match the required pattern (numbers separated by dots)."
 
 MESSAGE_BVI_HEADER = """
 ===============================================================
@@ -274,6 +276,11 @@ class Application(object):
             installer OSX App package. Use this option, if the OS X installer did not \
             found the qt_menu.nib folder.')
 
+        parser.add_argument('--release',
+            type    = valid_release,
+            default = None,
+            help    = 'force repository release version. default: use BrainVISA release version from the current build.')
+
         parser.add_argument('--i2bm',
             action  = 'store_true',
             help    = 'Include I2BM private components - by default such private components are excluded from the package.')
@@ -305,6 +312,8 @@ class Application(object):
             kwargs = { 'filename': self.args.config }
         else:
             kwargs = { 'alt_filename' : self.args.config }
+        if self.args.release is not None:
+            kwargs[ 'release' ] = self.args.release
         self.config = Configuration(**kwargs)
         self.components = self.__group_components()
 
@@ -395,6 +404,15 @@ def valid_config(arg):
     "Check if the config file exist."
     if not os.path.isfile(arg):
         error = MESSAGE_INVALID_CONFIG % arg
+        logging.getLogger().error(error)
+        raise argparse.ArgumentTypeError(error)
+    return arg
+
+
+def valid_release(arg):
+    "Check if the release version is a valid version number (x.y.z)."
+    if not re.match('^[0-9]+(\.[0-9]+)*$', arg):
+        error = MESSAGE_INVALID_RELEASE % arg
         logging.getLogger().error(error)
         raise argparse.ArgumentTypeError(error)
     return arg

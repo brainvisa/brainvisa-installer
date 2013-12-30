@@ -39,13 +39,16 @@ class TagRepository(object):
         return e
 
     def __init__(self, Url = None, Enabled = None, Username = None,
-        Password = None, DisplayName = None):
+        Password = None, DisplayName = None, Release = None):
         self.Url = Url
         self.Enabled = Enabled
         self.Username = Username
         self.Password = Password
         self.DisplayName = DisplayName
-        self.Release = brainvisa.config.fullVersion
+        if Release is None:
+            self.Release = brainvisa.config.fullVersion
+        else:
+            self.Release = Release
 
     def init_from_configuration(self, element):
         "Initialize from an XML element from XML configuration file."

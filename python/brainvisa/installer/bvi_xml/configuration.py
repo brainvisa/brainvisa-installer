@@ -104,35 +104,35 @@ class Configuration(object): #pylint: disable=R0902
     def ifwconfig(self):
         "Generate a IFWConfig from configuration file."
         config = IFWConfig(
-            Name                             = self.Name,
-            Version                         = self.Version,
-            Title                              = self.Title,
-            Publisher                          = self.Publisher,
-            ProductUrl                      = self.Producturl,
-            Icon                              = None, # Deprecated
-            InstallerApplicationIcon          = None, # Not portable
-            InstallerWindowIcon              = self.Icon,
-            Logo                             = self.Logo,
-            Watermark                         = self.Watermark,
-            Banner                             = None, # Not portable
-            Background                         = None, # Not portable
-            RunProgram                         = None,
-            RunProgramArguments             = None,
-            RunProgramDescription             = None,
-            StartMenuDir                     = self.StartMenuDir,
-            TargetDir                         = self.Targetdir,
-            AdminTargetDir                     = self.Admintargetdir,
-            TagRepositories                 = self.Repositories,
-            UninstallerName                 = self.Uninstallername,
-            UninstallerIniFile                 = None,
-            RemoveTargetDir                 = None,
-            AllowNonAsciiCharacters         = self.Allownonasciicharacters,
-            RepositorySettingsPageVisible     = None, # Default true
-            AllowSpaceInPath                 = self.Allowspaceinpath,
-            DependsOnLocalInstallerBinary     = None,
-            TargetConfigurationFile         = None,
-            Translations                     = None,
-            UrlQueryString                     = None)
+            Name                          = self.Name,
+            Version                       = self.Version,
+            Title                         = self.Title,
+            Publisher                     = self.Publisher,
+            ProductUrl                    = self.Producturl,
+            Icon                          = None, # Deprecated
+            InstallerApplicationIcon      = None, # Not portable
+            InstallerWindowIcon           = self.Icon,
+            Logo                          = self.Logo,
+            Watermark                     = self.Watermark,
+            Banner                        = None, # Not portable
+            Background                    = None, # Not portable
+            RunProgram                    = None,
+            RunProgramArguments           = None,
+            RunProgramDescription         = None,
+            StartMenuDir                  = self.StartMenuDir,
+            TargetDir                     = self.Targetdir,
+            AdminTargetDir                = self.Admintargetdir,
+            TagRepositories               = self.Repositories,
+            UninstallerName               = self.Uninstallername,
+            UninstallerIniFile            = None,
+            RemoveTargetDir               = None,
+            AllowNonAsciiCharacters       = self.Allownonasciicharacters,
+            RepositorySettingsPageVisible = None, # Default true
+            AllowSpaceInPath              = self.Allowspaceinpath,
+            DependsOnLocalInstallerBinary = None,
+            TargetConfigurationFile       = None,
+            Translations                  = None,
+            UrlQueryString                = None)
         return config
 
     def read(self, filename):
@@ -156,7 +156,8 @@ class Configuration(object): #pylint: disable=R0902
         self.__init_licenses()
         self.__init_categories()
 
-    def __init__(self, filename = Paths.BVI_CONFIGURATION, alt_filename=None):
+    def __init__(self, filename = Paths.BVI_CONFIGURATION, alt_filename=None,
+            release=None):
         "filename is the default configuration file in share, \
         alt_filename is an optional configuration file \
         to override the default configuration."
@@ -178,6 +179,7 @@ class Configuration(object): #pylint: disable=R0902
         self.Repositories = list()
         self.Licenses = list()
         self.Categories = list()
+        self.Release = release
         self.read(filename)
         if alt_filename is not None:
             self.read(alt_filename)
@@ -188,7 +190,7 @@ class Configuration(object): #pylint: disable=R0902
         if reps is None:
             return
         for rep in reps:
-            self.Repositories.append(TagRepository().init_from_configuration(rep))
+            self.Repositories.append(TagRepository(Release=self.Release).init_from_configuration(rep))
 
     def __init_licenses(self):
         "Return the values of <LICENSES> part (list of TagLicense objects)."
