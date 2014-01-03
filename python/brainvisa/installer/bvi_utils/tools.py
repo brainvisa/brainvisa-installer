@@ -111,5 +111,6 @@ def bv_packaging(name, type_, folder):
 			'-o %s' % folder,
 			'--wrappers',
 			'--no-deps',
+			'--installer',
 			'+name=%s,type=%s' % (name, type_)]
 	os.system(' '.join(args))
