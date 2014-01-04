@@ -20,7 +20,7 @@ from brainvisa.maker.brainvisa_projects import brainvisaComponentsPerProject
 from brainvisa.maker.brainvisa_projects_versions import project_version
 from brainvisa.maker.brainvisa_projects_versions import project_description
 from brainvisa.maker.brainvisa_projects_versions import project_components
-
+from brainvisa.maker.brainvisa_projects_versions import is_default_project
 
 class Project(Component):
     """BrainVISA project.
@@ -102,6 +102,10 @@ class Project(Component):
             return
         os.mkdir(folder_package)
         os.mkdir("%s/meta" % folder_package)
+        if is_default_project( self.name ) and self.type in ( 'run', 'usrdoc' ):
+            is_default = 'true'
+        else:
+            is_default = cat.Default
         p = IFWPackage( DisplayName = cat.Name,
                         Description = cat.Description,
                         Version     = self.version,
@@ -109,7 +113,7 @@ class Project(Component):
                         SortingPriority = cat.Priority,
                         Name        = name,
                         Virtual     = 'false',
-                        Default     = cat.Default,
+                        Default     = is_default,
                         TagDependencies = self.__clean_dependencies_doublons())
         p.save("%s/%s/meta/package.xml" % (folder, name))
 
