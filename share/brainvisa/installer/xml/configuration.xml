@@ -116,8 +116,21 @@ Status:     dev
         <INFO NAME="libtiff-dev" PARAM="VERSION" VALUE="1.0" />
         <INFO NAME="libgcc1-dev" PARAM="VERSION" VALUE="1.0" />
         <!-- BV COMPONENTS EXCEPTIONS -->
+        <INFO NAME="soma-workflow" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="soma-base" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="soma-io" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="soma-qtgui" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="soma-base-gpl" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="soma-io-gpl" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="sulci-models" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="sulci-models" PARAM="DESCRIPTION" VALUE="Sulci recognition models for SPAM-based methods. They are required when using the SPAM-based recognition processes." />
+        <INFO NAME="morphologist-gpl" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morphologist-private" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="baby" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="tms" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="freesurfer_plugin" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="cortical_surface-gpl" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="cortical_surface-private" PARAM="VIRTUAL" VALUE="false" />
         <!-- PACKAGING -->
         <PACKAGE PLATFORM="WIN32" NAME="brainvisa-share" TYPE="PACKAGING" />
     </EXCEPTIONS>
