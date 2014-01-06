@@ -68,12 +68,12 @@ class Component(object):
         self.script = None
         self.data = data
         self.compress = compress
+        self.default = None
         logging.getLogger().debug("[ BVI ] Component: %s" % self.name)
         self.__init_date()
         self.__init_infos()
         if self.configuration is not None:
             self.__init_config()
-        self.default = None
 
     def __init_infos(self):
         "Initialize the component information."
@@ -84,7 +84,9 @@ class Component(object):
             self.version = infos['version']
             if 'licences' in infos:
                 self.licenses = infos['licences']
-            self.default = infos.get( 'default_install', None )
+            default = infos.get( 'default_install', None )
+            if default:
+                self.default = 'true'
         else:
             logging.getLogger().warning("[ BVI ]: WARNING no information for %s" % self.name)
             self.project = ''
