@@ -15,8 +15,7 @@ from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
 from brainvisa.installer.bvi_utils.bvi_exception import BVIException
 
 from brainvisa.compilation_info import packages_info
-from brainvisa.maker.brainvisa_projects import brainvisaProjects
-from brainvisa.maker.brainvisa_projects import brainvisaComponentsPerProject
+from brainvisa.maker.brainvisa_projects import ordered_projects
 from brainvisa.maker.brainvisa_projects_versions import project_version
 from brainvisa.maker.brainvisa_projects_versions import project_description
 from brainvisa.maker.brainvisa_projects_versions import project_components
@@ -70,7 +69,7 @@ class Project(Component):
             remove_private=False): #pylint: disable=W0231
         logging.getLogger().info( "[ BVI ] PROJECT: %s" % name )
         types = types or ['run', 'usrdoc', 'dev', 'devdoc']
-        if not name in brainvisaProjects and not name in packages_info:
+        if not name in ordered_projects and not name in packages_info:
             raise BVIException(BVIException.PROJECT_NONEXISTENT, name)
         super(Project, self)._Component__init_date()
         self.name = name

@@ -60,8 +60,7 @@ from brainvisa.installer.bvi_xml.configuration import Configuration
 from brainvisa.installer.bvi_utils.tools import repogen, binarycreator
 from brainvisa.installer.bvi_utils.system import System
 
-from brainvisa.maker.brainvisa_projects import brainvisaProjects
-from brainvisa.maker.brainvisa_projects import brainvisaComponentsPerProject
+from brainvisa.maker.brainvisa_projects import ordered_projects
 from brainvisa.compilation_info import packages_info
 from brainvisa.compilation_info import packages_dependencies
 import brainvisa.maker.brainvisa_projects_versions as projects_versions
@@ -212,53 +211,53 @@ class Application(object):
         parser = argparse.ArgumentParser(
             formatter_class = argparse.RawDescriptionHelpFormatter,
             description     = MESSAGE_HELP_HEADER,
-            epilog             = MESSAGE_HELP_EPILOG)
-    
+            epilog          = MESSAGE_HELP_EPILOG)
+
         parser.add_argument('-p', '--projects',
-            type     = valid_projects,
-            nargs     = '+',
+            type    = valid_projects,
+            nargs   = '+',
             metavar = 'project',
-            help     = 'Projects to include in the installer and the repository')
+            help    = 'Projects to include in the installer and the repository')
 
         parser.add_argument('-n', '--names',
-            type     = valid_names,
-            nargs     = '+',
+            type    = valid_names,
+            nargs   = '+',
             metavar = 'name',
-            help     = 'Package\'s names to include in the installer and the repository')
+            help    = 'Package\'s names to include in the installer and the repository')
 
         parser.add_argument('-t', '--types',
-            nargs     = '+',
+            nargs   = '+',
             choices = ['run', 'dev', 'usrdoc', 'devdoc'],
             default = ['run', 'dev', 'usrdoc', 'devdoc'],
             metavar = 'name',
-            help     = 'Package\'s types (default: "run", "dev", "doc" and "devdoc")')
+            help    = 'Package\'s types (default: "run", "dev", "doc" and "devdoc")')
 
         parser.add_argument('--online-only',
-            action     = 'store_true',
-            help     = 'Create only an online installer')
+            action  = 'store_true',
+            help    = 'Create only an online installer')
 
         parser.add_argument('--offline-only',
-            action     = 'store_true',
-            help     = 'Create only an offline installer')
-    
+            action  = 'store_true',
+            help    = 'Create only an offline installer')
+
         parser.add_argument('--repository-only',
-            action     = 'store_true',
-            help     = 'Create only the repository for the online installer')
+            action  = 'store_true',
+            help    = 'Create only the repository for the online installer')
 
         parser.add_argument('--compress',
-            action     = 'store_true',
-            help     = 'The packages data in the temporary repository will be compressed [experimental].')
+            action  = 'store_true',
+            help    = 'The packages data in the temporary repository will be compressed [experimental].')
 
         parser.add_argument('-i', '--installer',
             default = 'BrainVISA_Suite-Installer',
             metavar = 'file',
-            help     = 'Installer name (optional only if --repository-only is specified).')
+            help    = 'Installer name (optional only if --repository-only is specified).')
 
         parser.add_argument('-r', '--repository',
             default = None,
             metavar = 'dir',
             required= True,
-            help     = 'Repository name.')
+            help    = 'Repository name.')
 
         parser.add_argument('-c', '--config',
             type    = valid_config,
@@ -272,9 +271,9 @@ class Application(object):
 
         parser.add_argument('--qt_menu_nib',
             default = None,
-            help     = 'For Mac OS X 10.5: copy the specified qt_menu.nib folder in the \
+            help    = 'For Mac OS X 10.5: copy the specified qt_menu.nib folder in the \
             installer OSX App package. Use this option, if the OS X installer did not \
-            found the qt_menu.nib folder.')
+            find the qt_menu.nib folder.')
 
         parser.add_argument('--release',
             type    = valid_release,
@@ -286,9 +285,9 @@ class Application(object):
             help    = 'Include I2BM private components - by default such private components are excluded from the package.')
 
         parser.add_argument('-v', '--version',
-            action     = 'version',
+            action  = 'version',
             version = '%(prog)s [' + __status__ + '] - ' + __version__,
-            help     = 'Show the version number.')
+            help    = 'Show the version number.')
 
         args = parser.parse_args(argv[1:])
 
@@ -384,7 +383,7 @@ class Application(object):
 #-----------------------------------------------------------------------------
 def valid_projects(arg):
     "Check if the project exists."
-    if not arg in brainvisaProjects and arg not in packages_info:
+    if not arg in ordered_projects and arg not in packages_info:
         error = MESSAGE_INVALID_PROJECT % arg
         logging.getLogger().error(error)
         raise argparse.ArgumentTypeError(error)
