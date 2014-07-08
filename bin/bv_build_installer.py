@@ -230,7 +230,7 @@ class Application(object):
             choices = ['run', 'dev', 'usrdoc', 'devdoc'],
             default = ['run', 'dev', 'usrdoc', 'devdoc'],
             metavar = 'name',
-            help    = 'Package\'s types (default: "run", "dev", "doc" and "devdoc")')
+            help    = 'Package\'s types (default: "run", "dev", "usrdoc" and "devdoc")')
 
         parser.add_argument('--online-only',
             action  = 'store_true',
