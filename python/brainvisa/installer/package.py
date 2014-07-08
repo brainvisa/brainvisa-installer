@@ -88,7 +88,6 @@ class Package(Component):
             if not self.configuration.with_thirdparty \
                     and pinfo['type'] == 'thirdparty':
                 continue
-            print '$ sub package', dep_name, ', write_it:', self.configuration.with_dependencies
             dep_pack = Package(dep_name, self.configuration,
                 write_it=self.configuration.with_dependencies)
             self.dependencies.append(dep_pack)
