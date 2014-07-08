@@ -33,15 +33,17 @@ class Project(Component):
                       project (see CATEGORY section).
     types            : list of type's names: run, usrdoc, dev, devdoc.
                       Default: ['run', 'usrdoc', 'dev', 'devdoc']
+    compress         : (bool, optional) perform compression
+    remove_private   : (bool, optional) remove private components in the project
     """
 
     @property
     def ifwname(self):
         p_name = ft.ifw_name(self.name)
         res = {
-            'run'         : "brainvisa.app.%s" % (p_name),
+            'run'       : "brainvisa.app.%s" % (p_name),
             'usrdoc'    : "brainvisa.app.%s" % (p_name),
-            'dev'        : "brainvisa.dev.%s" % (p_name),
+            'dev'       : "brainvisa.dev.%s" % (p_name),
             'devdoc'    : "brainvisa.dev.%s" % (p_name)
         }
         return res[self.type]
@@ -125,7 +127,8 @@ class Project(Component):
                     ext = ''
                 full_name = "%s%s" % (package_name, ext)
                 if full_name in packages_info:
-                    pack = Package(full_name, self.configuration, compress=self.compress)
+                    pack = Package(full_name, self.configuration, 
+                        compress=self.compress)
                     if self.configuration.is_package_excluded(full_name):
                         continue
                     pack.create(folder)

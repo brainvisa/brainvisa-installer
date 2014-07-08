@@ -157,7 +157,7 @@ class Configuration(object): #pylint: disable=R0902
         self.__init_categories()
 
     def __init__(self, filename = Paths.BVI_CONFIGURATION, alt_filename=None,
-            release=None):
+            release=None, with_dependencies=True, with_thirdparty=True):
         "filename is the default configuration file in share, \
         alt_filename is an optional configuration file \
         to override the default configuration."
@@ -180,6 +180,8 @@ class Configuration(object): #pylint: disable=R0902
         self.Licenses = list()
         self.Categories = list()
         self.Release = release
+        self.with_dependencies = with_dependencies
+        self.with_thirdparty = with_thirdparty
         self.read(filename)
         if alt_filename is not None:
             self.read(alt_filename)

@@ -19,17 +19,19 @@ from brainvisa.compilation_info import packages_info
 class Component(object):
     """BrainVISA component.
 
-    Component is an abstract class for the component of BrainVISA installer 
-    repository. If the BrainVISA component is builded, Component packages
-    the data during the creation. 
+    Component is an abstract class for the component of BrainVISA installer
+    repository. If the BrainVISA component is built, Component packages
+    the data during the creation.
 
     The ifwname and ifwpackage methods must be redefined.
 
     Parameters
     ----------
     name : name of component.
-    data : True if the component contains data, the data will be packaged 
+    data : True if the component contains data, the data will be packaged
            with bv_packaging.
+    configuration: Configuration object
+    compress: (bool) perform compression
     """
 
     __metaclass__ = abc.ABCMeta
@@ -51,7 +53,7 @@ class Component(object):
             return
         os.mkdir(path)
         self.__package_meta(path)
-        if self.data: 
+        if self.data:
             self.__package_data(path)
 
     def __init__(self, name, data=False, configuration=None, compress=False):
@@ -134,10 +136,10 @@ class Component(object):
         data_folder = "%s/data" % folder
         os.mkdir(data_folder)
         self.__bv_packaging(data_folder)
-        
+
         if not self.compress:
             return
-        
+
         content_data = glob.glob("%s/*" % data_folder)
         for content in content_data:
             if not os.path.exists(content):
@@ -170,7 +172,7 @@ class Component(object):
         self.ifwpackage."
         if self.configuration is None:
             return
-            
+
         value_script = self.configuration.script_by_name(self.name)
         if value_script is None:
             return

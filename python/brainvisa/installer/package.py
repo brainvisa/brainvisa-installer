@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import logging
 import brainvisa.installer.bvi_utils.format as ft
 from brainvisa.installer.component import Component
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 from brainvisa.installer.bvi_xml.tag_dependency import TagDependency
-from brainvisa.compilation_info import packages_dependencies
+from brainvisa.compilation_info import packages_dependencies, packages_info
 
 
 class Package(Component):
@@ -16,9 +17,9 @@ class Package(Component):
         p_name = ft.ifw_name(self.project)
         c_name = ft.ifw_name(self.name)
         res = {
-            'run'         : "brainvisa.app.%s.run.%s" % (p_name, c_name),
+            'run'       : "brainvisa.app.%s.run.%s" % (p_name, c_name),
             'usrdoc'    : "brainvisa.app.%s.usrdoc.%s" % (p_name, c_name),
-            'dev'        : "brainvisa.dev.%s.dev.%s" % (p_name, c_name),
+            'dev'       : "brainvisa.dev.%s.dev.%s" % (p_name, c_name),
             'devdoc'    : "brainvisa.dev.%s.devdoc.%s" % (p_name, c_name),
             'thirdparty': "brainvisa.app.thirdparty.%s" % (c_name)
         }
@@ -56,15 +57,21 @@ class Package(Component):
         return package
 
     def create(self, folder):
+        if not self.write_it:
+            logging.getLogger().info(
+                "[ BVI ] PACKAGE: %s => skipping writing" % self.name)
+            return
         super(Package, self).create(folder)
         if self.dependencies is None:
             return
         for dep_pack in self.dependencies:
             dep_pack.create(folder)
 
-    def __init__(self, name, configuration=None, compress=False):
+    def __init__(self, name, configuration=None, compress=False,
+            write_it=True):
         super(Package, self).__init__(name, True, configuration, compress)
         self.dependencies = None
+        self.write_it = write_it
         if self.displayname is None:
             self.displayname = self.name.title()
         self.__init_dependencies()
@@ -77,5 +84,11 @@ class Package(Component):
             self.dependencies = list()
         for info in infos_deps:
             dep_name = info[1].decode('utf-8')
-            dep_pack = Package(dep_name, self.configuration)
+            pinfo = packages_info[dep_name]
+            if not self.configuration.with_thirdparty \
+                    and pinfo['type'] == 'thirdparty':
+                continue
+            print '$ sub package', dep_name, ', write_it:', self.configuration.with_dependencies
+            dep_pack = Package(dep_name, self.configuration,
+                write_it=self.configuration.with_dependencies)
             self.dependencies.append(dep_pack)

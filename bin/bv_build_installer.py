@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__author__         = "Hakim Taklanti"
-__copyright__     = "Copyright 2013, CEA / Saclay"
-__credits__     = [    "Hakim Taklanti",
-                    "Yann Cointepas",
-                    "Denis Rivière",
-                    "Nicolas Souedet"]
+__author__      = "Hakim Taklanti"
+__copyright__   = "Copyright 2013, CEA / Saclay"
+__credits__     = ["Hakim Taklanti",
+                   "Yann Cointepas",
+                   "Denis Rivière",
+                   "Nicolas Souedet"]
 __license__     = "CeCILL V2"
 __version__     = "0.1"
-__maintainer__     = "Hakim Taklanti"
-__email__         = "hakim.taklanti@altran.com"
-__status__         = "release"
+__maintainer__  = "Hakim Taklanti"
+__email__       = "hakim.taklanti@altran.com"
+__status__      = "release"
 
 
 #  This software and supporting documentation are distributed by
@@ -289,13 +289,21 @@ class Application(object):
             version = '%(prog)s [' + __status__ + '] - ' + __version__,
             help    = 'Show the version number.')
 
+        parser.add_argument('--no-thirdparty',
+            action  = 'store_true',
+            help    = 'Do not package thirdparty libraries, and ignore them in dependencies.')
+
+        parser.add_argument('--no-dependencies',
+            action  = 'store_true',
+            help    = 'Do not package dependencies: take only explicitely named packages/projects. Their dependencies will still be marked so theu must either already exist in the repository, either exist in another repository.')
+
         args = parser.parse_args(argv[1:])
 
         if args.online_only + args.offline_only + args.repository_only > 1:
             logging.getLogger().error("[ BVI ] Error: --online-only, --offline-only and \
             --repository-only are incompatible.")
             exit(1)
-    
+
         if args.qt_menu_nib is not None:
             if args.installer is None:
                 logging.getLogger().error("[ BVI ] Error: --installer must be specified if \
@@ -313,6 +321,10 @@ class Application(object):
             kwargs = { 'alt_filename' : self.args.config }
         if self.args.release is not None:
             kwargs[ 'release' ] = self.args.release
+        if self.args.no_thirdparty:
+            kwargs['with_thirdparty'] = False
+        if self.args.no_dependencies:
+            kwargs['with_dependencies'] = False
         self.config = Configuration(**kwargs)
         self.components = self.__group_components()
 
@@ -346,7 +358,9 @@ class Application(object):
         "Create the temporary repository for the configuration."
         logging.getLogger().info(MESSAGE_BVI_CONFIGURATION)
         temporary_folder = "%s_tmp" % self.args.repository
-        rep = Repository(temporary_folder, self.config, self.components)
+        rep = Repository(temporary_folder, self.config, self.components,
+            with_dependencies=not self.args.no_dependencies, 
+            with_thirdparty=not self.args.no_thirdparty)
         rep.create()
 
     def __create_information(self):
@@ -354,7 +368,9 @@ class Application(object):
         logging.getLogger().info(MESSAGE_BVI_INFORMATION)
         info_file = "%s_infos.html" % self.args.repository
         write_info(info_file, self.args.projects, self.args.names,
-            remove_private=not self.args.i2bm)
+            remove_private=not self.args.i2bm,
+            with_dependencies=not self.args.no_dependencies,
+            with_thirdparty=not self.args.no_thirdparty)
 
     def __create_repository(self):
         "Create the online repository."
@@ -417,7 +433,8 @@ def valid_release(arg):
     return arg
 
 
-def write_info(filename, projects, names, remove_private):
+def write_info(filename, projects, names, remove_private, 
+        with_dependencies=True, with_thirdparty=True):
     "Write a HTML table with the list of packages."
     list_packages = set()
     with open(filename, 'w') as fo:
@@ -427,14 +444,17 @@ def write_info(filename, projects, names, remove_private):
                 for component in \
                         projects_versions.project_components(
                             project,remove_private=remove_private  ):
-                    write_info_package(fo, component, list_packages)
+                    write_info_package(fo, component, list_packages,
+                        with_dependencies, with_thirdparty)
         if names:
             for name in names:
-                write_info_package(fo, name, list_packages)
+                write_info_package(fo, name, list_packages, with_dependencies,
+                    with_thirdparty)
         fo.write(HTML_FOOTER)
 
 
-def write_info_package(fo, component, list_packages):
+def write_info_package(fo, component, list_packages, with_dependencies=True,
+        with_thirdparty=True):
     "Write a HTML row with the package's information."
     info_package     = component
     info_project     = ''
@@ -451,14 +471,17 @@ def write_info_package(fo, component, list_packages):
 
     html = INFO_TABLE_ROW % (info_project, info_package, info_type,
         info_version, info_licenses)
-    if not info_package in list_packages:
+    if not info_package in list_packages and \
+            (with_thirdparty or info_type != 'thirdparty'):
         fo.write(html)
         list_packages.add(info_package)
 
-    dependencies = packages_dependencies.get(info_package)
-    if dependencies:
-        for dependency in dependencies:
-            write_info_package(fo, dependency[1], list_packages)
+    if with_dependencies:
+        dependencies = packages_dependencies.get(info_package)
+        if dependencies:
+            for dependency in dependencies:
+                write_info_package(fo, dependency[1], list_packages,
+                    with_dependencies, with_thirdparty)
 
 #-----------------------------------------------------------------------------
 # Main
