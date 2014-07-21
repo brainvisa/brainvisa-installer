@@ -53,6 +53,12 @@ Adding new toolboxes to an existing repository
 Updating toolboxes and repositories
 -----------------------------------
 
+::
+
+    bv_build_installer.py --no-dependencies -p my_project
 
 
+Current dowdloads
+-----------------
 
+:doc:`download`
