@@ -19,6 +19,11 @@ BRAINVISA_COPY_DIRECTORY( "${CMAKE_CURRENT_SOURCE_DIR}/share"
                           share
                           ${PROJECT_NAME} )
 
+configure_file( "${CMAKE_CURRENT_SOURCE_DIR}/config/version.py.in" "${CMAKE_BINARY_DIR}/python/brainvisa/installer/version.py" @ONLY )
+BRAINVISA_INSTALL( FILES "${CMAKE_BINARY_DIR}/python/brainvisa/installer/version.py"
+                   DESTINATION "python/brainvisa/installer"
+                   COMPONENT ${PROJECT_NAME} )
+
 # BRAINVISA_CREATE_CMAKE_CONFIG_FILES()
 
 find_package( Sphinx )
