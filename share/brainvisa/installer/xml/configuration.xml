@@ -160,6 +160,22 @@ Status:     dev
         <INFO NAME="cortical_surface-private-usrdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="cortical_surface-private-dev" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="cortical_surface-private-devdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="constellation-private" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="constellation-private-dev" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="constellation-private-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="constellation-private-devdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="constellation-gpl" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="constellation-gpl-dev" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="constellation-gpl-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="constellation-gpl-devdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="old_connectomist-private" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="old_connectomist-private-dev" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="old_connectomist-private-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="old_connectomist-private-devdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="old_connectomist-gpl" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="old_connectomist-gpl-dev" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="old_connectomist-gpl-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="old_connectomist-gpl-devdoc" PARAM="VIRTUAL" VALUE="false" />
         <!-- PACKAGING -->
         <PACKAGE PLATFORM="WIN32" NAME="brainvisa-share" TYPE="PACKAGING" />
     </EXCEPTIONS>

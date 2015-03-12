@@ -14,6 +14,7 @@ from brainvisa.installer.bvi_utils.tools import bv_packaging
 from brainvisa.installer.bvi_utils.tools import archivegen
 
 from brainvisa.compilation_info import packages_info
+from brainvisa.maker import brainvisa_projects_versions
 
 
 class Component(object):
@@ -106,6 +107,10 @@ class Component(object):
         if ex_virtual is not None:
             self.virtual = ex_virtual
             logging.getLogger().info( msg % (self.name, 'Virtual', ex_virtual) )
+        elif brainvisa_projects_versions.is_private_component(self.name):
+            # private components are not virtual since they are normally
+            # terminal components, individually installable.
+            self.virtual = False
         if ex_description is not None:
             self.description = ex_description
             logging.getLogger().info( msg % (self.name, 'Description', ex_description) )
