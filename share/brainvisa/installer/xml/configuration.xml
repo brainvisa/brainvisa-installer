@@ -45,10 +45,10 @@ Status:     dev
         </URL>
     -->
     <REPOSITORIES>
-        <URL PLATFORM="WIN32">http://brainvisa.fr/repositories/@release@/win32/</URL>
-        <URL PLATFORM="OSX">http://brainvisa.fr/repositories/@release@/osx/</URL>
-        <URL PLATFORM="LINUX32">http://brainvisa.fr/repositories/@release@/linux32/</URL>
-        <URL PLATFORM="LINUX64">http://brainvisa.fr/repositories/@release@/linux64/</URL>
+        <URL PLATFORM="WIN32">http://brainvisa.fr/packages/@release@/win32/packages/</URL>
+        <URL PLATFORM="OSX">http://brainvisa.fr/packages/@release@/osx/packages/</URL>
+        <URL PLATFORM="LINUX32">http://brainvisa.fr/packages/@release@/linux32/packages/</URL>
+        <URL PLATFORM="LINUX64">http://brainvisa.fr/packages/@release@/linux64/packages/</URL>
     </REPOSITORIES>
 
     <!-- Categories
