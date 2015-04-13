@@ -8,6 +8,7 @@
 import os
 import subprocess
 import logging
+import md5
 
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.bvi_exception import BVIException
@@ -43,6 +44,13 @@ def binarycreator(installer_path, repository_path, online_only=False,
         param_packages,
         installer_path)
     os.system(cmd)
+
+    # build the MD5 sum file
+    m = md5.new()
+    m.update(open(installer_path, 'rb').read())
+    mdsum = m.digest()
+    mdsum_str = ''.join(['%02x' % ord(x) for x in mdsum])
+    open(installer_path + '.md5', 'w').write(mdsum_str)
 
 
 def repogen(path_repository_in, path_repository_out, 
