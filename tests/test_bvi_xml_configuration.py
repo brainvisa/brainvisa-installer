@@ -59,7 +59,6 @@ def test_is_package_excluded():
 	assert x.is_package_excluded('corist') == False
 	assert x.is_package_excluded('brainvisa-share') == False
 	assert x.is_package_excluded('anatomist-free') == False
-	assert x.is_package_excluded('soma-qtgui-doc') == False
 	assert x.is_package_excluded('liblapack3gf-0') == False
 
 

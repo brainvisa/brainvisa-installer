@@ -24,4 +24,3 @@ def test_is_packaging_excluded_win32():
 	assert x.is_packaging_excluded('anatomist-free') == False
 	assert x.is_packaging_excluded('brainvisa-share') == True
 	assert x.is_packaging_excluded('libboost') == False
-	assert x.is_packaging_excluded('soma-qtgui-doc') == False

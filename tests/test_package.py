@@ -76,7 +76,7 @@ def test_Package_dependencies():
 	x = Package(name='axon')
 	deps = x.dependencies
 	s_got = set([x.name for x in deps])
-	s_expected = set(['python', 'python-qt4', 'soma-base', 'soma-qtgui', 'soma-workflow', 
+	s_expected = set(['python', 'python-qt4', 'soma-base', 'soma-workflow',
 		'aims-free', 'brainvisa-share', 'graphviz'])
 	assert s_got == s_expected
 

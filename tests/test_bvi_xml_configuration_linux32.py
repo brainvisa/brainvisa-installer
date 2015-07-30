@@ -24,7 +24,6 @@ def test_is_packaging_excluded_linux32():
 	assert x.is_packaging_excluded('anatomist-free') == False
 	assert x.is_packaging_excluded('brainvisa-share') == False
 	assert x.is_packaging_excluded('libboost') == True
-	assert x.is_packaging_excluded('soma-qtgui-doc') == False
 
 
 @pytest.mark.linux32
