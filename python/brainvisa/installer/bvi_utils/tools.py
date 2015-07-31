@@ -54,8 +54,7 @@ def binarycreator(installer_path, repository_path, online_only=False,
 
 
 def repogen(path_repository_in, path_repository_out, 
-    components = None, update=False, exclude=None,
-    updateurl=None): #pylint: disable=R0913
+    components = None, update=False, exclude=None): #pylint: disable=R0913
     """The repogen tool generates an online IFW repositoriy.
 
     Parameters
@@ -65,7 +64,6 @@ def repogen(path_repository_in, path_repository_out,
     components             : additional components (default None).
     update                 ; True if the existing IFW repository must be updated.
     exclude             : list of excluded package's names (default None).
-    updateurl             : update the URL.
     """
     param_components = components.join(',') if exclude else ''
     param_update = '--update' if update else ''
@@ -73,7 +71,7 @@ def repogen(path_repository_in, path_repository_out,
     #param_updateurl = '-u %s' % updateurl  if updateurl else ''
     param_packages = "-p %s/packages" % path_repository_in
 
-    cmd = "%s %s %s %s %s %s %s %s" % (
+    cmd = "%s %s %s %s %s %s" % (
         Paths.IFW_REPOGEN,
         param_packages,
         param_update,
