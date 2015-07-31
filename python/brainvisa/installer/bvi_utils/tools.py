@@ -35,6 +35,10 @@ def binarycreator(installer_path, repository_path, online_only=False,
     param_config = ' -c %s/config/config.xml' % repository_path
     param_packages = ' -p %s/packages' % repository_path
 
+    path = os.path.dirname(installer_path)
+    if not os.path.exists(path):
+        os.makedirs(path)
+
     cmd = "%s %s%s%s%s%s%s %s" % (Paths.IFW_BINARYCREATOR,
         param_online_only,
         param_offline_only,
