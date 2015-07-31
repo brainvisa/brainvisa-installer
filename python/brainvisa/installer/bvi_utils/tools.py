@@ -70,17 +70,15 @@ def repogen(path_repository_in, path_repository_out,
     param_components = components.join(',') if exclude else ''
     param_update = '--update' if update else ''
     param_exclude = '--exclude ' + exclude.join(',') if exclude else ''
-    param_updateurl = '-u %s' % updateurl  if updateurl else ''
+    #param_updateurl = '-u %s' % updateurl  if updateurl else ''
     param_packages = "-p %s/packages" % path_repository_in
-    param_config = "-c %s/config/config.xml" % path_repository_in
 
     cmd = "%s %s %s %s %s %s %s %s" % (
         Paths.IFW_REPOGEN,
-        param_config,
         param_packages,
         param_update,
         param_exclude,
-        param_updateurl,
+        #param_updateurl,
         param_components,
         path_repository_out)
     os.system(cmd)

@@ -52,7 +52,7 @@ class Repository(object):
         false."
         if os.path.isdir(folder):
             return False
-        os.mkdir(folder)
+        os.makedirs(folder)
         return True
 
     def __create_config(self):
