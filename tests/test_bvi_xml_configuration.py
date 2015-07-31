@@ -24,7 +24,7 @@ def test_bvi_xml_Configuration():
 	assert x.Producturl == 'http://brainvisa.info/'
 	assert x.Targetdir == '@homeDir@/brainvisa'
 	assert x.Admintargetdir == '@rootDir@/brainvisa'
-	assert x.Uninstallername == 'BrainVISA_Suite-Update'
+	assert x.MaintenanceToolName == 'BrainVISA_Suite-Update'
 	assert x.Allownonasciicharacters == 'true'
 	assert x.Allowspaceinpath == 'true'
 

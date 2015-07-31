@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
+from brainvisa.installer.bvi_utils.tools import ifw_version
 
 
 class IFWConfig(XmlFile): #pylint: disable=R0902
@@ -28,8 +29,8 @@ class IFWConfig(XmlFile): #pylint: disable=R0902
 	TargetDir 	 : Default target directory for installation.
 	AdminTargetDir : Default target directory for installation with administrator rights.
 	TagRepositories : List of remote repositories (i.e. TagRepository objects). You can add several Repository sections that each specify the Url to access the repository. For more information, see Configuring Repositories.
-	UninstallerName : Filename of the generated uninstaller. Defaults to uninstall. The platform-specific executable file extension is appended.
-	UninstallerIniFile : Filename for the configuration of the generated uninstaller. Defaults to UninstallerName.ini.
+	MaintenanceToolName : Filename of the generated maintenance tool. Defaults to uninstall. The platform-specific executable file extension is appended.
+	MaintenanceToolIniFile : Filename for the configuration of the generated maintenance tool. Defaults to MaintenanceToolName.ini.
 	RemoveTargetDir : Set to false if the target directory should not be deleted when uninstalling.
 	AllowNonAsciiCharacters : Set to true if the installation path can contain non-ASCII characters.
 	RepositorySettingsPageVisible : Set to false to hide the repository settings page inside the settings dialog.
@@ -42,6 +43,13 @@ class IFWConfig(XmlFile): #pylint: disable=R0902
 
 	def update(self, filename):
 		self.init('Installer')
+		version = ifw_version()
+		if version[0] >= 2:
+                    MaintenanceToolName = 'MaintenanceToolName'
+                    MaintenanceToolIniFile = 'MaintenanceToolIniFile'
+                else:
+                    MaintenanceToolName = 'UninstallerName'
+                    MaintenanceToolIniFile = 'UninstallerIniFile'
 		root_subelements = {
 			'Name' : self.Name,
 			'Version' : self.Version,
@@ -59,8 +67,8 @@ class IFWConfig(XmlFile): #pylint: disable=R0902
 			'StartMenuDir' : self.StartMenuDir,
 			'TargetDir' : self.TargetDir,
 			'AdminTargetDir' : self.AdminTargetDir,		
-			'UninstallerName' : self.UninstallerName,
-			'UninstallerIniFile' : self.UninstallerIniFile,
+			MaintenanceToolName : self.MaintenanceToolName,
+			MaintenanceToolIniFile : self.MaintenanceToolIniFile,
 			'RemoveTargetDir' : self.RemoveTargetDir,
 			'AllowNonAsciiCharacters' : self.AllowNonAsciiCharacters,
 			'RepositorySettingsPageVisible' : self.RepositorySettingsPageVisible,
@@ -98,8 +106,8 @@ class IFWConfig(XmlFile): #pylint: disable=R0902
 		TargetDir = None, 
 		AdminTargetDir = None, 
 		TagRepositories = None, 
-		UninstallerName = None, 
-		UninstallerIniFile = None, 
+		MaintenanceToolName = None,
+		MaintenanceToolIniFile = None,
 		RemoveTargetDir = None, 
 		AllowNonAsciiCharacters = None, 
 		RepositorySettingsPageVisible = None, 
@@ -127,8 +135,8 @@ class IFWConfig(XmlFile): #pylint: disable=R0902
 		self.TargetDir = TargetDir 
 		self.AdminTargetDir = AdminTargetDir 
 		self.TagRepositories = TagRepositories 
-		self.UninstallerName = UninstallerName 
-		self.UninstallerIniFile = UninstallerIniFile 
+		self.MaintenanceToolName = MaintenanceToolName
+		self.MaintenanceToolIniFile = MaintenanceToolIniFile
 		self.RemoveTargetDir = RemoveTargetDir 
 		self.AllowNonAsciiCharacters = AllowNonAsciiCharacters 
 		self.RepositorySettingsPageVisible = RepositorySettingsPageVisible 

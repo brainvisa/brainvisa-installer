@@ -29,7 +29,7 @@ Status:     dev
         <ICON>icon.png</ICON>
         <LOGO>logo.png</LOGO>
         <WATERMARK>watermark.png</WATERMARK>
-        <UNINSTALLERNAME>BrainVISA_Suite-Update</UNINSTALLERNAME>
+        <MAINTENANCETOOLNAME>BrainVISA_Suite-Update</MAINTENANCETOOLNAME>
         <ALLOWNONASCIICHARACTERS>true</ALLOWNONASCIICHARACTERS>
         <ALLOWSPACEINPATH>true</ALLOWSPACEINPATH>
     </GENERAL>

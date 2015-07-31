@@ -6,12 +6,32 @@
 #
 
 import os
+import sys
 import subprocess
 import logging
 import md5
+import distutils.spawn
 
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.bvi_exception import BVIException
+
+def ifw_version():
+    """Try to guess IFW version.
+    As the commands do not provide this info, all we can do for now is to try
+    to find the "devtool" command, and guess it is version 2 if it is found,
+    and 1 otherwise.
+    """
+    exe = ""
+    if sys.platform.startswith("win"):
+        exe = ".exe"
+    bc = distutils.spawn.find_executable("binarycreator" + exe)
+    if not bc:
+        return []  # undefined
+    real_bc = os.path.realpath(bc)
+    path = os.path.dirname(real_bc)
+    if os.path.exists(os.path.join(path, "devtool" + exe)):
+        return [2,]
+    return [1,]
 
 
 def binarycreator(installer_path, repository_path, online_only=False, 

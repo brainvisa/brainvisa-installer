@@ -39,8 +39,8 @@ def test_utils_IFWConfig():
 				'Password 0x332F',
 				'Display Name 0x2DF3')
 		), 
-		UninstallerName = 'BrainVISA_Suite-Update', 
-		UninstallerIniFile = 'UninstallerIniFile 0x66', 
+		MaintenanceToolName = 'BrainVISA_Suite-Update',
+		MaintenanceToolIniFile = 'MaintenanceToolIniFile 0x66',
 		RemoveTargetDir = 'RemoveTargetDir 0x55', 
 		AllowNonAsciiCharacters = 'true', 
 		RepositorySettingsPageVisible = 'RepositorySettingsPageVisible 0x34', 
@@ -85,8 +85,8 @@ def test_utils_IFWConfig():
 	assert x.root_subelement('RemoteRepositories')[4][2].text == 'Username 0X32F4'
 	assert x.root_subelement('RemoteRepositories')[4][3].text == 'Password 0x332F'
 	assert x.root_subelement('RemoteRepositories')[4][4].text == 'Display Name 0x2DF3'
-	assert x.root_subelement('UninstallerName').text == 'BrainVISA_Suite-Update'
-	assert x.root_subelement('UninstallerIniFile').text == 'UninstallerIniFile 0x66'
+	assert x.root_subelement('MaintenanceToolName').text == 'BrainVISA_Suite-Update'
+	assert x.root_subelement('MaintenanceToolIniFile').text == 'MaintenanceToolIniFile 0x66'
 	assert x.root_subelement('RemoveTargetDir').text == 'RemoveTargetDir 0x55'
 	assert x.root_subelement('AllowNonAsciiCharacters').text == 'true'
 	assert x.root_subelement('RepositorySettingsPageVisible').text == 'RepositorySettingsPageVisible 0x34'
