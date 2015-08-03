@@ -423,7 +423,7 @@ class Application(object):
                 cmd = [create_dmg, '--volname', 'BrainVISA-installer',
                       '--volicon',
                       '%s_tmp/config/icon.png' % self.args.repository,
-                      installer_path, '%s.app' % installer_path]
+                      installer_path, '%s.app' % self.args.installer]
                 subprocess.check_call(cmd)
             # build the MD5 sum file
             import md5
