@@ -69,12 +69,24 @@ def binarycreator(installer_path, repository_path, online_only=False,
         installer_path)
     os.system(cmd)
 
-    # build the MD5 sum file
-    m = md5.new()
-    m.update(open(installer_path, 'rb').read())
-    mdsum = m.digest()
-    mdsum_str = ''.join(['%02x' % ord(x) for x in mdsum])
-    open(installer_path + '.md5', 'w').write(mdsum_str)
+    if sys.platform == "darwin":
+        import distutils.spawn
+        create_dmg = distutils.spawn.find_executable('create-dmg')
+        if create_dmg:
+            new_installer_path = '%s.dmg' % installer_path
+            cmd = [create_dmg, '--volname', 'BrainVISA-installer',
+                   '--volicon', '%s/config/icon.png' % repository_path,
+                   new_installer_path, '%s.app' % installer_path]
+            subprocess.check_call(cmd)
+            installer_path = new_installer_path
+        else:
+            return
+        # build the MD5 sum file
+        m = md5.new()
+        m.update(open(installer_path, 'rb').read())
+        mdsum = m.digest()
+        mdsum_str = ''.join(['%02x' % ord(x) for x in mdsum])
+        open(installer_path + '.md5', 'w').write(mdsum_str)
 
 
 def repogen(path_repository_in, path_repository_out, 
