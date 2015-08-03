@@ -406,7 +406,12 @@ class Application(object):
         if not qt_menu_nib is None:
             src = qt_menu_nib
             dst = "%s.app/Contents/Resources/qt_menu.nib" % self.args.installer
-            shutil.copytree(src, dst)
+            try:
+                shutil.copytree(src, dst)
+            except:
+                # copying file attributes on the network may fail,
+                # but copy is OK.
+                pass
 
         if System.platform() == System.MacOSX:
             # create .dmg
