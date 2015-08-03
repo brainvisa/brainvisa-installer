@@ -388,7 +388,21 @@ class Application(object):
 
     def __create_hacks(self):
         "Regroup all hacks for specific problems."
-        if not self.args.qt_menu_nib is None:
+        qt_menu_nib = None
+        if self.args.qt_menu_nib is None:
+            # try to find qt_menu.nib in QtIFW
+            import distutils.spawn
+            binarycreator = distutils.spawn.find_executable('binarycreator')
+            if binarycreator:
+                real_path = os.path.realpath(binarycreator)
+                path = os.path.dirname(os.path.dirname(real_path))
+                qt_menu_nib = os.path.join(
+                    path, "Uninstaller.app/Contents/Resources/qt_menu.nib")
+                if not os.path.isdir(qt_menu_nib):
+                    qt_menu_nib = None  # doesn't work
+        else:
+            qt_menu_nib = self.args.qt_menu_nib
+        if not qt_menu_nib is None:
             src = self.args.qt_menu_nib
             dst = "%s.app/Contents/Resources/qt_menu.nib" % self.args.installer
             shutil.copytree(src, dst)
