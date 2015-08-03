@@ -389,7 +389,8 @@ class Application(object):
     def __create_hacks(self):
         "Regroup all hacks for specific problems."
         qt_menu_nib = None
-        if self.args.qt_menu_nib is None:
+        if System.platform() == System.MacOSX \
+                and self.args.qt_menu_nib is None:
             # try to find qt_menu.nib in QtIFW
             import distutils.spawn
             binarycreator = distutils.spawn.find_executable('binarycreator')
@@ -403,9 +404,28 @@ class Application(object):
         else:
             qt_menu_nib = self.args.qt_menu_nib
         if not qt_menu_nib is None:
-            src = self.args.qt_menu_nib
+            src = qt_menu_nib
             dst = "%s.app/Contents/Resources/qt_menu.nib" % self.args.installer
             shutil.copytree(src, dst)
+
+        if System.platform() == System.MacOSX:
+            # create .dmg
+            import distutils.spawn
+            create_dmg = distutils.spawn.find_executable('create-dmg')
+            if create_dmg:
+                installer_path = '%s.dmg' % self.args.installer
+                cmd = [create_dmg, '--volname', 'BrainVISA-installer',
+                      '--volicon',
+                      '%s_tmp/config/icon.png' % self.args.repository,
+                      installer_path, '%s.app' % installer_path]
+                subprocess.check_call(cmd)
+            # build the MD5 sum file
+            import md5
+            m = md5.new()
+            m.update(open(installer_path, 'rb').read())
+            mdsum = m.digest()
+            mdsum_str = ''.join(['%02x' % ord(x) for x in mdsum])
+            open(installer_path + '.md5', 'w').write(mdsum_str)
 
 
 #-----------------------------------------------------------------------------
