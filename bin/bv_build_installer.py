@@ -51,6 +51,7 @@ import argparse
 import logging
 import shutil
 import re
+import subprocess
 from logging.handlers import RotatingFileHandler
 
 from brainvisa.installer.project import Project
