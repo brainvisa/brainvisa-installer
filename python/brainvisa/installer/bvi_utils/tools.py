@@ -48,26 +48,22 @@ def binarycreator(installer_path, repository_path, online_only=False,
     include         : list of included package's names (default None).
     """
 
-    param_online_only = ' --online-only' if online_only else ''
-    param_offline_only = ' --offline-only' if offline_only else ''
-    param_exclude = ' --exclude ' + exclude.join(',') if exclude else ''
-    param_include = ' --include ' + include.join('') if include else ''
-    param_config = ' -c %s/config/config.xml' % repository_path
-    param_packages = ' -p %s/packages' % repository_path
+    param_online_only = ['--online-only'] if online_only else []
+    param_offline_only = ['--offline-only'] if offline_only else []
+    param_exclude = ['--exclude', exclude.join(',')] if exclude else []
+    param_include = ['--include', include.join('')] if include else []
+    param_config = ['-c', '%s/config/config.xml' % repository_path]
+    param_packages = ['-p', '%s/packages' % repository_path]
 
     path = os.path.dirname(installer_path)
     if not os.path.exists(path):
         os.makedirs(path)
 
-    cmd = "%s %s%s%s%s%s%s %s" % (Paths.IFW_BINARYCREATOR,
-        param_online_only,
-        param_offline_only,
-        param_exclude,
-        param_include,
-        param_config,
-        param_packages,
-        installer_path)
-    os.system(cmd)
+    cmd = [Paths.IFW_BINARYCREATOR] \
+        + param_online_only + param_offline_only + param_exclude \
+        + param_include + param_config + param_packages + [installer_path]
+    print ' '.join(cmd)
+    subprocess.check_call(cmd)
 
     if sys.platform == "darwin":
         return  # don't do the .md5 now: we must build the .dmg first.
@@ -80,32 +76,30 @@ def binarycreator(installer_path, repository_path, online_only=False,
 
 
 def repogen(path_repository_in, path_repository_out, 
-    components = None, update=False, exclude=None): #pylint: disable=R0913
+            components = None, update=False,
+            exclude=None): #pylint: disable=R0913
     """The repogen tool generates an online IFW repositoriy.
 
     Parameters
     ----------
     path_repository_in  : full path of temporary repository.
     path_repository_out : full path of IFW repository.
-    components             : additional components (default None).
-    update                 ; True if the existing IFW repository must be updated.
+    components          : additional components (default None).
+    update              : True if the existing IFW repository must be updated.
     exclude             : list of excluded package's names (default None).
     """
-    param_components = components.join(',') if exclude else ''
-    param_update = '--update' if update else ''
-    param_exclude = '--exclude ' + exclude.join(',') if exclude else ''
+    param_components = [components.join(',')] if exclude else []
+    param_update = ['--update'] if update else []
+    param_exclude = ['--exclude', exclude.join(',')] if exclude else []
     #param_updateurl = '-u %s' % updateurl  if updateurl else ''
-    param_packages = "-p %s/packages" % path_repository_in
+    param_packages = ["-p", "%s/packages" % path_repository_in]
 
-    cmd = "%s %s %s %s %s %s" % (
-        Paths.IFW_REPOGEN,
-        param_packages,
-        param_update,
-        param_exclude,
+    cmd = [Paths.IFW_REPOGEN] \
+        + param_packages + param_update + param_exclude \
+        + param_components + [path_repository_out]
         #param_updateurl,
-        param_components,
-        path_repository_out)
-    os.system(cmd)
+    print ' '.join(cmd)
+    subprocess.check_call(cmd)
 
 
 def archivegen(folder):
@@ -118,6 +112,7 @@ def archivegen(folder):
     folder - folder with data which must be compressed.
     """
     args = ['archivegen', '%s.7z' % folder, '%s' % folder]
+    print ' '.join(args)
     process = subprocess.Popen(args, stdout=subprocess.PIPE, cwd=folder)
     result = process.wait()
     logging.getLogger().info(result)
@@ -138,9 +133,9 @@ def bv_packaging(name, type_, folder):
             'python',
             "%s/%s" % (Paths.BV_BIN,Paths.BV_PACKAGING),
             'dir',
-            '-o %s' % folder,
+            '-o', folder,
             '--wrappers',
             '--no-deps',
             '--installer',
             '+name=%s,type=%s' % (name, type_)]
-    os.system(' '.join(args))
+    subprocess.check_call(args)
