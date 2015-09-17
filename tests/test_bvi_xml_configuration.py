@@ -67,7 +67,7 @@ def test_bvi_xml_Configuration_Licenses():
 	assert x.Licenses[0].Id == 'CECILL_2.1'
 	assert x.Licenses[0].Version == '2.1' 
 	assert x.Licenses[0].Name == 'CeCILL v2.1' 
-	assert x.Licenses[0].File == 'Licence_CeCILL_V2.1_en_EN.txt'
+	assert x.Licenses[0].File == 'License_CeCILL_V2.1_en_EN.txt'
 	assert x.Licenses[3].Name == 'GPL 3.0' 
 
 

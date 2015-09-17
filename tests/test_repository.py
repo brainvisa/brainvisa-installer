@@ -128,10 +128,10 @@ def test_Repository__create_packages_licenses():
 	assert os.path.isdir('%s/packages/brainvisa.app.licenses.cecill_b/meta' % folder)
 	filename_lic = '%s/packages/brainvisa.app.licenses.cecill_b/meta/package.xml' % folder
 	assert os.path.isfile(filename_lic)
-	assert os.path.isfile('%s/packages/brainvisa.app.licenses.cecill_b/meta/Licence_CeCILL-B_V1_en_EN.txt' % folder)
+	assert os.path.isfile('%s/packages/brainvisa.app.licenses.cecill_b/meta/License_CeCILL-B_V1_en_EN.txt' % folder)
 	assert '<License' in open(filename_lic, 'r').read()
 	assert 'name="CeCILL-B"' in open(filename_lic, 'r').read()
-	assert 'file="Licence_CeCILL-B_V1_en_EN.txt"' in open(filename_lic, 'r').read()
+	assert 'file="License_CeCILL-B_V1_en_EN.txt"' in open(filename_lic, 'r').read()
 
 
 def test_Repository__create_package_bv_env():
