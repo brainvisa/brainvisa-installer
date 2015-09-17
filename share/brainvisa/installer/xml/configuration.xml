@@ -148,6 +148,8 @@ Status:     dev
         <INFO NAME="morphologist-private-usrdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="morphologist-private-dev" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="morphologist-private-devdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morphologist-ui" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morphologist-ui-usrdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="baby" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="baby-usrdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="tms" PARAM="VIRTUAL" VALUE="false" />
