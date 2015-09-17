@@ -157,7 +157,8 @@ class Configuration(object): #pylint: disable=R0902
         self.__init_categories()
 
     def __init__(self, filename = Paths.BVI_CONFIGURATION, alt_filename=None,
-            release=None, with_dependencies=True, with_thirdparty=True):
+            release=None, with_dependencies=True, with_thirdparty=True,
+            platform_name=None):
         "filename is the default configuration file in share, \
         alt_filename is an optional configuration file \
         to override the default configuration."
@@ -180,6 +181,9 @@ class Configuration(object): #pylint: disable=R0902
         self.Licenses = list()
         self.Categories = list()
         self.Release = release
+        if platform_name is None:
+            platform_name = System.platform().lower()
+        self.PlatformName = platform_name
         self.with_dependencies = with_dependencies
         self.with_thirdparty = with_thirdparty
         self.read(filename)
@@ -192,7 +196,9 @@ class Configuration(object): #pylint: disable=R0902
         if reps is None:
             return
         for rep in reps:
-            self.Repositories.append(TagRepository(Release=self.Release).init_from_configuration(rep))
+            self.Repositories.append(TagRepository(
+                Release=self.Release,
+                platform_name=self.PlatformName).init_from_configuration(rep))
 
     def __init_licenses(self):
         "Return the values of <LICENSES> part (list of TagLicense objects)."

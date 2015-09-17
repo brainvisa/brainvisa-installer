@@ -296,7 +296,11 @@ class Application(object):
 
         parser.add_argument('--no-dependencies',
             action  = 'store_true',
-            help    = 'Do not package dependencies: take only explicitely named packages/projects. Their dependencies will still be marked so theu must either already exist in the repository, either exist in another repository.')
+            help    = 'Do not package dependencies: take only explicitely named packages/projects. Their dependencies will still be marked so they must either already exist in the repository, either exist in another repository.')
+
+        parser.add_argument('--platform_name',
+            default = None,
+            help    = 'force platform name in packages repository URL (default: %s)' % System.platform().lower())
 
         args = parser.parse_args(argv[1:])
 
@@ -326,6 +330,8 @@ class Application(object):
             kwargs['with_thirdparty'] = False
         if self.args.no_dependencies:
             kwargs['with_dependencies'] = False
+        if self.args.platform_name:
+            kwargs['platform_name'] = self.args.platform_name
         self.config = Configuration(**kwargs)
         self.components = self.__group_components()
 

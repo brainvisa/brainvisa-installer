@@ -39,12 +39,14 @@ class TagRepository(object):
         return e
 
     def __init__(self, Url = None, Enabled = None, Username = None,
-        Password = None, DisplayName = None, Release = None):
+        Password = None, DisplayName = None, Release = None,
+        platform_name=None):
         self.Url = Url
         self.Enabled = Enabled
         self.Username = Username
         self.Password = Password
         self.DisplayName = DisplayName
+        self.PlatformName = platform_name
         if Release is None:
             self.Release = brainvisa.config.fullVersion
         else:
@@ -53,9 +55,12 @@ class TagRepository(object):
     def init_from_configuration(self, element):
         "Initialize from an XML element from XML configuration file."
         self.Url = element.text.strip()
-        self.Url = self.Url.replace( '@release@', self.Release )
+        self.Url = self.Url.replace('@release@', self.Release)
+        self.Url = self.Url.replace('@platform@',
+                                    System.platform().lower())
         att_platform = element.attrib.get('PLATFORM')
-        self.Enabled = '1' if System.platform() == att_platform else '0'
+        self.Enabled = '1' if att_platform is None \
+            or System.platform().lower() == att_platform.lower() else '0'
         self.Username = element.attrib.get('USERNAME')
         self.Password = element.attrib.get('PASSWORD')
         self.DisplayName = element.attrib.get('DISPLAYNAME')
