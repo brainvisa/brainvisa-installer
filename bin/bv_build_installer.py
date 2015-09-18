@@ -302,7 +302,7 @@ class Application(object):
             default = None,
             help    = 'force platform name in packages repository URL (default: %s)' % System.platform().lower())
 
-        parser.add_argument('--skip-respos', dest='skip_repos',
+        parser.add_argument('--skip-repos', dest='skip_repos',
             action='store_true',
             help='Skip initial (temp) repository creation. Assumes it has already been done.')
 

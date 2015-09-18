@@ -36,6 +36,7 @@ class Component(object):
     """
 
     __metaclass__ = abc.ABCMeta
+    done_components = set()
 
     @abc.abstractproperty
     def ifwname(self):
@@ -72,7 +73,9 @@ class Component(object):
         self.data = data
         self.compress = compress
         self.default = None
-        logging.getLogger().debug("[ BVI ] Component: %s" % self.name)
+        if self.name not in Component.done_components:
+            logging.getLogger().debug("[ BVI ] Component: %s" % self.name)
+            self.done_components.add(self.name)
         self.__init_date()
         self.__init_infos()
         if self.configuration is not None:
