@@ -57,7 +57,7 @@ class TagRepository(object):
         self.Url = element.text.strip()
         self.Url = self.Url.replace('@release@', self.Release)
         self.Url = self.Url.replace('@platform@',
-                                    System.platform().lower())
+                                    self.PlatformName)
         att_platform = element.attrib.get('PLATFORM')
         self.Enabled = '1' if att_platform is None \
             or System.platform().lower() == att_platform.lower() else '0'

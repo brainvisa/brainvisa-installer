@@ -136,7 +136,8 @@ class Component(object):
     def __package_data(self, folder):
         "Create the data folder of IFW component."
         if self.configuration is not None:
-            if self.configuration.is_packaging_excluded(self.name):
+            if self.configuration.is_packaging_excluded(self.name) \
+                    or self.configuration.skip_repos:
                 return
         data_folder = "%s/data" % folder
         os.mkdir(data_folder)

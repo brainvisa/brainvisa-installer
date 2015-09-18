@@ -302,6 +302,14 @@ class Application(object):
             default = None,
             help    = 'force platform name in packages repository URL (default: %s)' % System.platform().lower())
 
+        parser.add_argument('--skip-respos', dest='skip_repos',
+            action='store_true',
+            help='Skip initial (temp) repository creation. Assumes it has already been done.')
+
+        parser.add_argument('--skip-repogen', dest='skip_repogen',
+            action='store_true',
+            help='Skip repogen (final repository creation + compression). Assumes it has already been done.')
+
         args = parser.parse_args(argv[1:])
 
         if args.online_only + args.offline_only + args.repository_only > 1:
@@ -332,6 +340,8 @@ class Application(object):
             kwargs['with_dependencies'] = False
         if self.args.platform_name:
             kwargs['platform_name'] = self.args.platform_name
+        kwargs['skip_repos'] = self.args.skip_repos
+        kwargs['skip_repogen'] = self.args.skip_repogen
         self.config = Configuration(**kwargs)
         self.components = self.__group_components()
 
@@ -381,7 +391,7 @@ class Application(object):
 
     def __create_repository(self):
         "Create the online repository."
-        if not self.args.offline_only:
+        if not self.args.offline_only and not self.args.skip_repogen:
             logging.getLogger().info(MESSAGE_BVI_REPOSITORY)
             repogen("%s_tmp" % self.args.repository, self.args.repository, update=True)
 

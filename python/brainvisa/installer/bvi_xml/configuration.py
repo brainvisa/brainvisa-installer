@@ -158,7 +158,7 @@ class Configuration(object): #pylint: disable=R0902
 
     def __init__(self, filename = Paths.BVI_CONFIGURATION, alt_filename=None,
             release=None, with_dependencies=True, with_thirdparty=True,
-            platform_name=None):
+            platform_name=None, skip_repos=False, skip_repogen=False):
         "filename is the default configuration file in share, \
         alt_filename is an optional configuration file \
         to override the default configuration."
@@ -186,6 +186,8 @@ class Configuration(object): #pylint: disable=R0902
         self.PlatformName = platform_name
         self.with_dependencies = with_dependencies
         self.with_thirdparty = with_thirdparty
+        self.skip_repos = skip_repos
+        self.skip_repogen = skip_repogen
         self.read(filename)
         if alt_filename is not None:
             self.read(alt_filename)
