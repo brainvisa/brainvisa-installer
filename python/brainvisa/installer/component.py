@@ -94,7 +94,9 @@ class Component(object):
             if default:
                 self.default = 'true'
         else:
-            logging.getLogger().warning("[ BVI ]: WARNING no information for %s" % self.name)
+            if self.name not in self.done_components:
+                logging.getLogger().warning(
+                    "[ BVI ]: WARNING no information for %s" % self.name)
             self.project = ''
             self.type = 'thirdparty'
             self.version = '1.0'
@@ -109,20 +111,28 @@ class Component(object):
         msg = "[ BVI ] Package: %s => exception for %s: %s"
         if ex_virtual is not None:
             self.virtual = ex_virtual
-            logging.getLogger().info( msg % (self.name, 'Virtual', ex_virtual) )
+            if self.name not in self.done_components:
+                logging.getLogger().info( msg % (self.name, 'Virtual',
+                                                 ex_virtual) )
         elif brainvisa_projects_versions.is_private_component(self.name):
             # private components are not virtual since they are normally
             # terminal components, individually installable.
             self.virtual = False
         if ex_description is not None:
             self.description = ex_description
-            logging.getLogger().info( msg % (self.name, 'Description', ex_description) )
+            if self.name not in self.done_components:
+                logging.getLogger().info( msg % (self.name, 'Description',
+                                                 ex_description) )
         if ex_displayname is not None:
             self.displayname = ex_displayname
-            logging.getLogger().info( msg % (self.name, 'DisplayName', ex_displayname) )
+            if self.name not in self.done_components:
+                logging.getLogger().info( msg % (self.name, 'DisplayName',
+                                                 ex_displayname) )
         if ex_version is not None:
             self.version = ex_version
-            logging.getLogger().info( msg % (self.name, 'Version', ex_version) )
+            if self.name not in self.done_components:
+                logging.getLogger().info( msg % (self.name, 'Version',
+                                                 ex_version) )
 
     def __init_date(self):
         "Initialize the date."
