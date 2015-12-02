@@ -101,6 +101,7 @@ Status:     dev
     -->
     <EXCEPTIONS>
         <INFO NAME="libsqlite3-0" PARAM="VERSION" VALUE="3.7.17" />
+        <INFO NAME="libblas" PARAM="VERSION" VALUE="3.0" />
         <INFO NAME="liblapack3gf-0" PARAM="VERSION" VALUE="3.0" />
         <INFO NAME="liblapack3gf" PARAM="VERSION" VALUE="3.0" />
         <INFO NAME="libcairo2" PARAM="VERSION" VALUE="2.0" />
