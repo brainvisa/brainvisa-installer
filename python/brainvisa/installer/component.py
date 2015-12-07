@@ -37,6 +37,7 @@ class Component(object):
 
     __metaclass__ = abc.ABCMeta
     done_components = set()
+    done_created_components = set()
 
     @abc.abstractproperty
     def ifwname(self):
@@ -51,12 +52,14 @@ class Component(object):
     def create(self, folder):
         "Create the component in folder."
         path = "%s/%s" % (folder, self.ifwname)
-        if os.path.isdir(path):
+        if path in Component.done_created_components:
             return
-        os.mkdir(path)
+        if not os.path.isdir(path):
+            os.mkdir(path)
         self.__package_meta(path)
         if self.data:
             self.__package_data(path)
+        Component.done_created_components.add(path)
 
     def __init__(self, name, data=False, configuration=None, compress=False):
         self.name = name
@@ -108,6 +111,7 @@ class Component(object):
         ex_description     = conf.exception_info_by_name(self.name, 'DESCRIPTION')
         ex_displayname     = conf.exception_info_by_name(self.name, 'DISPLAYNAME')
         ex_virtual         = conf.exception_info_by_name(self.name, 'VIRTUAL')
+        ex_default         = conf.exception_info_by_name(self.name, 'DEFAULT')
         msg = "[ BVI ] Package: %s => exception for %s: %s"
         if ex_virtual is not None:
             self.virtual = ex_virtual
@@ -117,7 +121,13 @@ class Component(object):
         elif brainvisa_projects_versions.is_private_component(self.name):
             # private components are not virtual since they are normally
             # terminal components, individually installable.
-            self.virtual = False
+            self.virtual = 'false'
+
+        if self.virtual != 'true' and ex_default is not None:
+            self.default = ex_default
+            if self.name not in self.done_components:
+                logging.getLogger().info( msg % (self.name, 'Default',
+                                                 ex_default) )
         if ex_description is not None:
             self.description = ex_description
             if self.name not in self.done_components:
@@ -142,7 +152,8 @@ class Component(object):
     def __package_meta(self, folder):
         "Create the meta folder of IFW component."
         meta_folder = "%s/meta" % folder
-        os.mkdir(meta_folder)
+        if not os.path.exists(meta_folder):
+            os.mkdir(meta_folder)
         self.__copy_script(meta_folder)
         self.ifwpackage.save("%s/package.xml" % meta_folder)
 

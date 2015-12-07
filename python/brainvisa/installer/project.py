@@ -5,7 +5,8 @@ import os
 
 import os.path
 import collections
-import logging 
+import logging
+import shutil
 
 from brainvisa.installer.package import Package
 from brainvisa.installer.component import Component
@@ -69,6 +70,7 @@ class Project(Component):
 
     def __init__(self, name, configuration, types = None, compress=False,
             remove_private=False): #pylint: disable=W0231
+        super(Project, self).__init__(name)
         logging.getLogger().info( "[ BVI ] PROJECT: %s" % name )
         types = types or ['run', 'usrdoc', 'dev', 'devdoc']
         if not name in ordered_projects and not name in packages_info:
@@ -99,14 +101,16 @@ class Project(Component):
         cat = self.configuration.category_by_id(self.type)
         name = "%s.%s" % (self.ifwname, self.type)
         folder_package = "%s/%s" % (folder, name)
-        if os.path.isdir(folder_package):
-            return
-        os.mkdir(folder_package)
-        os.mkdir("%s/meta" % folder_package)
-        if is_default_project( self.name ) and self.type in ( 'run', 'usrdoc' ):
+        if not os.path.isdir(folder_package):
+            os.mkdir(folder_package)
+        meta_folder = "%s/meta" % folder_package
+        if os.path.isdir(meta_folder):
+            shutil.rmtree(meta_folder)
+        os.mkdir(meta_folder)
+        if self.__is_default(self.type):
             is_default = 'true'
         else:
-            is_default = cat.Default
+            is_default = 'false'
         p = IFWPackage( DisplayName = cat.Name,
                         Description = cat.Description,
                         Version     = self.version,
@@ -118,6 +122,14 @@ class Project(Component):
                         TagDependencies = self.__clean_dependencies_doublons())
         p.save("%s/%s/meta/package.xml" % (folder, name))
 
+    def __is_default(self, type):
+        if is_default_project(self.name) and type in ('run', 'usrdoc'):
+            return True
+        cat = self.configuration.category_by_id(type)
+        if cat.Default == 'true':
+            return True
+        return False
+
     def __create_pacakges(self, folder):
         components = project_components(self.name, self.remove_private)
         for package_name in components:
@@ -127,7 +139,7 @@ class Project(Component):
                     ext = ''
                 full_name = "%s%s" % (package_name, ext)
                 if full_name in packages_info:
-                    pack = Package(full_name, self.configuration, 
+                    pack = Package(full_name, self.configuration,
                         compress=self.compress)
                     if self.configuration.is_package_excluded(full_name):
                         continue

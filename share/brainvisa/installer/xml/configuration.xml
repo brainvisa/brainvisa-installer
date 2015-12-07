@@ -144,23 +144,38 @@ Status:     dev
         <INFO NAME="sulci-models" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="sulci-models" PARAM="DESCRIPTION" VALUE="Sulci recognition models for SPAM-based methods. They are required when using the SPAM-based recognition processes." />
         <INFO NAME="morphologist-gpl" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morphologist-gpl" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="morphologist-gpl-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morphologist-gpl-usrdoc" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="morphologist-private" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morphologist-private" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="morphologist-private-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morphologist-private-usrdoc" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="morphologist-private-dev" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="morphologist-private-devdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="morphologist-ui" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morphologist-ui" PARAM="DEFAULT" VALUE="true" />
+        <INFO NAME="morphologist-ui" PARAM="DESCRIPTION" VALUE="New graphical interface for the Morphologist main pipelines" />
         <INFO NAME="morphologist-ui-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morphologist-ui-usrdoc" PARAM="DEFAULT" VALUE="true" />
+        <INFO NAME="sulci-private" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="sulci-private" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="baby" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="baby-usrdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="tms" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="tms-usrdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="freesurfer_plugin" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="freesurfer_plugin" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="freesurfer_plugin-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="freesurfer_plugin-usrdoc" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="cortical_surface-gpl" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="cortical_surface-gpl" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="cortical_surface-gpl-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="cortical_surface-gpl-usrdoc" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="cortical_surface-private" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="cortical_surface-private" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="cortical_surface-private-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="cortical_surface-private-usrdoc" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="cortical_surface-private-dev" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="cortical_surface-private-devdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="constellation-private" PARAM="VIRTUAL" VALUE="false" />

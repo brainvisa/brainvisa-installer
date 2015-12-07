@@ -45,6 +45,7 @@ class License(Component):
 		shutil.copyfile(src, dest)
 
 	def __init__(self, taglicense): #pylint: disable=W0231
+                super(License, self).__init__(taglicense.Name)
 		self.name = taglicense.Name
 		self.project = None
 		self.type = None
