@@ -164,7 +164,8 @@ class Component(object):
                     or self.configuration.skip_repos:
                 return
         data_folder = "%s/data" % folder
-        os.mkdir(data_folder)
+        if not os.path.exists(data_folder):
+            os.mkdir(data_folder)
         self.__bv_packaging(data_folder)
 
         if not self.compress:
