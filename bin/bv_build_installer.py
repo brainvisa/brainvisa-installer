@@ -368,7 +368,9 @@ class Application(object):
                     remove_private=not self.args.i2bm))
         if self.args.names:
             for name in self.args.names:
-                res.append(Package(name, self.config, compress = self.args.compress))
+                cls = Package.package_factory(name, self.config)
+                res.append(cls(name, self.config,
+                               compress = self.args.compress))
         return res
 
     def __create_configuration(self):

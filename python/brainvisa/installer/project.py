@@ -139,8 +139,10 @@ class Project(Component):
                     ext = ''
                 full_name = "%s%s" % (package_name, ext)
                 if full_name in packages_info:
-                    pack = Package(full_name, self.configuration,
-                        compress=self.compress)
+                    cls = Package.package_factory(full_name,
+                                                  self.configuration)
+                    pack = cls(full_name, self.configuration,
+                               compress=self.compress)
                     if self.configuration.is_package_excluded(full_name):
                         continue
                     pack.create(folder)

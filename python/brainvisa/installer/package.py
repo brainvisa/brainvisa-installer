@@ -35,7 +35,8 @@ class Package(Component):
                     version=dep_pack.version)
                 tag_deps.append(tag_dep)
         if self.type == 'run':
-            tag_deps.append(TagDependency(name="brainvisa.app.thirdparty.bv_env"))
+            tag_deps.append(TagDependency(
+                name="brainvisa.app.thirdparty.bv_env"))
         if self.licenses:
             for lic in self.licenses:
                 valid_name = ft.ifw_name(lic)
@@ -91,3 +92,19 @@ class Package(Component):
             dep_pack = Package(dep_name, self.configuration,
                 write_it=self.configuration.with_dependencies)
             self.dependencies.append(dep_pack)
+
+    @staticmethod
+    def package_factory(name, config):
+        ex_pack_class = config.exception_info_by_name(name, 'PACKAGING_CLASS')
+        if ex_pack_class is not None:
+            modcls = ex_pack_class.split('.')
+            if len(modcls) > 1:
+                modname = '.'.join(modcls[:-1])
+                import importlib
+                mod = importlib.import_module(modname)
+                cls = getattr(mod, modcls[-1])
+            else:
+                cls = globals().get(modcls)
+            return cls
+        return Package
+

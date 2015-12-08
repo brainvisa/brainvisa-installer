@@ -44,8 +44,12 @@ class Configuration(object): #pylint: disable=R0902
         if exceptions is not None:
             for exception in exceptions:
                 if exception.tag == 'INFO' and \
-                exception.attrib.get('NAME') == name and \
-                exception.attrib.get('PARAM') == param:
+                        exception.attrib.get('NAME') == name and \
+                        exception.attrib.get('PARAM') == param:
+                    platform = exception.attrib.get('PLATFORM')
+                    if platform:
+                        if platform != System.platform():
+                            return None
                     return exception.attrib.get('VALUE')
         return None
 
