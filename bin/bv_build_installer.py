@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 __author__      = "Hakim Taklanti"
-__copyright__   = "Copyright 2013, CEA / Saclay"
+__copyright__   = "Copyright 2013-2015, CEA / Saclay"
 __credits__     = ["Hakim Taklanti",
                    "Yann Cointepas",
                    "Denis Rivière",
                    "Nicolas Souedet"]
 __license__     = "CeCILL V2"
-__version__     = "0.1"
+__version__     = "1.0"
 __maintainer__  = "Hakim Taklanti"
 __email__       = "hakim.taklanti@altran.com"
 __status__      = "release"
@@ -199,7 +199,7 @@ class Application(object):
     def start(self):
         "Start BrainVISA Installer process."
         logging.getLogger().info(MESSAGE_BVI_HEADER)
-        self.__configure_logging()
+        #self.__configure_logging()
         self.__create_configuration()
         self.__create_information()
         self.__create_repository()
@@ -224,7 +224,7 @@ class Application(object):
             type    = valid_names,
             nargs   = '+',
             metavar = 'name',
-            help    = 'Package\'s names to include in the installer and the repository')
+            help    = 'Package names to include in the installer and the repository')
 
         parser.add_argument('-t', '--types',
             nargs   = '+',
@@ -285,6 +285,11 @@ class Application(object):
             action  = 'store_true',
             help    = 'Include I2BM private components - by default such private components are excluded from the package.')
 
+        parser.add_argument('--data',
+            action  = 'store_true',
+            help    = 'Package only data packages (which are excluded from '
+            'normal packaging).')
+
         parser.add_argument('-v', '--version',
             action  = 'version',
             version = '%(prog)s [' + __status__ + '] - ' + __version__,
@@ -315,6 +320,7 @@ class Application(object):
             help='Don\'t rebuild components which already have a directory in '
             'the temporary repository directory.')
 
+        self.__configure_logging()
         args = parser.parse_args(argv[1:])
 
         if args.online_only + args.offline_only + args.repository_only > 1:
@@ -348,6 +354,7 @@ class Application(object):
         kwargs['skip_repos'] = self.args.skip_repos
         kwargs['skip_repogen'] = self.args.skip_repogen
         kwargs['skip_existing'] = self.args.skip_existing
+        kwargs['data_packages'] = self.args.data
         self.config = Configuration(**kwargs)
         self.components = self.__group_components()
 

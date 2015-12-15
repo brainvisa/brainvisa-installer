@@ -56,33 +56,38 @@ class Configuration(object): #pylint: disable=R0902
     def is_packaging_excluded(self, name):
         "Return True if the packaging must be excluded."
         exceptions = self.root.find('EXCEPTIONS')
+        excluded = self.data_packages
         if exceptions is not None:
             for exception in exceptions:
                 if (exception.tag == 'PACKAGE' and
-                exception.attrib.get('NAME') == name and
-                (exception.attrib.get('TYPE') == 'PACKAGING' or
-                 exception.attrib.get('TYPE') == 'ALL')):
+                        exception.attrib.get('NAME') == name):
                     platform = exception.attrib.get('PLATFORM')
-                    if platform:
-                        if platform != System.platform():
-                            return False
-                    return True
-        return False
+                    if platform and platform != System.platform():
+                        continue
+                    etype = exception.attrib.get('TYPE')
+                    if etype in ('PACKAGING', 'ALL'):
+                        return True
+                    if etype == 'DATA_PACKAGE':
+                        excluded = not self.data_packages
+        return excluded
 
     def is_package_excluded(self, name):
         "Return False if the package must be excluded."
         exceptions = self.root.find('EXCEPTIONS')
+        excluded = self.data_packages
         if exceptions  is not None:
             for exception in exceptions:
                 if (exception.tag == 'PACKAGE' and
-                    exception.attrib.get('NAME') == name and
-                    exception.attrib.get('TYPE') == 'ALL'):
+                        exception.attrib.get('NAME') == name):
                     platform = exception.attrib.get('PLATFORM')
-                    if platform:
-                        if platform != System.platform():
-                            return False
-                    return True
-        return False
+                    if platform and platform != System.platform():
+                        continue
+                    etype = exception.attrib.get('TYPE')
+                    if etype == 'DATA_PACKAGE':
+                        excluded = not self.data_packages
+                    elif etype == 'ALL':
+                        return True
+        return excluded
 
     def category_by_id(self, id_value):
         "Return a TagCategory object from id."
@@ -163,7 +168,7 @@ class Configuration(object): #pylint: disable=R0902
     def __init__(self, filename = Paths.BVI_CONFIGURATION, alt_filename=None,
             release=None, with_dependencies=True, with_thirdparty=True,
             platform_name=None, skip_repos=False, skip_repogen=False,
-            skip_existing=False):
+            skip_existing=False, data_packages=False):
         "filename is the default configuration file in share, \
         alt_filename is an optional configuration file \
         to override the default configuration."
@@ -194,6 +199,7 @@ class Configuration(object): #pylint: disable=R0902
         self.skip_repos = skip_repos
         self.skip_repogen = skip_repogen
         self.skip_existing = skip_existing
+        self.data_packages = data_packages
         self.read(filename)
         if alt_filename is not None:
             self.read(alt_filename)

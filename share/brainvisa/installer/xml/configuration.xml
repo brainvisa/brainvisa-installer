@@ -46,6 +46,7 @@ Status:     dev
     -->
     <REPOSITORIES>
         <URL>http://brainvisa.fr/packages/@release@/@platform@/packages/</URL>
+        <URL>http://brainvisa.fr/packages/@release@/data/packages/</URL>
         <URL PRIVATE="1">file:///neurospin/brainvisa/repositories/i2bm/@release@/@platform@/packages/</URL>
     </REPOSITORIES>
 
@@ -195,7 +196,8 @@ Status:     dev
         <INFO NAME="old_connectomist-gpl-usrdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="old_connectomist-gpl-devdoc" PARAM="VIRTUAL" VALUE="false" />
         <!-- PACKAGING -->
-<!--         <PACKAGE PLATFORM="WIN32" NAME="brainvisa-share" TYPE="PACKAGING" /> -->
+        <PACKAGE NAME="brainvisa-share" TYPE="DATA_PACKAGE" />
+        <PACKAGE NAME="sulci-models" TYPE="DATA_PACKAGE" />
         <INFO PLATFORM="WIN32" NAME="brainvisa-share" PARAM="PACKAGING_CLASS" VALUE="brainvisa.installer.package_bv_share.PackageBVShare" />
         <INFO PLATFORM="WIN32" NAME="brainvisa-share" PARAM="PACKAGING_DIR" VALUE="c:/x" />
         <INFO PLATFORM="WIN32" NAME="sulci-models" PARAM="PACKAGING_CLASS" VALUE="brainvisa.installer.package_bv_share.PackageBVShare" />

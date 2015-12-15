@@ -139,12 +139,12 @@ class Project(Component):
                     ext = ''
                 full_name = "%s%s" % (package_name, ext)
                 if full_name in packages_info:
+                    if self.configuration.is_package_excluded(full_name):
+                        continue
                     cls = Package.package_factory(full_name,
                                                   self.configuration)
                     pack = cls(full_name, self.configuration,
                                compress=self.compress)
-                    if self.configuration.is_package_excluded(full_name):
-                        continue
                     pack.create(folder)
                     if not self.__is_in_dependencies(pack, type_name):
                         self.dep_packages[type_name].append(pack)

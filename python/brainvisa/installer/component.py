@@ -52,11 +52,13 @@ class Component(object):
     def create(self, folder):
         "Create the component in folder."
         path = "%s/%s" % (folder, self.ifwname)
-        if path in Component.done_created_components:
+        if path in Component.done_created_components \
+                or (self.configuration
+                    and self.configuration.is_package_excluded(self.name)):
             return
         if not os.path.isdir(path):
             os.mkdir(path)
-        elif self.configuration.skip_existing:
+        elif self.configuration and self.configuration.skip_existing:
             return
         self.__package_meta(path)
         if self.data:
