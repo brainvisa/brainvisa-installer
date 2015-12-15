@@ -56,6 +56,8 @@ class Component(object):
             return
         if not os.path.isdir(path):
             os.mkdir(path)
+        elif self.configuration.skip_existing:
+            return
         self.__package_meta(path)
         if self.data:
             self.__package_data(path)

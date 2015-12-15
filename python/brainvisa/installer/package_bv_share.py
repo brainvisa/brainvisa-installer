@@ -14,13 +14,18 @@ class PackageBVShare(Package):
     '''
     def create(self, folder):
         path = "%s/%s" % (folder, self.ifwname)
-        if path in Component.done_created_components:
+        if path in Component.done_created_components \
+                or (configuration.skip_existing and os.path.exists(path)):
             return
-        if sys.platform.startswith('win'):
-            temp_folder = "C:\\x"
-        else:
-            # used only for testing since non-wondows OS don't have the problem
-            temp_folder = '/tmp/x'
+        temp_folder = self.configuration.exception_info_by_name(
+            self.name, 'PACKAGING_DIR')
+        if temp_folder is None:
+            if sys.platform.startswith('win'):
+                temp_folder = "C:\\x"
+            else:
+                # used only for testing since non-wondows OS don't have the
+                # problem
+                temp_folder = '/tmp/x'
         if not os.path.exists(temp_folder):
             os.mkdir(temp_folder)
         if not self.write_it:

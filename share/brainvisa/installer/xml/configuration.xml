@@ -195,8 +195,11 @@ Status:     dev
         <INFO NAME="old_connectomist-gpl-usrdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="old_connectomist-gpl-devdoc" PARAM="VIRTUAL" VALUE="false" />
         <!-- PACKAGING -->
-        <PACKAGE PLATFORM="WIN32" NAME="brainvisa-share" TYPE="PACKAGING" />
+<!--         <PACKAGE PLATFORM="WIN32" NAME="brainvisa-share" TYPE="PACKAGING" /> -->
         <INFO PLATFORM="WIN32" NAME="brainvisa-share" PARAM="PACKAGING_CLASS" VALUE="brainvisa.installer.package_bv_share.PackageBVShare" />
+        <INFO PLATFORM="WIN32" NAME="brainvisa-share" PARAM="PACKAGING_DIR" VALUE="c:/x" />
+        <INFO PLATFORM="WIN32" NAME="sulci-models" PARAM="PACKAGING_CLASS" VALUE="brainvisa.installer.package_bv_share.PackageBVShare" />
+        <INFO PLATFORM="WIN32" NAME="sulci-models" PARAM="PACKAGING_DIR" VALUE="c:/w" />
     </EXCEPTIONS>
 
     <SCRIPTS>

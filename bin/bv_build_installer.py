@@ -310,6 +310,11 @@ class Application(object):
             action='store_true',
             help='Skip repogen (final repository creation + compression). Assumes it has already been done.')
 
+        parser.add_argument('--skip-existing', dest='skip_existing',
+            action='store_true',
+            help='Don\'t rebuild components which already have a directory in '
+            'the temporary repository directory.')
+
         args = parser.parse_args(argv[1:])
 
         if args.online_only + args.offline_only + args.repository_only > 1:
@@ -342,6 +347,7 @@ class Application(object):
             kwargs['platform_name'] = self.args.platform_name
         kwargs['skip_repos'] = self.args.skip_repos
         kwargs['skip_repogen'] = self.args.skip_repogen
+        kwargs['skip_existing'] = self.args.skip_existing
         self.config = Configuration(**kwargs)
         self.components = self.__group_components()
 
