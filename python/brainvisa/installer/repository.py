@@ -107,6 +107,9 @@ class Repository(object):
             Default = cat.Default)
 
     def __create_packages_thirdparty(self):
+        if self.configuration.data_packages:
+            # skip for data repository
+            return
         logging.getLogger().info( "[ BVI ] Create Thirdparty category..." )
         package_name = "brainvisa.app.thirdparty"
         self.__create_package(package_name, 
@@ -118,6 +121,9 @@ class Repository(object):
             Virtual = 'true')
 
     def __create_packages_licenses(self):
+        if self.configuration.data_packages:
+            # skip for data repository
+            return
         logging.getLogger().info( "[ BVI ] Create Licenses category..." )
         package_name = "brainvisa.app.licenses"
         self.__create_package(package_name,
@@ -128,9 +134,14 @@ class Repository(object):
             Name = 'brainvisa.app.licenses', 
             Virtual = 'true')
         for tag_license in self.configuration.Licenses:
-            License(tag_license).create("%s/packages" % self.folder)
+            License(tag_license,
+                    configuration=self.configuration).create(
+                        "%s/packages" % self.folder)
 
     def __create_package_bv_env(self):
+        if self.configuration.data_packages:
+            # skip for data repository
+            return
         logging.getLogger().info( "[ BVI ] Create bv_env package..." )
         package_name = "brainvisa.app.thirdparty.bv_env"
         self.__create_package(package_name,
