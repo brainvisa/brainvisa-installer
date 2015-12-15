@@ -15,7 +15,7 @@ class PackageBVShare(Package):
     def create(self, folder):
         path = "%s/%s" % (folder, self.ifwname)
         if path in Component.done_created_components \
-                or (configuration.skip_existing and os.path.exists(path))
+                or (configuration.skip_existing and os.path.exists(path)) \
                 or self.configuration.is_package_excuded(self.name):
             return
         temp_folder = self.configuration.exception_info_by_name(
