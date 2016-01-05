@@ -355,6 +355,7 @@ class Application(object):
         kwargs['skip_repogen'] = self.args.skip_repogen
         kwargs['skip_existing'] = self.args.skip_existing
         kwargs['data_packages'] = self.args.data
+        kwargs['private_repos'] = self.args.i2bm
         self.config = Configuration(**kwargs)
         self.components = self.__group_components()
 

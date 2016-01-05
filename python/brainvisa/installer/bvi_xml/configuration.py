@@ -168,7 +168,7 @@ class Configuration(object): #pylint: disable=R0902
     def __init__(self, filename = Paths.BVI_CONFIGURATION, alt_filename=None,
             release=None, with_dependencies=True, with_thirdparty=True,
             platform_name=None, skip_repos=False, skip_repogen=False,
-            skip_existing=False, data_packages=False):
+            skip_existing=False, data_packages=False, private_repos=False):
         "filename is the default configuration file in share, \
         alt_filename is an optional configuration file \
         to override the default configuration."
@@ -200,19 +200,26 @@ class Configuration(object): #pylint: disable=R0902
         self.skip_repogen = skip_repogen
         self.skip_existing = skip_existing
         self.data_packages = data_packages
+        self.private_repos = private_repos
         self.read(filename)
         if alt_filename is not None:
             self.read(alt_filename)
 
     def __init_repositories(self):
-        "Return the values of <REPOSITORIES> part (list of TagRepository objects)."
+        """Return the values of <REPOSITORIES> part (list of TagRepository
+        objects)."""
         reps = self.root.find('REPOSITORIES')
         if reps is None:
             return
         for rep in reps:
-            self.Repositories.append(TagRepository(
-                Release=self.Release,
-                platform_name=self.PlatformName).init_from_configuration(rep))
+            is_private = (rep.attrib.get('PRIVATE', "false")
+                          in ("true", "True", "1"))
+            if is_private == self.private_repos:
+                self.Repositories.append(TagRepository(
+                    Release=self.Release,
+                    platform_name=self.PlatformName,
+                    private=self.private_repos).init_from_configuration(
+                        rep))
 
     def __init_licenses(self):
         "Return the values of <LICENSES> part (list of TagLicense objects)."

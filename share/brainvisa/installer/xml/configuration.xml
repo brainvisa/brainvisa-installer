@@ -47,7 +47,10 @@ Status:     dev
     <REPOSITORIES>
         <URL>http://brainvisa.fr/packages/@release@/@platform@/packages/</URL>
         <URL>http://brainvisa.fr/packages/@release@/data/packages/</URL>
+        <URL >file:///neurospin/brainvisa/repositories/public/@release@/@platform@/packages/</URL>
+        <URL >file:///neurospin/brainvisa/repositories/public/@release@/data/packages/</URL>
         <URL PRIVATE="1">file:///neurospin/brainvisa/repositories/i2bm/@release@/@platform@/packages/</URL>
+        <URL PRIVATE="1">file:///neurospin/brainvisa/repositories/public/@release@/data/packages/</URL>
     </REPOSITORIES>
 
     <!-- Categories

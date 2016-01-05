@@ -40,13 +40,14 @@ class TagRepository(object):
 
     def __init__(self, Url = None, Enabled = None, Username = None,
         Password = None, DisplayName = None, Release = None,
-        platform_name=None):
+        platform_name=None, private=False):
         self.Url = Url
         self.Enabled = Enabled
         self.Username = Username
         self.Password = Password
         self.DisplayName = DisplayName
         self.PlatformName = platform_name
+        self.private = private
         if Release is None:
             self.Release = brainvisa.config.fullVersion
         else:
@@ -61,9 +62,11 @@ class TagRepository(object):
         att_platform = element.attrib.get('PLATFORM')
         self.Enabled = '1' if att_platform is None \
             or System.platform().lower() == att_platform.lower() else '0'
-        att_private = element.attrib.get('PRIVATE')
-        if att_private is not None and att_private in ('1', 'True', 'true'):
-           self.Enabled = '0'
+        #att_private = element.attrib.get('PRIVATE')
+        #if att_private is not None and att_private in ('1', 'True', 'true'):
+           #self.Enabled = '0'
+        if self.Url.startswith("file://") and not self.private:
+            self.Enabled = '0'
         self.Username = element.attrib.get('USERNAME')
         self.Password = element.attrib.get('PASSWORD')
         self.DisplayName = element.attrib.get('DISPLAYNAME')
