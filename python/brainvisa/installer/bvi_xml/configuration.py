@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import xml.etree.ElementTree as ET
+import brainvisa.config # for release version
 
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.system import System
@@ -10,6 +11,13 @@ from brainvisa.installer.bvi_xml.tag_license import TagLicense
 from brainvisa.installer.bvi_xml.tag_category import TagCategory
 from brainvisa.installer.bvi_xml.tag_repository import TagRepository
 
+def resolve_patterns(value):
+    pattern_values = { 'release'  : brainvisa.config.fullVersion,
+                       'platform' : System.platform() }
+    for p, v in pattern_values.iteritems():
+        value = value.replace( '@' + p + '@', v )
+    
+    return value
 
 class Configuration(object): #pylint: disable=R0902
     """BrainVISA Installer XML Configuration File.
@@ -147,18 +155,18 @@ class Configuration(object): #pylint: disable=R0902
     def read(self, filename):
         self.tree = ET.parse(filename)
         self.root = self.tree.getroot()
-        self.Name = self.general('NAME')
-        self.Version = self.general('VERSION')
-        self.Title = self.general('TITLE')
-        self.Publisher = self.general('PUBLISHER')
-        self.Producturl = self.general('PRODUCTURL')
-        self.Targetdir = self.general('TARGETDIR')
-        self.Admintargetdir = self.general('ADMINTARGETDIR')
-        self.Icon = self.general('ICON')
-        self.Logo = self.general('LOGO')
-        self.Watermark = self.general('WATERMARK')
-        self.StartMenuDir = self.general('STARTMENUDIR')
-        self.MaintenanceToolName = self.general('MAINTENANCETOOLNAME')
+        self.Name = resolve_patterns(self.general('NAME'))
+        self.Version = resolve_patterns(self.general('VERSION'))
+        self.Title = resolve_patterns(self.general('TITLE'))
+        self.Publisher = resolve_patterns(self.general('PUBLISHER'))
+        self.Producturl = resolve_patterns(self.general('PRODUCTURL'))
+        self.Targetdir = resolve_patterns(self.general('TARGETDIR'))
+        self.Admintargetdir = resolve_patterns(self.general('ADMINTARGETDIR'))
+        self.Icon = resolve_patterns(self.general('ICON'))
+        self.Logo = resolve_patterns(self.general('LOGO'))
+        self.Watermark = resolve_patterns(self.general('WATERMARK'))
+        self.StartMenuDir = resolve_patterns(self.general('STARTMENUDIR'))
+        self.MaintenanceToolName = resolve_patterns(self.general('MAINTENANCETOOLNAME'))
         self.Allownonasciicharacters = self.general('ALLOWNONASCIICHARACTERS')
         self.Allowspaceinpath = self.general('ALLOWSPACEINPATH')
         self.__init_repositories()
@@ -235,15 +243,15 @@ class Configuration(object): #pylint: disable=R0902
         if cats is None:
             return
         for cat in cats:
-            sub_cateogires = list()
+            sub_categories = list()
             for subcat in cat:
-                sub_sub_cateogires = list()
+                sub_sub_categories = list()
                 for subsubcat in subcat:
-                    sub_sub_cateogires.append(TagCategory().init_from_configuration(subsubcat))
-                sub_cateogires.append(
-                    TagCategory().init_from_configuration(subcat, sub_sub_cateogires))
+                    sub_sub_categories.append(TagCategory().init_from_configuration(subsubcat))
+                sub_categories.append(
+                    TagCategory().init_from_configuration(subcat, sub_sub_categories))
             self.Categories.append(
-                TagCategory().init_from_configuration(cat, sub_cateogires))
+                TagCategory().init_from_configuration(cat, sub_categories))
 
     def __get_script_value(self, name, tagname, type_ = None):
         "Return the name from the package's name."

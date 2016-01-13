@@ -18,12 +18,12 @@ Status:     dev
           http://doc-snapshot.qt-project.org/qtifw-1.4/ifw-globalconfig.html
      -->
     <GENERAL>
-        <NAME>BrainVISA Installer</NAME>
-        <VERSION>1.0.0</VERSION>
-        <TITLE>BrainVISA Installer</TITLE>
+        <NAME>BrainVISA Suite</NAME>
+        <VERSION>@release@</VERSION>
+        <TITLE>BrainVISA Suite</TITLE>
         <PUBLISHER>CEA IFR49 / I2BM</PUBLISHER>
         <PRODUCTURL>http://brainvisa.info/</PRODUCTURL>
-        <TARGETDIR>@homeDir@/brainvisa</TARGETDIR>
+        <TARGETDIR>@RootDir@/brainvisa-@ProductVersion@</TARGETDIR>
         <STARTMENUDIR>BrainVISA Suite</STARTMENUDIR>
         <ADMINTARGETDIR>/opt/brainvisa</ADMINTARGETDIR>
         <ICON>icon.png</ICON>

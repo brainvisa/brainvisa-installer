@@ -57,6 +57,7 @@ class IFWConfig(XmlFile): #pylint: disable=R0902
 			'Publisher' : self.Publisher,
 			'ProductUrl' : self.ProductUrl,
 			'Icon' : self.Icon,
+            'InstallerWindowIcon' : self.InstallerWindowIcon,
 			'Logo' : self.Logo,
 			'Watermark' : self.Watermark,
 			'Banner' : self.Banner,
