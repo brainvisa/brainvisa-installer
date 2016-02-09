@@ -44,10 +44,10 @@ Status: 	dev
 		</URL>
 	-->
 	<REPOSITORIES>
-		<URL PLATFORM="WIN32">http://brainvisa.fr/repositories/win32/</URL>
-		<URL PLATFORM="OSX">http://brainvisa.fr/repositories/osx/</URL>
-		<URL PLATFORM="LINUX32">http://brainvisa.fr/repositories/linux32/</URL>
-		<URL PLATFORM="LINUX64">http://brainvisa.fr/repositories/linux64/</URL>
+		<URL PLATFORM="WIN32">http://brainvisa.info/repositories/win32/</URL>
+		<URL PLATFORM="OSX">http://brainvisa.info/repositories/osx/</URL>
+		<URL PLATFORM="LINUX32">http://brainvisa.info/repositories/linux32/</URL>
+		<URL PLATFORM="LINUX64">http://brainvisa.info/repositories/linux64/</URL>
 	</REPOSITORIES>
 
 	<!-- Categories
