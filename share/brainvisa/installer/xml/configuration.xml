@@ -23,7 +23,8 @@ Status:     dev
         <TITLE>BrainVISA Suite</TITLE>
         <PUBLISHER>CEA IFR49 / I2BM</PUBLISHER>
         <PRODUCTURL>http://brainvisa.info/</PRODUCTURL>
-        <TARGETDIR>@RootDir@/brainvisa-@ProductVersion@</TARGETDIR>
+        <TARGETDIR>@HomeDir@/brainvisa-@ProductVersion@</TARGETDIR>
+        <ADMINTARGETDIR>@ApplicatonsDir@/brainvisa-@ProductVersion@</ADMINTARGETDIR>
         <STARTMENUDIR>BrainVISA Suite</STARTMENUDIR>
         <ADMINTARGETDIR>/opt/brainvisa</ADMINTARGETDIR>
         <ICON>icon.png</ICON>
