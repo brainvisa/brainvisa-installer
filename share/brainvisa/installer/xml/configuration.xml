@@ -71,13 +71,11 @@ Status:     dev
         <CATEGORY ID="APP" NAME="BrainVISA Suite" PRIORITY="10" VERSION="1.0" DESCRIPTION="BrainVISA Suite for end users.">
             <CATEGORY ID="run" NAME="Application" PRIORITY="10" VERSION="1.0" DEFAULT="false" />
             <CATEGORY ID="usrdoc" NAME="Documentation" PRIORITY="1" VERSION="1.0" DEFAULT="false" />
+            <CATEGORY ID="test" NAME="Test files" PRIORITY="0" VERSION="1.0" DEFAULT="false" />
         </CATEGORY>
         <CATEGORY ID="DEV" NAME="BrainVISA Development" PRIORITY="1" VERSION="1.0" DESCRIPTION="BrainVISA Suite for developers.">
             <CATEGORY ID="dev" NAME="Development files" PRIORITY="10" VERSION="1.0" DEFAULT="false" />
             <CATEGORY ID="devdoc" NAME="Documentation" PRIORITY="1" VERSION="1.0" DEFAULT="false" />
-        </CATEGORY>
-        <CATEGORY ID="TEST" NAME="BrainVISA Test packages" PRIORITY="0" VERSION="1.0" DESCRIPTION="BrainVISA test files.">
-            <CATEGORY ID="test" NAME="Test files" PRIORITY="0" VERSION="1.0" DEFAULT="false" />
         </CATEGORY>
     </CATEGORIES>
 
