@@ -21,6 +21,7 @@ class Package(Component):
             'usrdoc'    : "brainvisa.app.%s.usrdoc.%s" % (p_name, c_name),
             'dev'       : "brainvisa.dev.%s.dev.%s" % (p_name, c_name),
             'devdoc'    : "brainvisa.dev.%s.devdoc.%s" % (p_name, c_name),
+            'test'      : "brainvisa.app.%s.test.%s" % (p_name, c_name),
             'thirdparty': "brainvisa.app.thirdparty.%s" % (c_name)
         }
         return res[self.type]

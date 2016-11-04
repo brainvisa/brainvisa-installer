@@ -107,6 +107,8 @@ class Component(object):
             self.project = ''
             self.type = 'thirdparty'
             self.version = '1.0'
+        if self.type == 'test':
+            self.virtual = 'false'
 
     def __init_config(self):
         "Initialize from the configuration file."

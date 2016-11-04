@@ -76,6 +76,9 @@ Status:     dev
             <CATEGORY ID="dev" NAME="Development files" PRIORITY="10" VERSION="1.0" DEFAULT="false" />
             <CATEGORY ID="devdoc" NAME="Documentation" PRIORITY="1" VERSION="1.0" DEFAULT="false" />
         </CATEGORY>
+        <CATEGORY ID="TEST" NAME="BrainVISA Test packages" PRIORITY="0" VERSION="1.0" DESCRIPTION="BrainVISA test files.">
+            <CATEGORY ID="test" NAME="Test files" PRIORITY="0" VERSION="1.0" DEFAULT="false" />
+        </CATEGORY>
     </CATEGORIES>
 
      <!-- Licenses
