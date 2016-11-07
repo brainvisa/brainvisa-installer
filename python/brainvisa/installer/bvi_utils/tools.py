@@ -126,7 +126,7 @@ def bv_packaging(name, type_, folder):
     Parameters
     ----------
     name   : package name.
-    type_  : type of package: run, doc, usrdoc, devdoc.
+    type_  : type of package: run, doc, usrdoc, devdoc, test.
     folder : destination full path.
     """
     args = ["%s/%s" % (Paths.BV_BIN, Paths.BV_ENV),

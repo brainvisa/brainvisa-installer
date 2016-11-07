@@ -32,8 +32,8 @@ class Project(Component):
     name             : BrainVISA project name. It must be in brainvisa_projects module.
     configuration    : Configuration object, using to configure the subcategory for each
                       project (see CATEGORY section).
-    types            : list of type's names: run, usrdoc, dev, devdoc.
-                      Default: ['run', 'usrdoc', 'dev', 'devdoc']
+    types            : list of type's names: run, usrdoc, dev, devdoc, test.
+                      Default: ['run', 'usrdoc', 'dev', 'devdoc', 'test']
     compress         : (bool, optional) perform compression
     remove_private   : (bool, optional) remove private components in the project
     """
@@ -45,7 +45,8 @@ class Project(Component):
             'run'       : "brainvisa.app.%s" % (p_name),
             'usrdoc'    : "brainvisa.app.%s" % (p_name),
             'dev'       : "brainvisa.dev.%s" % (p_name),
-            'devdoc'    : "brainvisa.dev.%s" % (p_name)
+            'devdoc'    : "brainvisa.dev.%s" % (p_name),
+            'test'      : "brainvisa.test.%s" % (p_name)
         }
         return res[self.type]
 
@@ -72,7 +73,7 @@ class Project(Component):
             remove_private=False): #pylint: disable=W0231
         super(Project, self).__init__(name)
         logging.getLogger().info( "[ BVI ] PROJECT: %s" % name )
-        types = types or ['run', 'usrdoc', 'dev', 'devdoc']
+        types = types or ['run', 'usrdoc', 'dev', 'devdoc', 'test']
         if not name in ordered_projects and not name in packages_info:
             raise BVIException(BVIException.PROJECT_NONEXISTENT, name)
         super(Project, self)._Component__init_date()
