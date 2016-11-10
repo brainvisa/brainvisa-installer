@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import xml.etree.ElementTree as ET
-import brainvisa.config # for release version
 
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.system import System
@@ -12,6 +11,11 @@ from brainvisa.installer.bvi_xml.tag_category import TagCategory
 from brainvisa.installer.bvi_xml.tag_repository import TagRepository
 
 def resolve_patterns(value):
+    try:
+        import brainvisa.config # for release version, depends on axon
+        release = brainvisa.config.fullVersion
+    except ImportError:
+        release = '1.0.0'
     pattern_values = { 'release'  : brainvisa.config.fullVersion,
                        'platform' : System.platform() }
     for p, v in pattern_values.iteritems():

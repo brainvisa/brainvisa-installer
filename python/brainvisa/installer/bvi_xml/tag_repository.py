@@ -4,7 +4,6 @@
 import xml.etree.ElementTree as ET
 
 from brainvisa.installer.bvi_utils.system import System
-import brainvisa.config # for release version
 
 
 class TagRepository(object):
@@ -49,7 +48,11 @@ class TagRepository(object):
         self.PlatformName = platform_name
         self.private = private
         if Release is None:
-            self.Release = brainvisa.config.fullVersion
+            try:
+                import brainvisa.config # for release version, depends on axon
+                self.Release = brainvisa.config.fullVersion
+            except ImportError:
+                self.Release = '1.0.0'
         else:
             self.Release = Release
 
