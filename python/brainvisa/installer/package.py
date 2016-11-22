@@ -33,7 +33,7 @@ class Package(Component):
             for dep_pack in self.dependencies:
                 tag_dep = TagDependency(
                     name=dep_pack.ifwname, 
-                    version=dep_pack.version)
+                    version=self.make_valid_version(dep_pack.version))
                 tag_deps.append(tag_dep)
         if self.type == 'run':
             tag_deps.append(TagDependency(
@@ -48,7 +48,7 @@ class Package(Component):
         package = IFWPackage(
             DisplayName     = self.displayname, 
             Description     = self.description, 
-            Version         = self.version, 
+            Version         = self.make_valid_version(self.version),
             ReleaseDate     = self.date, 
             Name            = self.ifwname, 
             TagDependencies = tag_deps, 
@@ -109,3 +109,7 @@ class Package(Component):
             return cls
         return Package
 
+    @staticmethod
+    def make_valid_version(version):
+        vversion = [c for c in version if c in '.0123456789']
+        return ''.join(vversion)
