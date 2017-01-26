@@ -21,6 +21,7 @@ class Package(Component):
             'usrdoc'    : "brainvisa.app.%s.usrdoc.%s" % (p_name, c_name),
             'dev'       : "brainvisa.dev.%s.dev.%s" % (p_name, c_name),
             'devdoc'    : "brainvisa.dev.%s.devdoc.%s" % (p_name, c_name),
+            'test'      : "brainvisa.test.%s.test.%s" % (p_name, c_name),
             'thirdparty': "brainvisa.app.thirdparty.%s" % (c_name)
         }
         return res[self.type]
@@ -32,7 +33,7 @@ class Package(Component):
             for dep_pack in self.dependencies:
                 tag_dep = TagDependency(
                     name=dep_pack.ifwname, 
-                    version=dep_pack.version)
+                    version=self.make_valid_version(dep_pack.version))
                 tag_deps.append(tag_dep)
         if self.type == 'run':
             tag_deps.append(TagDependency(
@@ -47,7 +48,7 @@ class Package(Component):
         package = IFWPackage(
             DisplayName     = self.displayname, 
             Description     = self.description, 
-            Version         = self.version, 
+            Version         = self.make_valid_version(self.version),
             ReleaseDate     = self.date, 
             Name            = self.ifwname, 
             TagDependencies = tag_deps, 
@@ -108,3 +109,7 @@ class Package(Component):
             return cls
         return Package
 
+    @staticmethod
+    def make_valid_version(version):
+        vversion = [c for c in version if c in '.0123456789']
+        return ''.join(vversion)

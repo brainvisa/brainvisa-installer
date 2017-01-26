@@ -70,6 +70,7 @@ class Repository(object):
         self.__mkdir(path)
         self.__create_packages_app()
         self.__create_packages_dev()
+        self.__create_packages_test()
         self.__create_packages_thirdparty()
         self.__create_packages_licenses()
         self.__create_package_bv_env()
@@ -102,6 +103,20 @@ class Repository(object):
             Version = cat.Version, 
             ReleaseDate = self.date, 
             Name = 'brainvisa.dev', 
+            Virtual = 'false',
+            SortingPriority = cat.Priority,
+            Default = cat.Default)
+
+    def __create_packages_test(self):
+        logging.getLogger().info( "[ BVI ] Create Test category..." )
+        package_name = "brainvisa.test"
+        cat = self.configuration.category_by_id('TEST')
+        self.__create_package(package_name,
+            DisplayName = cat.Name,
+            Description = cat.Description,
+            Version = cat.Version,
+            ReleaseDate = self.date,
+            Name = 'brainvisa.test',
             Virtual = 'false',
             SortingPriority = cat.Priority,
             Default = cat.Default)

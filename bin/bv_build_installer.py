@@ -228,10 +228,10 @@ class Application(object):
 
         parser.add_argument('-t', '--types',
             nargs   = '+',
-            choices = ['run', 'dev', 'usrdoc', 'devdoc'],
-            default = ['run', 'dev', 'usrdoc', 'devdoc'],
-            metavar = 'name',
-            help    = 'Package\'s types (default: "run", "dev", "usrdoc" and "devdoc")')
+            choices = ['run', 'dev', 'usrdoc', 'devdoc', 'test'],
+            default = ['run', 'dev', 'usrdoc', 'devdoc', 'test'],
+            metavar = 'types',
+            help    = 'Package\'s types (default: "run", "dev", "usrdoc", "devdoc" and "test")')
 
         parser.add_argument('--online-only',
             action  = 'store_true',
@@ -446,7 +446,8 @@ class Application(object):
                 # but copy is OK.
                 pass
 
-        if System.platform() == System.MacOSX:
+        if System.platform() == System.MacOSX \
+                and not self.args.repository_only:
             # create .dmg
             import distutils.spawn
             create_dmg = distutils.spawn.find_executable('create-dmg')
