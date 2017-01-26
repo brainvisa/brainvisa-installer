@@ -446,7 +446,8 @@ class Application(object):
                 # but copy is OK.
                 pass
 
-        if System.platform() == System.MacOSX:
+        if System.platform() == System.MacOSX \
+                and not self.args.repository_only:
             # create .dmg
             import distutils.spawn
             create_dmg = distutils.spawn.find_executable('create-dmg')
