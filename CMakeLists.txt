@@ -4,7 +4,6 @@ find_package( brainvisa-cmake REQUIRED )
 BRAINVISA_PROJECT()
 
 find_package( python REQUIRED )
-find_package( PyQt4 REQUIRED )
 
 
 BRAINVISA_DEPENDENCY( RUN DEPENDS python RUN ">= ${PYTHON_SHORT_VERSION}" )
