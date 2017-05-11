@@ -459,8 +459,8 @@ class Application(object):
                       installer_path, '%s.app' % self.args.installer]
                 subprocess.check_call(cmd)
             # build the MD5 sum file
-            import md5
-            m = md5.new()
+            import hashlib
+            m = hashlib.md5()
             m.update(open(installer_path, 'rb').read())
             mdsum = m.digest()
             mdsum_str = ''.join(['%02x' % ord(x) for x in mdsum])
