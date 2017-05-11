@@ -9,7 +9,7 @@ import os
 import sys
 import subprocess
 import logging
-import md5
+import hashlib
 import distutils.spawn
 
 from brainvisa.installer.bvi_utils.paths import Paths
@@ -68,7 +68,7 @@ def binarycreator(installer_path, repository_path, online_only=False,
     if sys.platform == "darwin":
         return  # don't do the .md5 now: we must build the .dmg first.
     # build the MD5 sum file
-    m = md5.new()
+    m = hashlib.md5()
     m.update(open(installer_path, 'rb').read())
     mdsum = m.digest()
     mdsum_str = ''.join(['%02x' % ord(x) for x in mdsum])
