@@ -170,7 +170,7 @@ class Repository(object):
         path_data_bin = "%s/bin" % path_data
         self.__mkdir(path_data)
         self.__mkdir(path_data_bin)
-        for cmd in Paths.ENV_COMMANDS:
+        for cmd in Paths.env_commands(self.configuration.platform_target):
             file_src = "%s/%s" % (Paths.BV_BIN, cmd)
             file_dest = "%s/%s" % (path_data_bin, cmd)
             shutil.copy(file_src, file_dest)

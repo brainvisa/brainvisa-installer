@@ -303,10 +303,25 @@ class Application(object):
             action  = 'store_true',
             help    = 'Do not package dependencies: take only explicitely named packages/projects. Their dependencies will still be marked so they must either already exist in the repository, either exist in another repository.')
 
+        parser.add_argument('--platform-target',
+            dest = 'platform_target',
+            default = None,
+            help    = 'target platform to use for cross compilation (default: %s)' % System.platform().lower())
+
         parser.add_argument('--platform_name',
             default = None,
             help    = 'force platform name in packages repository URL (default: %s)' % System.platform().lower())
 
+        parser.add_argument('--make-options',
+            dest = 'make_options',
+            default = None,
+            help    = 'make options to use during components packaging')
+        
+        parser.add_argument('--binary-creator-cmd', dest='binary_creator_command',
+            default = None,
+            help='Path to the binary creator command to use to generate'
+            'the installer.')
+        
         parser.add_argument('--skip-repos', dest='skip_repos',
             action='store_true',
             help='Skip initial (temp) repository creation. Assumes it has already been done.')
@@ -349,8 +364,16 @@ class Application(object):
             kwargs['with_thirdparty'] = False
         if self.args.no_dependencies:
             kwargs['with_dependencies'] = False
+        if self.args.platform_target:
+            kwargs['platform_target'] = self.args.platform_target
+            if not self.args.platform_name:
+                # Defaultly use target platform as platform name
+                self.args.platform_name = self.args.platform_target
         if self.args.platform_name:
             kwargs['platform_name'] = self.args.platform_name
+          
+        kwargs['make_options'] = self.args.make_options
+        kwargs['binary_creator_command'] = self.args.binary_creator_command
         kwargs['skip_repos'] = self.args.skip_repos
         kwargs['skip_repogen'] = self.args.skip_repogen
         kwargs['skip_existing'] = self.args.skip_existing
@@ -409,7 +432,8 @@ class Application(object):
         "Create the online repository."
         if not self.args.offline_only and not self.args.skip_repogen:
             logging.getLogger().info(MESSAGE_BVI_REPOSITORY)
-            repogen("%s_tmp" % self.args.repository, self.args.repository, update=True)
+            repogen("%s_tmp" % self.args.repository, self.args.repository, 
+                    update=True)
 
     def __create_installer(self):
         "Create the binary installer."
@@ -417,7 +441,13 @@ class Application(object):
             logging.getLogger().info(MESSAGE_BVI_INSTALLER)
             binarycreator(self.args.installer, "%s_tmp" % self.args.repository,
                 online_only = self.args.online_only,
-                offline_only = self.args.offline_only)
+                offline_only = self.args.offline_only,
+                platform_target = self.args.platform_target \
+                                  if self.args.platform_target \
+                                  else System.platform().lower(),
+                command = self.args.binary_creator_command \
+                          if self.args.binary_creator_command \
+                          else None)
 
     def __create_hacks(self):
         "Regroup all hacks for specific problems."
@@ -426,7 +456,8 @@ class Application(object):
                 and self.args.qt_menu_nib is None:
             # try to find qt_menu.nib in QtIFW
             import distutils.spawn
-            binarycreator = distutils.spawn.find_executable('binarycreator')
+            binarycreator = distutils.spawn.find_executable(
+                Paths.IFW_BINARYCREATOR)
             if binarycreator:
                 real_path = os.path.realpath(binarycreator)
                 path = os.path.dirname(os.path.dirname(real_path))

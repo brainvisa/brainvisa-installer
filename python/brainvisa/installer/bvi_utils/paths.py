@@ -7,46 +7,62 @@ from brainvisa.compilation_info import build_directory
 
 
 class Paths(object): #pylint: disable=R0903
-	"""Group all paths for the BrainVISA Installer classes."""
+    """Group all paths for the BrainVISA Installer classes."""
 
-	# BrainVISA folders
-	BV = build_directory
-	BV_BIN = '%s/bin' % BV
-	BV_PYTHON = '%s/python' % BV
-	BV_SHARE = '%s/share' % BV
+    # BrainVISA folders
+    BV = build_directory
+    BV_BIN = '%s/bin' % BV
+    BV_PYTHON = '%s/python' % BV
+    BV_SHARE = '%s/share' % BV
 
-	# BrainVISA Installer folders
-	BVI_SHARE = '%s/share/brainvisa/installer' % BV
-	BVI_SHARE_XML = '%s/xml' % BVI_SHARE
-	BVI_SHARE_IMAGES = '%s/images' % BVI_SHARE
-	BVI_SHARE_LICENSES = '%s/licenses' % BVI_SHARE
-	BVI_SHARE_SCRIPTS = '%s/scripts' % BVI_SHARE
-	
-	# BrainVISA Installer files
-	BVI_CONFIGURATION = '%s/xml/configuration.xml' % BVI_SHARE
+    # BrainVISA Installer folders
+    BVI_SHARE = '%s/share/brainvisa/installer' % BV
+    BVI_SHARE_XML = '%s/xml' % BVI_SHARE
+    BVI_SHARE_IMAGES = '%s/images' % BVI_SHARE
+    BVI_SHARE_LICENSES = '%s/licenses' % BVI_SHARE
+    BVI_SHARE_SCRIPTS = '%s/scripts' % BVI_SHARE
 
-	# Apps
-	WIN_EXT = '.exe' if (
-		System.platform() == System.Win32 or 
-		System.platform() == System.Win64
-	) else ''
-	BV_ENV 				= 'bv_env%s' % WIN_EXT
-	BV_PACKAGING 		= 'bv_packaging'
-	IFW_BINARYCREATOR 	= 'binarycreator%s' % WIN_EXT
-	IFW_REPOGEN 		= 'repogen%s' % WIN_EXT
-	IFW_ARCHIVEGEN 		= 'archivegen%s' % WIN_EXT
+    # BrainVISA Installer files
+    BVI_CONFIGURATION = '%s/xml/configuration.xml' % BVI_SHARE
 
-	ENV_COMMANDS = [
-		BV_ENV, 
-		'bv_env.py', 
-		'bv_env.sh', 
-		'bv_unenv',  
-		'bv_unenv.sh', 
-		'brainvisa'
-		] if (	System.platform() == System.Win32 or 
-				System.platform() == System.Win64) else [
-		BV_ENV, 
-		'bv_env.py', 
-		'bv_env.sh', 
-		'bv_unenv',  
-		'bv_unenv.sh']
+    # Apps   
+    BV_ENV              = 'bv_env'
+    BV_ENV_HOST         = 'bv_env_host'
+    BV_PACKAGING        = 'bv_packaging'
+    IFW_BINARYCREATOR   = 'binarycreator'
+    IFW_REPOGEN         = 'repogen'
+    IFW_ARCHIVEGEN      = 'archivegen'
+    IFW_DEVTOOL         = 'devtool'
+    WINEPATH            = 'winepath'
+
+    @staticmethod
+    def env_commands(platform):
+        """List of environment commands to package for a specific platform
+        """
+        commands = [Paths.binary_name(Paths.BV_ENV, platform),
+                    'bv_env.py', 
+                    'bv_env.sh', 
+                    'bv_unenv',  
+                    'bv_unenv.sh']
+        
+        if platform.upper() in (System.Win32, System.Win64):
+            commands.append('brainvisa')
+        
+        return commands
+        
+    
+    @staticmethod
+    def binary_extension(platform):
+        """Binary extension to use for specific platform, i.e. windows platform
+           needs .exe extension
+        """
+        return '.exe' if platform.upper() in (System.Win32, 
+                                              System.Win64) else ''
+    
+    @staticmethod
+    def binary_name(binary, platform):
+        """Cross compilation can need specific binary, i.e. windows platform
+           needs .exe extension
+        """
+        return binary + Paths.binary_extension(platform)
+         
