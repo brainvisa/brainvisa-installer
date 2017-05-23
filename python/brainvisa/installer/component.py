@@ -191,7 +191,9 @@ class Component(object):
 
     def __bv_packaging(self, folder_data):
         "Use bv_packaging to package the component data."
-        bv_packaging(self.name, self.type, folder_data)
+        bv_packaging(self.name, self.type, folder_data, 
+                     make_options = self.configuration.make_options,
+                     platform_target = self.configuration.platform_target)
         readme = "%s/README" % folder_data
         if os.path.isfile(readme):
             os.remove(readme)

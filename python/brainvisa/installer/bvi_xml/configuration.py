@@ -3,25 +3,13 @@
 
 import xml.etree.ElementTree as ET
 
+from brainvisa.installer.bvi_utils.tools import ifw_version
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.system import System
 from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_xml.tag_license import TagLicense
 from brainvisa.installer.bvi_xml.tag_category import TagCategory
 from brainvisa.installer.bvi_xml.tag_repository import TagRepository
-
-def resolve_patterns(value):
-    try:
-        import brainvisa.config # for release version, depends on axon
-        release = brainvisa.config.fullVersion
-    except ImportError:
-        release = '1.0.0'
-    pattern_values = { 'release'  : brainvisa.config.fullVersion,
-                       'platform' : System.platform() }
-    for p, v in pattern_values.iteritems():
-        value = value.replace( '@' + p + '@', v )
-    
-    return value
 
 class Configuration(object): #pylint: disable=R0902
     """BrainVISA Installer XML Configuration File.
@@ -111,6 +99,19 @@ class Configuration(object): #pylint: disable=R0902
                     return subcat
         return None
 
+    def resolve_patterns(self, value):
+        try:
+            import brainvisa.config # for release version, depends on axon
+            release = brainvisa.config.fullVersion
+        except ImportError:
+            release = '1.0.0'
+        pattern_values = { 'release'  : brainvisa.config.fullVersion,
+                           'platform' : self.PlatformName }
+        for p, v in pattern_values.iteritems():
+            value = value.replace( '@' + p + '@', v )
+        
+        return value
+
     def general(self, tag_name):
         "Return the values of <GENERAL> part."
         generals = self.root.find('GENERAL')
@@ -124,6 +125,7 @@ class Configuration(object): #pylint: disable=R0902
     @property
     def ifwconfig(self):
         "Generate a IFWConfig from configuration file."
+            
         config = IFWConfig(
             Name                          = self.Name,
             Version                       = self.Version,
@@ -153,24 +155,38 @@ class Configuration(object): #pylint: disable=R0902
             DependsOnLocalInstallerBinary = None,
             TargetConfigurationFile       = None,
             Translations                  = None,
-            UrlQueryString                = None)
+            UrlQueryString                = None,
+            IFWVersion                    = self.IFWVersion)
+
         return config
 
     def read(self, filename):
         self.tree = ET.parse(filename)
         self.root = self.tree.getroot()
-        self.Name = resolve_patterns(self.general('NAME'))
-        self.Version = resolve_patterns(self.general('VERSION'))
-        self.Title = resolve_patterns(self.general('TITLE'))
-        self.Publisher = resolve_patterns(self.general('PUBLISHER'))
-        self.Producturl = resolve_patterns(self.general('PRODUCTURL'))
-        self.Targetdir = resolve_patterns(self.general('TARGETDIR'))
-        self.Admintargetdir = resolve_patterns(self.general('ADMINTARGETDIR'))
-        self.Icon = resolve_patterns(self.general('ICON'))
-        self.Logo = resolve_patterns(self.general('LOGO'))
-        self.Watermark = resolve_patterns(self.general('WATERMARK'))
-        self.StartMenuDir = resolve_patterns(self.general('STARTMENUDIR'))
-        self.MaintenanceToolName = resolve_patterns(self.general('MAINTENANCETOOLNAME'))
+        self.Name = self.resolve_patterns(
+            self.general('NAME'))
+        self.Version = self.resolve_patterns(
+            self.general('VERSION'))
+        self.Title = self.resolve_patterns(
+            self.general('TITLE'))
+        self.Publisher = self.resolve_patterns(
+            self.general('PUBLISHER'))
+        self.Producturl = self.resolve_patterns(
+            self.general('PRODUCTURL'))
+        self.Targetdir = self.resolve_patterns(
+            self.general('TARGETDIR'))
+        self.Admintargetdir = self.resolve_patterns(
+            self.general('ADMINTARGETDIR'))
+        self.Icon = self.resolve_patterns(
+            self.general('ICON'))
+        self.Logo = self.resolve_patterns(
+            self.general('LOGO'))
+        self.Watermark = self.resolve_patterns(
+            self.general('WATERMARK'))
+        self.StartMenuDir = self.resolve_patterns(
+            self.general('STARTMENUDIR'))
+        self.MaintenanceToolName = self.resolve_patterns(
+            self.general('MAINTENANCETOOLNAME'))
         self.Allownonasciicharacters = self.general('ALLOWNONASCIICHARACTERS')
         self.Allowspaceinpath = self.general('ALLOWSPACEINPATH')
         self.__init_repositories()
@@ -179,8 +195,10 @@ class Configuration(object): #pylint: disable=R0902
 
     def __init__(self, filename = Paths.BVI_CONFIGURATION, alt_filename=None,
             release=None, with_dependencies=True, with_thirdparty=True,
-            platform_name=None, skip_repos=False, skip_repogen=False,
-            skip_existing=False, data_packages=False, private_repos=False):
+            platform_target=None, platform_name=None, skip_repos=False, 
+            skip_repogen=False, skip_existing=False, data_packages=False, 
+            private_repos=False, make_options=None, 
+            binary_creator_command=None):
         "filename is the default configuration file in share, \
         alt_filename is an optional configuration file \
         to override the default configuration."
@@ -203,9 +221,20 @@ class Configuration(object): #pylint: disable=R0902
         self.Licenses = list()
         self.Categories = list()
         self.Release = release
+        if binary_creator_command:
+            self.IFWVersion = ifw_version(binary_creator_command, 
+                                          platform_target)
+        else:
+            self.IFWVersion = None
+            
         if platform_name is None:
             platform_name = System.platform().lower()
         self.PlatformName = platform_name
+        if platform_target is None:
+            platform_target = System.platform().lower()
+        self.platform_target = platform_target
+        self.make_options = make_options
+        self.binary_creator_command = binary_creator_command
         self.with_dependencies = with_dependencies
         self.with_thirdparty = with_thirdparty
         self.skip_repos = skip_repos

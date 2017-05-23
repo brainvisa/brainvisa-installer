@@ -63,7 +63,7 @@ class Project(Component):
         return package
 
     def create(self, folder):
-        self.__create_pacakges(folder)
+        self.__create_packages(folder)
         for type_ in self.types:
             self.type = type_
             self.__create_subcategory(folder)
@@ -131,7 +131,7 @@ class Project(Component):
             return True
         return False
 
-    def __create_pacakges(self, folder):
+    def __create_packages(self, folder):
         components = project_components(self.name, self.remove_private)
         for package_name in components:
             for type_name in self.types:
