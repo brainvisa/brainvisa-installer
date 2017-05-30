@@ -68,14 +68,15 @@ def translate_path(path, platform_target,
     platform_target_family = System.platform_family(platform_target)
     
     #print '==== translate_path'
-    if platform_host != platform_target:
+    if platform_host != platform_target.upper():
         if platform_host_family == System.Family.Linux \
             and platform_target_family == System.Family.Win:
                 return translate_path_wine(path, translation_type)
         else:
             raise RuntimeError('No known path translation method between ' \
-                               '%s and %s systems' % (platform_host_family, 
-                                                      platform_target_family))
+                               '%s (%s family) and %s (%s family) systems' \
+                               % (platform_host, platform_host_family, 
+                                  platform_target, platform_target_family))
             
     else:
         return path
