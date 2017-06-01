@@ -58,6 +58,7 @@ from brainvisa.installer.project import Project
 from brainvisa.installer.package import Package
 from brainvisa.installer.repository import Repository
 from brainvisa.installer.bvi_xml.configuration import Configuration
+from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.tools import repogen, binarycreator
 from brainvisa.installer.bvi_utils.system import System
 
