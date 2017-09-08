@@ -203,6 +203,22 @@ Status:     dev
         <INFO NAME="old_connectomist-gpl-dev" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="old_connectomist-gpl-usrdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="old_connectomist-gpl-devdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="primatologist-private" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="primatologist-private-dev" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="primatologist-private-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="primatologist-private-devdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="primatologist-gpl" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="primatologist-gpl-dev" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="primatologist-gpl-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="primatologist-gpl-devdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="brainrat-private" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="brainrat-private-dev" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="brainrat-private-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="brainrat-private-devdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="brainrat-gpl" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="brainrat-gpl-dev" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="brainrat-gpl-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="brainrat-gpl-devdoc" PARAM="VIRTUAL" VALUE="false" />
         <!-- PACKAGING -->
         <PACKAGE NAME="brainvisa-share" TYPE="DATA_PACKAGE" />
         <PACKAGE NAME="sulci-models" TYPE="DATA_PACKAGE" />
