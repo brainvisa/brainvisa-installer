@@ -80,13 +80,19 @@ class Component(object):
         self.data = data
         self.compress = compress
         self.default = None
-        if self.name not in Component.done_components:
-            logging.getLogger().debug("[ BVI ] Component: %s" % self.name)
+        
+        new_component = self.name not in Component.done_components
+        if new_component:
             self.done_components.add(self.name)
         self.__init_date()
         self.__init_infos()
         if self.configuration is not None:
             self.__init_config()
+            
+        if new_component:
+            logging.getLogger().debug("[ BVI ] Component: %s (version: %s)" \
+                % (self.name, str(self.version) \
+                   if not self.version is None else "unknown"))
 
     def __init_infos(self):
         "Initialize the component information."
