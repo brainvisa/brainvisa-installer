@@ -1,19 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__author__      = "Hakim Taklanti"
-__copyright__   = "Copyright 2013-2015, CEA / Saclay"
-__credits__     = ["Hakim Taklanti",
-                   "Yann Cointepas",
-                   "Denis Rivière",
-                   "Nicolas Souedet"]
-__license__     = "CeCILL V2"
-__version__     = "1.2"
-__maintainer__  = "Hakim Taklanti"
-__email__       = "hakim.taklanti@altran.com"
-__status__      = "release"
-
-
 #  This software and supporting documentation are distributed by
 #      Institut Federatif de Recherche 49
 #      CEA/NeuroSpin, Batiment 145,
@@ -61,6 +48,7 @@ from brainvisa.installer.bvi_xml.configuration import Configuration
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.tools import repogen, binarycreator
 from brainvisa.installer.bvi_utils.system import System
+from brainvisa.installer import version
 
 from brainvisa.maker.brainvisa_projects import ordered_projects
 from brainvisa.compilation_info import packages_info
@@ -71,6 +59,19 @@ import brainvisa.maker.brainvisa_projects_versions as projects_versions
 #-----------------------------------------------------------------------------
 # Constants
 #-----------------------------------------------------------------------------
+
+__author__      = "Hakim Taklanti"
+__copyright__   = "Copyright 2013-2015, CEA / Saclay"
+__credits__     = ["Hakim Taklanti",
+                   "Yann Cointepas",
+                   "Denis Rivière",
+                   "Nicolas Souedet"]
+__license__     = "CeCILL V2"
+__version__     = version.version
+__maintainer__  = "Hakim Taklanti"
+__email__       = "hakim.taklanti@altran.com"
+__status__      = "release"
+
 
 MESSAGE_HELP_HEADER = """BrainVISA Installer Help
 BrainVISA Build Installer allows to build:
