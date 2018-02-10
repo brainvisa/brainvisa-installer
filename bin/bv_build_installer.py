@@ -452,8 +452,8 @@ class Application(object):
     def __create_installer(self):
         "Create the binary installer(s)."
         if not self.args.repository_only:
-            if args.installer is not None:
-                if args.offline_installer is None:
+            if self.args.installer is not None:
+                if self.args.offline_installer is None:
                     online_only = self.args.online_only
                     offline_only = self.args.offline_only
                 else:
@@ -471,7 +471,7 @@ class Application(object):
                     command = self.args.binary_creator_command \
                               if self.args.binary_creator_command \
                               else None)
-            if args.offline_installer is not None:
+            if self.args.offline_installer is not None:
                 online_only = False
                 offline_only = self.args.offline_only
                 logging.getLogger().info(MESSAGE_BVI_OFFLINE_INSTALLER)
