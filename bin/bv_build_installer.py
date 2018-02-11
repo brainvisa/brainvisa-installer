@@ -263,7 +263,7 @@ class Application(object):
             help    = 'Installer name (optional only if --repository-only is specified). Note: if an additional offline installer (-j option) is specified, -i will be an online-only installer. Otherwise it will follow the options --online-only and --offline-only if they are specified, with the same meaning as in the binarycreator tool.')
 
         parser.add_argument('-j', '--offline-installer',
-            default = 'BrainVISA_Suite-Installer-offline',
+            default = None,
             metavar = 'file',
             help    = 'Offline installer name (optional). The offline installer will contain all packages, ignoring --online-only option, but still following --offline-only if specified. Using both -i and -j will generate two installer binaries, one online and one offline.')
 
