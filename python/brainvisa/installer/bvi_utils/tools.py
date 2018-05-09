@@ -5,6 +5,8 @@
 # Procedures to simplify the use of external tools.
 #
 
+from __future__ import print_function
+
 import os
 import sys
 import subprocess
@@ -47,7 +49,7 @@ class PathTranslationType:
 
 def translate_path_wine(path, 
                         translation_type = PathTranslationType.HOST_TO_TARGET):
-    #print '==== translate_path_wine'
+    #print('==== translate_path_wine')
     wp = distutils.spawn.find_executable( Paths.WINEPATH )
     if translation_type == PathTranslationType.HOST_TO_TARGET:
         cmd = [ wp, '-w', path]
@@ -67,7 +69,7 @@ def translate_path(path, platform_target,
     platform_host_family = System.platform_family(platform_host)
     platform_target_family = System.platform_family(platform_target)
     
-    #print '==== translate_path'
+    #print('==== translate_path')
     if platform_host != platform_target.upper():
         if platform_host_family == System.Family.Linux \
             and platform_target_family == System.Family.Win:
@@ -119,7 +121,7 @@ def binarycreator(installer_path, repository_path, online_only=False,
         + param_online_only + param_offline_only + param_exclude \
         + param_include + param_config + param_packages \
         + [translate_path(installer_path, platform_target)]
-    print ' '.join(cmd)
+    print(' '.join(cmd))
     subprocess.check_call(cmd)
 
     if System.platform() == System.MacOSX:
@@ -155,7 +157,7 @@ def repogen(path_repository_in, path_repository_out,
         + param_packages + param_update + param_exclude \
         + param_components + [path_repository_out]
         #param_updateurl,
-    print ' '.join(cmd)
+    print(' '.join(cmd))
     subprocess.check_call(cmd)
 
 
@@ -170,7 +172,7 @@ def archivegen(folder):
     """
     args = [Paths.binary_name(Paths.IFW_ARCHIVEGEN, System.platform()), 
             '%s.7z' % folder, '%s' % folder]
-    print ' '.join(args)
+    print(' '.join(args))
     process = subprocess.Popen(args, stdout=subprocess.PIPE, cwd=folder)
     result = process.wait()
     logging.getLogger().info(result)
