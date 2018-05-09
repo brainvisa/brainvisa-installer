@@ -1,19 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__author__      = "Hakim Taklanti"
-__copyright__   = "Copyright 2013-2015, CEA / Saclay"
-__credits__     = ["Hakim Taklanti",
-                   "Yann Cointepas",
-                   "Denis Rivière",
-                   "Nicolas Souedet"]
-__license__     = "CeCILL V2"
-__version__     = "1.0"
-__maintainer__  = "Hakim Taklanti"
-__email__       = "hakim.taklanti@altran.com"
-__status__      = "release"
-
-
 #  This software and supporting documentation are distributed by
 #      Institut Federatif de Recherche 49
 #      CEA/NeuroSpin, Batiment 145,
@@ -61,6 +48,7 @@ from brainvisa.installer.bvi_xml.configuration import Configuration
 from brainvisa.installer.bvi_utils.paths import Paths
 from brainvisa.installer.bvi_utils.tools import repogen, binarycreator
 from brainvisa.installer.bvi_utils.system import System
+from brainvisa.installer import version
 
 from brainvisa.maker.brainvisa_projects import ordered_projects
 from brainvisa.compilation_info import packages_info
@@ -71,6 +59,19 @@ import brainvisa.maker.brainvisa_projects_versions as projects_versions
 #-----------------------------------------------------------------------------
 # Constants
 #-----------------------------------------------------------------------------
+
+__author__      = "Hakim Taklanti"
+__copyright__   = "Copyright 2013-2015, CEA / Saclay"
+__credits__     = ["Hakim Taklanti",
+                   "Yann Cointepas",
+                   "Denis Rivière",
+                   "Nicolas Souedet"]
+__license__     = "CeCILL V2"
+__version__     = version.version
+__maintainer__  = "Hakim Taklanti"
+__email__       = "hakim.taklanti@altran.com"
+__status__      = "release"
+
 
 MESSAGE_HELP_HEADER = """BrainVISA Installer Help
 BrainVISA Build Installer allows to build:
@@ -125,6 +126,12 @@ MESSAGE_BVI_REPOSITORY = """
 MESSAGE_BVI_INSTALLER = """
 ===============================================================
 ============== [ BVI ]: Create installer binary... ============
+===============================================================
+"""
+
+MESSAGE_BVI_OFFLINE_INSTALLER = """
+===============================================================
+========= [ BVI ]: Create offline installer binary... =========
 ===============================================================
 """
 
@@ -253,7 +260,12 @@ class Application(object):
         parser.add_argument('-i', '--installer',
             default = 'BrainVISA_Suite-Installer',
             metavar = 'file',
-            help    = 'Installer name (optional only if --repository-only is specified).')
+            help    = 'Installer name (optional only if --repository-only is specified). Note: if an additional offline installer (-j option) is specified, -i will be an online-only installer. Otherwise it will follow the options --online-only and --offline-only if they are specified, with the same meaning as in the binarycreator tool.')
+
+        parser.add_argument('-j', '--offline-installer',
+            default = None,
+            metavar = 'file',
+            help    = 'Offline installer name (optional). The offline installer will contain all packages, ignoring --online-only option, but still following --offline-only if specified. Using both -i and -j will generate two installer binaries, one online and one offline.')
 
         parser.add_argument('-r', '--repository',
             default = None,
@@ -345,9 +357,10 @@ class Application(object):
             exit(1)
 
         if args.qt_menu_nib is not None:
-            if args.installer is None:
-                logging.getLogger().error("[ BVI ] Error: --installer must be specified if \
-                --qt_menu_nib is used.")
+            if args.installer is None and args.offline_installer is None:
+                logging.getLogger().error(
+                    "[ BVI ] Error: --installer and/or --offline_installer "
+                    "must be specified if --qt_menu_nib is used.")
                 exit(1)
             if System.platform() != System.MacOSX:
                 logging.getLogger().error("[ BVI ] Error: --qt_menu_nib is only for Mac OS X.")
@@ -437,18 +450,42 @@ class Application(object):
                     update=True)
 
     def __create_installer(self):
-        "Create the binary installer."
+        "Create the binary installer(s)."
         if not self.args.repository_only:
-            logging.getLogger().info(MESSAGE_BVI_INSTALLER)
-            binarycreator(self.args.installer, "%s_tmp" % self.args.repository,
-                online_only = self.args.online_only,
-                offline_only = self.args.offline_only,
-                platform_target = self.args.platform_target \
-                                  if self.args.platform_target \
-                                  else System.platform().lower(),
-                command = self.args.binary_creator_command \
-                          if self.args.binary_creator_command \
-                          else None)
+            if self.args.installer is not None:
+                if self.args.offline_installer is None:
+                    online_only = self.args.online_only
+                    offline_only = self.args.offline_only
+                else:
+                    online_only = True
+                    offline_only = False
+                logging.getLogger().info(MESSAGE_BVI_INSTALLER)
+                binarycreator(
+                    self.args.installer,
+                    "%s_tmp" % self.args.repository,
+                    online_only = online_only,
+                    offline_only = offline_only,
+                    platform_target = self.args.platform_target \
+                                      if self.args.platform_target \
+                                      else System.platform().lower(),
+                    command = self.args.binary_creator_command \
+                              if self.args.binary_creator_command \
+                              else None)
+            if self.args.offline_installer is not None:
+                online_only = False
+                offline_only = self.args.offline_only
+                logging.getLogger().info(MESSAGE_BVI_OFFLINE_INSTALLER)
+                binarycreator(
+                    self.args.offline_installer,
+                    "%s_tmp" % self.args.repository,
+                    online_only = online_only,
+                    offline_only = offline_only,
+                    platform_target = self.args.platform_target \
+                                      if self.args.platform_target \
+                                      else System.platform().lower(),
+                    command = self.args.binary_creator_command \
+                              if self.args.binary_creator_command \
+                              else None)
 
     def __create_hacks(self):
         "Regroup all hacks for specific problems."

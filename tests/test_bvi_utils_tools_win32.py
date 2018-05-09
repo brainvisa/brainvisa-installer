@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 import os
 import os.path
 import shutil
@@ -27,7 +29,7 @@ def test_bvi_utils_tools_binarycreator_fullpath_1_win():
 		exclude=exclude,
 		include=include)
 	assert os.path.isfile(installer_file)
-	print "\n[ ! ] ==> Check the binary: %s" % installer_file
+	print("\n[ ! ] ==> Check the binary: %s" % installer_file)
 
 @pytest.mark.win32
 def test_bvi_utils_tools_binarycreator_fullpath_2_win():
@@ -45,7 +47,7 @@ def test_bvi_utils_tools_binarycreator_fullpath_2_win():
 		exclude=exclude,
 		include=include)
 	assert os.path.isfile(installer_file)
-	print "\n[ ! ] ==> Check the binary: %s" % installer_file
+	print("\n[ ! ] ==> Check the binary: %s" % installer_file)
 
 @pytest.mark.win32
 def test_bvi_utils_tools_binarycreator_fullpath_3_win():
@@ -63,7 +65,7 @@ def test_bvi_utils_tools_binarycreator_fullpath_3_win():
 		exclude=exclude,
 		include=include)
 	assert os.path.isfile(installer_file)
-	print "\n[ ! ] ==> Check the binary: %s" % installer_file
+	print("\n[ ! ] ==> Check the binary: %s" % installer_file)
 
 
 @pytest.mark.win32
@@ -82,4 +84,4 @@ def test_bvi_utils_tools_binarycreator_fullpath_4_win():
 		exclude=exclude,
 		include=include)
 	assert os.path.isfile(installer_file)
-	print "\n[ ! ] ==> Check the binary: %s" % installer_file
+	print("\n[ ! ] ==> Check the binary: %s" % installer_file)
