@@ -275,6 +275,7 @@ class Application(object):
 
         parser.add_argument('-f', '--additional-repositories',
             default = [],
+            nargs   = '+',
             metavar = 'additional_dir',
             help    = 'Additional existing repositories (optional). This is particularly usefull for offline installer that need to contain all installation packages. This packages may exists in separated repositories.')
 
