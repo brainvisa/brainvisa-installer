@@ -83,23 +83,25 @@ def translate_path(path, platform_target,
     else:
         return path
 
-def binarycreator(installer_path, repository_path, online_only=False, 
-    offline_only=False, exclude=None, include=None, 
-    platform_target=System.platform(),
-    command=None):
+def binarycreator(installer_path, repository_path, additional_repositories = [],
+    online_only=False, offline_only=False, exclude=None, include=None, 
+    platform_target=System.platform(), command=None):
     """The binarycreator tool creates an IFW installer.
 
     Parameters
     ----------
-    installer_path  : full path of installer binary.
-    repository_path : full path of temporary repository.
-    online_only     : True if the installer is only online (default False).
-    offline_only     : True if the installer is only offline (default False).
-    exclude         : list of excluded package's names (default None).
-    include         : list of included package's names (default None).
-    platform_target : target platform to generate installer binary on (default 
-                      is the host platform)
-    command         : binarycreator command to use (default:
+    installer_path          : full path of installer binary.
+    repository_path         : full path of temporary repository.
+    additional_repositories : additional repositories to find packages in.
+    online_only             : True if the installer is only online
+                              (default False).
+    offline_only            : True if the installer is only offline
+                              (default False).
+    exclude                 : list of excluded package's names (default None).
+    include                 : list of included package's names (default None).
+    platform_target         : target platform to generate installer binary on
+                              (default is the host platform)
+    command                 : binarycreator command to use (default:)
     """
 
     param_online_only = ['--online-only'] if online_only else []
@@ -110,6 +112,8 @@ def binarycreator(installer_path, repository_path, online_only=False,
                                          platform_target)]
     param_packages = ['-p', translate_path('%s/packages' % repository_path,
                                            platform_target)]
+    for r in additional_repositories:
+        param_packages += ['-p', translate_path(r, platform_target)]
 
     path = os.path.dirname(installer_path)
     if not os.path.exists(path):

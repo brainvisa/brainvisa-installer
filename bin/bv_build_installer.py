@@ -273,6 +273,11 @@ class Application(object):
             required= True,
             help    = 'Repository name.')
 
+        parser.add_argument('-f', '--additional-repositories',
+            default = [],
+            metavar = 'additional_dir',
+            help    = 'Additional existing repositories (optional). This is particularly usefull for offline installer that need to contain all installation packages. This packages may exists in separated repositories.')
+
         parser.add_argument('-c', '--config',
             type    = valid_config,
             default = None,
@@ -478,6 +483,7 @@ class Application(object):
                 binarycreator(
                     self.args.offline_installer,
                     "%s_tmp" % self.args.repository,
+                    additional_repositories = self.args.additional_repositories,
                     online_only = online_only,
                     offline_only = offline_only,
                     platform_target = self.args.platform_target \
