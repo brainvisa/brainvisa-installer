@@ -484,7 +484,7 @@ class Application(object):
                 binarycreator(
                     self.args.offline_installer,
                     "%s_tmp" % self.args.repository,
-                    additional_repositories = self.args.additional_repositories,
+                    additional_repositories = ["%s_tmp" % r for r in self.args.additional_repositories],
                     online_only = online_only,
                     offline_only = offline_only,
                     platform_target = self.args.platform_target \
