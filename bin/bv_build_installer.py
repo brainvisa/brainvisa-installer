@@ -258,7 +258,7 @@ class Application(object):
             help    = 'The packages data in the temporary repository will be compressed [experimental].')
 
         parser.add_argument('-i', '--installer',
-            default = 'BrainVISA_Suite-Installer',
+            default = None,
             metavar = 'file',
             help    = 'Installer name (optional only if --repository-only is specified). Note: if an additional offline installer (-j option) is specified, -i will be an online-only installer. Otherwise it will follow the options --online-only and --offline-only if they are specified, with the same meaning as in the binarycreator tool.')
 
@@ -511,35 +511,44 @@ class Application(object):
                     qt_menu_nib = None  # doesn't work
         else:
             qt_menu_nib = self.args.qt_menu_nib
-        if not qt_menu_nib is None:
-            src = qt_menu_nib
-            dst = "%s.app/Contents/Resources/qt_menu.nib" % self.args.installer
-            try:
-                shutil.copytree(src, dst)
-            except:
-                # copying file attributes on the network may fail,
-                # but copy is OK.
-                pass
+            
+        for installer in (self.args.installer,
+                          self.args.offline_installer):
+            if installer is not None:
+                if not qt_menu_nib is None:
+                    src = qt_menu_nib            
+                    dst = "%s.app/Contents/Resources/qt_menu.nib" % installer
+                    try:
+                        shutil.copytree(src, dst)
+                    except:
+                        # copying file attributes on the network may fail,
+                        # but copy is OK.
+                        pass
 
-        if System.platform() == System.MacOSX \
-                and not self.args.repository_only:
-            # create .dmg
-            import distutils.spawn
-            create_dmg = distutils.spawn.find_executable('create-dmg')
-            if create_dmg:
-                installer_path = '%s.dmg' % self.args.installer
-                cmd = [create_dmg, '--volname', 'BrainVISA-installer',
-                      '--volicon',
-                      '%s_tmp/config/icon.png' % self.args.repository,
-                      installer_path, '%s.app' % self.args.installer]
-                subprocess.check_call(cmd)
-            # build the MD5 sum file
-            import hashlib
-            m = hashlib.md5()
-            m.update(open(installer_path, 'rb').read())
-            mdsum = m.digest()
-            mdsum_str = ''.join(['%02x' % ord(x) for x in mdsum])
-            open(installer_path + '.md5', 'w').write(mdsum_str)
+                if System.platform() == System.MacOSX \
+                        and not self.args.repository_only:
+                    # create .dmg
+                    import distutils.spawn
+                    create_dmg = distutils.spawn.find_executable('create-dmg')
+                    if create_dmg:
+                        installer_path = '%s.dmg' % installer
+                        cmd = [create_dmg, '--volname', 'BrainVISA-installer',
+                            '--volicon',
+                            '%s_tmp/config/icon.png' % self.args.repository,
+                            installer_path, '%s.app' % installer]
+                        subprocess.check_call(cmd)
+                    else:
+                        raise RuntimeError('Impossible to find create-dmg '
+                                           'executable. Please check it is '
+                                           'available on the system.')
+                        
+                    # build the MD5 sum file
+                    import hashlib
+                    m = hashlib.md5()
+                    m.update(open(installer_path, 'rb').read())
+                    mdsum = m.digest()
+                    mdsum_str = ''.join(['%02x' % ord(x) for x in mdsum])
+                    open(installer_path + '.md5', 'w').write(mdsum_str)
 
 
 #-----------------------------------------------------------------------------
