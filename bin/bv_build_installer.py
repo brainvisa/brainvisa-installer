@@ -485,7 +485,7 @@ class Application(object):
                     self.args.offline_installer,
                     "%s_tmp" % self.args.repository,
                     additional_repositories = [
-                        os.path.join("%s_tmp", "package") % r for r in \
+                        os.path.join("%s_tmp", "packages") % r for r in \
                         self.args.additional_repositories],
                     online_only = online_only,
                     offline_only = offline_only,
