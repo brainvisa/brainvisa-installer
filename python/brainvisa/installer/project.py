@@ -90,13 +90,18 @@ class Project(Component):
         self.version = project_version(self.name)
         self.description = project_description(self.name)
         self.dep_packages = collections.defaultdict(list)
-        first_component = project_components(self.name, self.remove_private)[0]
-        ex_version = self.configuration.exception_info_by_name(first_component, 'VERSION')
-        if ex_version is None:
-            if first_component in packages_info:
-                self.version = packages_info[first_component]['version']
+        self.components = project_components(self.name, self.remove_private)
+        
+        if len(self.components) > 0:
+            first_component = project_components(self.name, self.remove_private)[0]
+            ex_version = self.configuration.exception_info_by_name(first_component, 'VERSION')
+            if ex_version is None:
+                if first_component in packages_info:
+                    self.version = packages_info[first_component]['version']
+            else:
+                self.version = ex_version
         else:
-            self.version = ex_version
+            self.version = None
 
     def __create_subcategory(self, folder):
         cat = self.configuration.category_by_id(self.type)

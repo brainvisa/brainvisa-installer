@@ -98,6 +98,7 @@ MESSAGE_INVALID_PROJECT = "[ BVI ] Error: The project %s does not exist!."
 MESSAGE_INVALID_NAME = "[ BVI ] Error: The component %s does not exist!."
 MESSAGE_INVALID_CONFIG = "[ BVI ] Error: The file %s does not exist!."
 MESSAGE_INVALID_RELEASE = "[ BVI ] Error: The release number %s does not match the required pattern (numbers separated by dots)."
+MESSAGE_MISSING_COMPONENTS = "[ BVI ] Warning: The project %s does not contains any component to package (removing it from packaging)."
 
 MESSAGE_BVI_HEADER = """
 ===============================================================
@@ -420,9 +421,15 @@ class Application(object):
         res = list()
         if self.args.projects:
             for project in self.args.projects:
-                res.append(Project(project, self.config, self.args.types,
-                    compress = self.args.compress,
-                    remove_private=not self.args.i2bm))
+                p = Project(project, self.config, self.args.types,
+                            compress = self.args.compress,
+                            remove_private=not self.args.i2bm)
+                if len(p.components) > 0:
+                    res.append(p)
+                else:
+                    logging.getLogger().warning(MESSAGE_MISSING_COMPONENTS,
+                                                project)
+                    
         if self.args.names:
             for name in self.args.names:
                 cls = Package.package_factory(name, self.config)
