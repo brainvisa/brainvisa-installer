@@ -3,6 +3,7 @@
 
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 from brainvisa.installer.bvi_utils.tools import ifw_version
+import six
 
 
 class IFWConfig(XmlFile):  # pylint: disable=R0902
@@ -83,7 +84,7 @@ class IFWConfig(XmlFile):  # pylint: disable=R0902
             'Translations' : self.Translations,
             'UrlQueryString' : self.UrlQueryString
         }
-        for name, value in root_subelements.iteritems():
+        for name, value in six.iteritems(root_subelements):
             self.set_root_subelement_text(name, value)
 
         if self.TagRepositories:

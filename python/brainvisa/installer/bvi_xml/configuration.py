@@ -10,6 +10,7 @@ from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_xml.tag_license import TagLicense
 from brainvisa.installer.bvi_xml.tag_category import TagCategory
 from brainvisa.installer.bvi_xml.tag_repository import TagRepository
+import six
 
 class Configuration(object): #pylint: disable=R0902
     """BrainVISA Installer XML Configuration File.
@@ -107,7 +108,7 @@ class Configuration(object): #pylint: disable=R0902
             release = '1.0.0'
         pattern_values = { 'release'  : brainvisa.config.fullVersion,
                            'platform' : self.PlatformName }
-        for p, v in pattern_values.iteritems():
+        for p, v in six.iteritems(pattern_values):
             value = value.replace( '@' + p + '@', v )
         
         return value

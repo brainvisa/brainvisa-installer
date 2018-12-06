@@ -3,6 +3,7 @@
 
 import HTMLParser
 import xml.etree.ElementTree as ET
+import six
 
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 
@@ -54,7 +55,7 @@ class IFWPackage(XmlFile): #pylint: disable=R0902
             'Virtual' : None if self.Virtual != 'true' else 'true'
 
         }
-        for name, value in root_subelements.iteritems():
+        for name, value in six.iteritems(root_subelements):
             self.set_root_subelement_text(name, value)
         # List subelements
         if self.TagDependencies:
