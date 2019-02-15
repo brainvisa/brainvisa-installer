@@ -337,11 +337,24 @@ class Application(object):
             default = None,
             help    = 'make options to use during components packaging')
         
-        parser.add_argument('--binary-creator-cmd', dest='binary_creator_command',
+        parser.add_argument('--binary-creator-cmd',
+            dest='binary_creator_command',
             default = None,
             help='Path to the binary creator command to use to generate'
             'the installer.')
+
+        parser.add_argument('--archivegen-cmd',
+            dest='archivegen_cmd',
+            default=None,
+            help='Path to the archivegen command to use to generate 7z '
+                'archives. Default: archivegen, 7z or 7za may be used.')
         
+        parser.add_argument('--archivegen-opts',
+            dest='archivegen_opts',
+            default='',
+            help='archivegen command options. Default: none for archivegen, '
+                '"a" for 7z/7za. Options are split by space character.')
+
         parser.add_argument('--skip-repos', dest='skip_repos',
             action='store_true',
             help='Skip initial (temp) repository creation. Assumes it has already been done.')
@@ -395,6 +408,10 @@ class Application(object):
           
         kwargs['make_options'] = self.args.make_options
         kwargs['binary_creator_command'] = self.args.binary_creator_command
+        kwargs['archivegen_cmd'] = self.args.archivegen_cmd
+        kwargs['archivegen_opts'] = self.args.archivegen_opts.split(' ')
+        if kwargs['archivegen_opts'] == ['']:
+            kwargs['archivegen_opts'] = []
         kwargs['skip_repos'] = self.args.skip_repos
         kwargs['skip_repogen'] = self.args.skip_repogen
         kwargs['skip_existing'] = self.args.skip_existing

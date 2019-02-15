@@ -199,7 +199,8 @@ class Configuration(object): #pylint: disable=R0902
             platform_target=None, platform_name=None, skip_repos=False, 
             skip_repogen=False, skip_existing=False, data_packages=False, 
             private_repos=False, make_options=None, 
-            binary_creator_command=None):
+            binary_creator_command=None, archivegen_cmd=None,
+            archivegen_opts=[]):
         "filename is the default configuration file in share, \
         alt_filename is an optional configuration file \
         to override the default configuration."
@@ -236,6 +237,8 @@ class Configuration(object): #pylint: disable=R0902
         self.platform_target = platform_target
         self.make_options = make_options
         self.binary_creator_command = binary_creator_command
+        self.archivegen_cmd = archivegen_cmd
+        self.archivegen_opts = archivegen_opts
         self.with_dependencies = with_dependencies
         self.with_thirdparty = with_thirdparty
         self.skip_repos = skip_repos
@@ -246,6 +249,15 @@ class Configuration(object): #pylint: disable=R0902
         self.read(filename)
         if alt_filename is not None:
             self.read(alt_filename)
+
+        if self.archivegen_cmd is not None:
+            Paths.IFW_ARCHIVEGEN = self.archivegen_cmd
+        Paths.ARCHIVEGEN_OPTIONS = self.archivegen_opts
+        if self.archivegen_cmd is not None \
+                and self.archivegen_cmd.basename().split(
+                    '.')[0].startswith('7z') \
+                and len(self.archivegen_opts) == 0:
+            Paths.ARCHIVEGEN_OPTIONS = ['a']
 
     def __init_repositories(self):
         """Return the values of <REPOSITORIES> part (list of TagRepository

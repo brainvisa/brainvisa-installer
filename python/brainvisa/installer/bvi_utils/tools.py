@@ -172,11 +172,16 @@ def archivegen(folder):
 
     Parameter
     ---------
-    folder - folder with data which must be compressed.
+    folder:
+        folder with data which must be compressed.
     """
-    args = [Paths.binary_name(Paths.IFW_ARCHIVEGEN, System.platform()), 
-            '%s.7z' % folder, '%s' % folder]
+    command = Paths.binary_name(Paths.IFW_ARCHIVEGEN, System.platform())
+    archive = '%s.7z' % folder
+
+    args = [command] + Paths.ARCHIVEGEN_OPTIONS + [archive, '%s' % folder]
     print(' '.join(args))
+    if os.path.exists(archive):
+        os.unlink(archive)
     process = subprocess.Popen(args, stdout=subprocess.PIPE, cwd=folder)
     result = process.wait()
     logging.getLogger().info(result)

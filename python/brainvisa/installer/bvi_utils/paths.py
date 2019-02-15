@@ -35,6 +35,9 @@ class Paths(object): #pylint: disable=R0903
     IFW_DEVTOOL         = 'devtool'
     WINEPATH            = 'winepath'
 
+    # options
+    ARCHIVEGEN_OPTIONS = []
+
     @staticmethod
     def env_commands(platform):
         """List of environment commands to package for a specific platform
@@ -64,5 +67,7 @@ class Paths(object): #pylint: disable=R0903
         """Cross compilation can need specific binary, i.e. windows platform
            needs .exe extension
         """
-        return binary + Paths.binary_extension(platform)
-         
+        ext = Paths.binary_extension(platform)
+        if binary.endswith(ext):
+            return binary
+        return binary + ext
