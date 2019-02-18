@@ -347,8 +347,9 @@ class Application(object):
             dest='archivegen_cmd',
             default=None,
             help='Path to the archivegen command to use to generate 7z '
-                'archives. Default: archivegen, 7z or 7za may be used.')
-        
+                'archives. Default: look (in that order) for: 7z, 7za, '
+                'archivegen.')
+
         parser.add_argument('--archivegen-opts',
             dest='archivegen_opts',
             default='',

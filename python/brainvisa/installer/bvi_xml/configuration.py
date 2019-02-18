@@ -10,6 +10,7 @@ from brainvisa.installer.bvi_xml.ifw_config import IFWConfig
 from brainvisa.installer.bvi_xml.tag_license import TagLicense
 from brainvisa.installer.bvi_xml.tag_category import TagCategory
 from brainvisa.installer.bvi_xml.tag_repository import TagRepository
+import distutils.spawn
 import six
 
 class Configuration(object): #pylint: disable=R0902
@@ -237,7 +238,6 @@ class Configuration(object): #pylint: disable=R0902
         self.platform_target = platform_target
         self.make_options = make_options
         self.binary_creator_command = binary_creator_command
-        self.archivegen_cmd = archivegen_cmd
         self.archivegen_opts = archivegen_opts
         self.with_dependencies = with_dependencies
         self.with_thirdparty = with_thirdparty
@@ -250,14 +250,25 @@ class Configuration(object): #pylint: disable=R0902
         if alt_filename is not None:
             self.read(alt_filename)
 
+        if archivegen_cmd is None:
+            archivegen_opts = []
+            archivegen_cmd = distutils.spawn.find_executable('7z')
+            if archivegen_cmd is not None:
+                archivegen_opts = ['a']
+            else:
+                archivegen_cmd = distutils.spawn.find_executable('7za')
+                if archivegen_cmd is not None:
+                    archivegen_opts = ['a']
+                else:
+                    archivegen_cmd \
+                        = distutils.spawn.find_executable('archivegen')
+        # print('archivegen_cmd:', archivegen_cmd)
+        # print('archivegen_opts:', archivegen_opts)
+        self.archivegen_cmd = archivegen_cmd
+        self.archivegen_opts = archivegen_opts
         if self.archivegen_cmd is not None:
             Paths.IFW_ARCHIVEGEN = self.archivegen_cmd
-        Paths.ARCHIVEGEN_OPTIONS = self.archivegen_opts
-        if self.archivegen_cmd is not None \
-                and self.archivegen_cmd.basename().split(
-                    '.')[0].startswith('7z') \
-                and len(self.archivegen_opts) == 0:
-            Paths.ARCHIVEGEN_OPTIONS = ['a']
+            Paths.ARCHIVEGEN_OPTIONS = self.archivegen_opts
 
     def __init_repositories(self):
         """Return the values of <REPOSITORIES> part (list of TagRepository
