@@ -66,7 +66,10 @@ class IFWPackage(XmlFile): #pylint: disable=R0902
             el = self.add_element('Dependencies')
             el.text = u''
             for i, tl in enumerate(self.TagDependencies):
-                res = tl.text.decode('utf-8').strip()
+                text = tl.text
+                if sys.version_info[0] <= 2:
+                    text = text.decode('utf-8')
+                res = text.strip()
                 if i < len(self.TagDependencies) - 1:
                     res = res + u', '
                 el.text += HTMLParser().unescape(res)

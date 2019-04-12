@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import HTMLParser
+import sys
+if sys.version_info[:2] >= (2, 7):
+    from html.parser import HTMLParser
+else:
+    from HTMLParser import HTMLParser
 from xml.dom import minidom
 import xml.etree.ElementTree as ET
 
@@ -37,7 +41,10 @@ class XmlFile(object):
 		rough_string = ET.tostring(element, 'utf-8')
 		reparsed = minidom.parseString(rough_string)
 		#return reparsed.toprettyxml(encoding='utf-8')
-		return reparsed.toxml(encoding='utf-8')
+		pretty = reparsed.toxml(encoding='utf-8')
+		if sys.version_info[0] >= 3:
+			pretty = pretty.decode('utf-8')
+		return pretty
 
 	def base(self, tag_name):
 		"Equivalent to root_subelement but if the element does not exist else \
