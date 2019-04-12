@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import sys
 import brainvisa.installer.bvi_utils.format as ft
 from brainvisa.installer.component import Component
 from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
@@ -85,7 +86,9 @@ class Package(Component):
         if len(infos_deps) > 0:
             self.dependencies = list()
         for info in infos_deps:
-            dep_name = info[1].decode('utf-8')
+            dep_name = info[1]
+            if sys.version_info[0] < 3:
+                dep_name = dep_name.decode('utf-8')
             pinfo = packages_info[dep_name]
             if not self.configuration.with_thirdparty \
                     and pinfo['type'] == 'thirdparty':
