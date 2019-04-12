@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import HTMLParser
+import sys
+if sys.version_info[:2] >= (2, 7):
+    from html.parser import HTMLParser
+else:
+    from HTMLParser import HTMLParser
 import xml.etree.ElementTree as ET
 import six
 
@@ -65,7 +69,7 @@ class IFWPackage(XmlFile): #pylint: disable=R0902
                 res = tl.text.decode('utf-8').strip()
                 if i < len(self.TagDependencies) - 1:
                     res = res + u', '
-                el.text += HTMLParser.HTMLParser().unescape(res)
+                el.text += HTMLParser().unescape(res)
         if self.TagLicenses:
             el = self.add_element('Licenses')
             for tl in self.TagLicenses:
