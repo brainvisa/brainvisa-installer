@@ -11,6 +11,7 @@ from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 
 
 class License(Component):
+
     """BrainVISA Installer license package.
 
     A BrainVISA package uses the dependency system to configure the license.
@@ -29,13 +30,13 @@ class License(Component):
     @property
     def ifwpackage(self):
         package = IFWPackage(
-            DisplayName = self.name,
-            Description = '',
-            Version = self.version,
-            ReleaseDate = self.date,
-            Name = self.ifwname,
-            Virtual = 'true',
-            TagLicenses = self.licenses)
+            DisplayName=self.name,
+            Description='',
+            Version=self.version,
+            ReleaseDate=self.date,
+            Name=self.ifwname,
+            Virtual='true',
+            TagLicenses=self.licenses)
         return package
 
     def create(self, folder):
@@ -48,7 +49,7 @@ class License(Component):
         dest = "%s/%s/meta/%s" % (folder, self.ifwname, self.file)
         shutil.copyfile(src, dest)
 
-    def __init__(self, taglicense, configuration=None): #pylint: disable=W0231
+    def __init__(self, taglicense, configuration=None):  # pylint: disable=W0231
         super(License, self).__init__(taglicense.Name,
                                       configuration=configuration)
         self.name = taglicense.Name
@@ -58,6 +59,6 @@ class License(Component):
         self.licenses = [taglicense]
         self.data = None
         self.file = taglicense.File
-        #self.configuration = None
+        # self.configuration = None
         logging.getLogger().debug("[ BVI ] License: %s" % self.name)
         super(License, self)._Component__init_date()

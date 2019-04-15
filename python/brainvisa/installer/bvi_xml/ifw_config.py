@@ -56,33 +56,33 @@ class IFWConfig(XmlFile):  # pylint: disable=R0902
             MaintenanceToolName = 'UninstallerName'
             MaintenanceToolIniFile = 'UninstallerIniFile'
         root_subelements = {
-            'Name' : self.Name,
-            'Version' : self.Version,
-            'Title' : self.Title,
-            'Publisher' : self.Publisher,
-            'ProductUrl' : self.ProductUrl,
-            'Icon' : self.Icon,
-            'InstallerWindowIcon' : self.InstallerWindowIcon,
-            'Logo' : self.Logo,
-            'Watermark' : self.Watermark,
-            'Banner' : self.Banner,
-            'Background' : self.Background,
-            'RunProgram' : self.RunProgram,
-            'RunProgramArguments' : self.RunProgramArguments,
-            'RunProgramDescription' : self.RunProgramDescription,
-            'StartMenuDir' : self.StartMenuDir,
-            'TargetDir' : self.TargetDir,
-            'AdminTargetDir' : self.AdminTargetDir,        
-            MaintenanceToolName : self.MaintenanceToolName,
-            MaintenanceToolIniFile : self.MaintenanceToolIniFile,
-            'RemoveTargetDir' : self.RemoveTargetDir,
-            'AllowNonAsciiCharacters' : self.AllowNonAsciiCharacters,
-            'RepositorySettingsPageVisible' : self.RepositorySettingsPageVisible,
-            'AllowSpaceInPath' : self.AllowSpaceInPath,
-            'DependsOnLocalInstallerBinary' : self.DependsOnLocalInstallerBinary,
-            'TargetConfigurationFile' : self.TargetConfigurationFile,
-            'Translations' : self.Translations,
-            'UrlQueryString' : self.UrlQueryString
+            'Name': self.Name,
+            'Version': self.Version,
+            'Title': self.Title,
+            'Publisher': self.Publisher,
+            'ProductUrl': self.ProductUrl,
+            'Icon': self.Icon,
+            'InstallerWindowIcon': self.InstallerWindowIcon,
+            'Logo': self.Logo,
+            'Watermark': self.Watermark,
+            'Banner': self.Banner,
+            'Background': self.Background,
+            'RunProgram': self.RunProgram,
+            'RunProgramArguments': self.RunProgramArguments,
+            'RunProgramDescription': self.RunProgramDescription,
+            'StartMenuDir': self.StartMenuDir,
+            'TargetDir': self.TargetDir,
+            'AdminTargetDir': self.AdminTargetDir,
+            MaintenanceToolName: self.MaintenanceToolName,
+            MaintenanceToolIniFile: self.MaintenanceToolIniFile,
+            'RemoveTargetDir': self.RemoveTargetDir,
+            'AllowNonAsciiCharacters': self.AllowNonAsciiCharacters,
+            'RepositorySettingsPageVisible': self.RepositorySettingsPageVisible,
+            'AllowSpaceInPath': self.AllowSpaceInPath,
+            'DependsOnLocalInstallerBinary': self.DependsOnLocalInstallerBinary,
+            'TargetConfigurationFile': self.TargetConfigurationFile,
+            'Translations': self.Translations,
+            'UrlQueryString': self.UrlQueryString
         }
         for name, value in six.iteritems(root_subelements):
             self.set_root_subelement_text(name, value)
@@ -90,66 +90,66 @@ class IFWConfig(XmlFile):  # pylint: disable=R0902
         if self.TagRepositories:
             e = self.add_element('RemoteRepositories')
             for tr in self.TagRepositories:
-                e.append(tr.element)    
+                e.append(tr.element)
 
     def __init__(self,
-        Name, 
-        Version, 
-        Title = None,
-        Publisher = None, 
-        ProductUrl = None, 
-        Icon = None, 
-        InstallerApplicationIcon = None, 
-        InstallerWindowIcon = None, 
-        Logo = None, 
-        Watermark = None,
-        Banner = None, 
-        Background = None, 
-        RunProgram = None, 
-        RunProgramArguments = None, 
-        RunProgramDescription = None, 
-        StartMenuDir = None, 
-        TargetDir = None, 
-        AdminTargetDir = None, 
-        TagRepositories = None, 
-        MaintenanceToolName = None,
-        MaintenanceToolIniFile = None,
-        RemoveTargetDir = None, 
-        AllowNonAsciiCharacters = None, 
-        RepositorySettingsPageVisible = None, 
-        AllowSpaceInPath = None, 
-        DependsOnLocalInstallerBinary = None, 
-        TargetConfigurationFile = None, 
-        Translations = None,
-        UrlQueryString = None,
-        IFWVersion = None):
+                 Name,
+                 Version,
+                 Title=None,
+                 Publisher=None,
+                 ProductUrl=None,
+                 Icon=None,
+                 InstallerApplicationIcon=None,
+                 InstallerWindowIcon=None,
+                 Logo=None,
+                 Watermark=None,
+                 Banner=None,
+                 Background=None,
+                 RunProgram=None,
+                 RunProgramArguments=None,
+                 RunProgramDescription=None,
+                 StartMenuDir=None,
+                 TargetDir=None,
+                 AdminTargetDir=None,
+                 TagRepositories=None,
+                 MaintenanceToolName=None,
+                 MaintenanceToolIniFile=None,
+                 RemoveTargetDir=None,
+                 AllowNonAsciiCharacters=None,
+                 RepositorySettingsPageVisible=None,
+                 AllowSpaceInPath=None,
+                 DependsOnLocalInstallerBinary=None,
+                 TargetConfigurationFile=None,
+                 Translations=None,
+                 UrlQueryString=None,
+                 IFWVersion=None):
         self.Name = Name
         self.Version = Version
         self.Title = Title
-        self.Publisher = Publisher 
-        self.ProductUrl = ProductUrl 
-        self.Icon = Icon 
-        self.InstallerApplicationIcon = InstallerApplicationIcon 
-        self.InstallerWindowIcon = InstallerWindowIcon 
-        self.Logo = Logo 
+        self.Publisher = Publisher
+        self.ProductUrl = ProductUrl
+        self.Icon = Icon
+        self.InstallerApplicationIcon = InstallerApplicationIcon
+        self.InstallerWindowIcon = InstallerWindowIcon
+        self.Logo = Logo
         self.Watermark = Watermark
-        self.Banner = Banner 
-        self.Background = Background 
-        self.RunProgram = RunProgram 
-        self.RunProgramArguments = RunProgramArguments 
-        self.RunProgramDescription = RunProgramDescription 
-        self.StartMenuDir = StartMenuDir 
-        self.TargetDir = TargetDir 
-        self.AdminTargetDir = AdminTargetDir 
-        self.TagRepositories = TagRepositories 
+        self.Banner = Banner
+        self.Background = Background
+        self.RunProgram = RunProgram
+        self.RunProgramArguments = RunProgramArguments
+        self.RunProgramDescription = RunProgramDescription
+        self.StartMenuDir = StartMenuDir
+        self.TargetDir = TargetDir
+        self.AdminTargetDir = AdminTargetDir
+        self.TagRepositories = TagRepositories
         self.MaintenanceToolName = MaintenanceToolName
         self.MaintenanceToolIniFile = MaintenanceToolIniFile
-        self.RemoveTargetDir = RemoveTargetDir 
-        self.AllowNonAsciiCharacters = AllowNonAsciiCharacters 
-        self.RepositorySettingsPageVisible = RepositorySettingsPageVisible 
-        self.AllowSpaceInPath = AllowSpaceInPath 
-        self.DependsOnLocalInstallerBinary = DependsOnLocalInstallerBinary 
-        self.TargetConfigurationFile = TargetConfigurationFile 
+        self.RemoveTargetDir = RemoveTargetDir
+        self.AllowNonAsciiCharacters = AllowNonAsciiCharacters
+        self.RepositorySettingsPageVisible = RepositorySettingsPageVisible
+        self.AllowSpaceInPath = AllowSpaceInPath
+        self.DependsOnLocalInstallerBinary = DependsOnLocalInstallerBinary
+        self.TargetConfigurationFile = TargetConfigurationFile
         self.Translations = Translations
         self.UrlQueryString = UrlQueryString
         self.IFWVersion = IFWVersion

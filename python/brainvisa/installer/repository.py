@@ -13,16 +13,17 @@ from brainvisa.installer.bvi_xml.ifw_package import IFWPackage
 
 
 class Repository(object):
-    """BrainVISA Installer repository. 
 
-    It is not the repository for the online installer. It is the temporary 
+    """BrainVISA Installer repository.
+
+    It is not the repository for the online installer. It is the temporary
     repository to build the installer binaries and the online repository.
 
     Parameters
     ----------
     folder             : repository full path (with the repository name).
-    configuration     : Configuration object. 
-    components        : list of Component objects. Usually, only the Package 
+    configuration     : Configuration object.
+    components        : list of Component objects. Usually, only the Package
                       and Project objects are consistent.
     with_dependencies : (bool, optional) if False, do not write dependencies
                         packages.
@@ -37,7 +38,7 @@ class Repository(object):
         self.__create_packages()
 
     def __init__(self, folder, configuration, components,
-            with_dependencies=True, with_thirdparty=True):
+                 with_dependencies=True, with_thirdparty=True):
         self.folder = folder
         self.configuration = configuration
         now = datetime.datetime.now()
@@ -65,7 +66,7 @@ class Repository(object):
         self.configuration.ifwconfig.save("%s/config.xml" % f_config)
 
     def __create_packages(self):
-        logging.getLogger().info( "[ BVI ] Create packages..." )
+        logging.getLogger().info("[ BVI ] Create packages...")
         path = "%s/packages" % self.folder
         self.__mkdir(path)
         self.__create_packages_app()
@@ -77,77 +78,77 @@ class Repository(object):
         for component in self.components:
             if self.configuration.is_package_excluded(component.name):
                 continue
-            component.create(path) #, with_thirdparty=self.with_thirdparty)
+            component.create(path)  # , with_thirdparty=self.with_thirdparty)
 
     def __create_packages_app(self):
-        logging.getLogger().info( "[ BVI ] Create Application category..." )
+        logging.getLogger().info("[ BVI ] Create Application category...")
         package_name = "brainvisa.app"
         cat = self.configuration.category_by_id('APP')
-        self.__create_package(package_name, 
-            DisplayName = cat.Name, 
-            Description = cat.Description, 
-            Version = cat.Version, 
-            ReleaseDate = self.date, 
-            Name = 'brainvisa.app', 
-            Virtual = 'false',
-            SortingPriority = cat.Priority,
-            Default = cat.Default)
+        self.__create_package(package_name,
+                              DisplayName=cat.Name,
+                              Description=cat.Description,
+                              Version=cat.Version,
+                              ReleaseDate=self.date,
+                              Name='brainvisa.app',
+                              Virtual='false',
+                              SortingPriority=cat.Priority,
+                              Default=cat.Default)
 
     def __create_packages_dev(self):
-        logging.getLogger().info( "[ BVI ] Create Development category..." )
+        logging.getLogger().info("[ BVI ] Create Development category...")
         package_name = "brainvisa.dev"
         cat = self.configuration.category_by_id('DEV')
-        self.__create_package(package_name, 
-            DisplayName = cat.Name, 
-            Description = cat.Description, 
-            Version = cat.Version, 
-            ReleaseDate = self.date, 
-            Name = 'brainvisa.dev', 
-            Virtual = 'false',
-            SortingPriority = cat.Priority,
-            Default = cat.Default)
+        self.__create_package(package_name,
+                              DisplayName=cat.Name,
+                              Description=cat.Description,
+                              Version=cat.Version,
+                              ReleaseDate=self.date,
+                              Name='brainvisa.dev',
+                              Virtual='false',
+                              SortingPriority=cat.Priority,
+                              Default=cat.Default)
 
     def __create_packages_test(self):
-        logging.getLogger().info( "[ BVI ] Create Test category..." )
+        logging.getLogger().info("[ BVI ] Create Test category...")
         package_name = "brainvisa.test"
         cat = self.configuration.category_by_id('TEST')
         self.__create_package(package_name,
-            DisplayName = cat.Name,
-            Description = cat.Description,
-            Version = cat.Version,
-            ReleaseDate = self.date,
-            Name = 'brainvisa.test',
-            Virtual = 'false',
-            SortingPriority = cat.Priority,
-            Default = cat.Default)
+                              DisplayName=cat.Name,
+                              Description=cat.Description,
+                              Version=cat.Version,
+                              ReleaseDate=self.date,
+                              Name='brainvisa.test',
+                              Virtual='false',
+                              SortingPriority=cat.Priority,
+                              Default=cat.Default)
 
     def __create_packages_thirdparty(self):
         if self.configuration.data_packages:
             # skip for data repository
             return
-        logging.getLogger().info( "[ BVI ] Create Thirdparty category..." )
+        logging.getLogger().info("[ BVI ] Create Thirdparty category...")
         package_name = "brainvisa.app.thirdparty"
-        self.__create_package(package_name, 
-            DisplayName = 'Thirdparty', 
-            Description = 'Thirdparty', 
-            Version = '1.0', 
-            ReleaseDate = self.date, 
-            Name = 'brainvisa.app.thirdparty', 
-            Virtual = 'true')
+        self.__create_package(package_name,
+                              DisplayName='Thirdparty',
+                              Description='Thirdparty',
+                              Version='1.0',
+                              ReleaseDate=self.date,
+                              Name='brainvisa.app.thirdparty',
+                              Virtual='true')
 
     def __create_packages_licenses(self):
         if self.configuration.data_packages:
             # skip for data repository
             return
-        logging.getLogger().info( "[ BVI ] Create Licenses category..." )
+        logging.getLogger().info("[ BVI ] Create Licenses category...")
         package_name = "brainvisa.app.licenses"
         self.__create_package(package_name,
-            DisplayName = 'Licenses', 
-            Description = 'Licenses', 
-            Version = '1.0', 
-            ReleaseDate = self.date, 
-            Name = 'brainvisa.app.licenses', 
-            Virtual = 'true')
+                              DisplayName='Licenses',
+                              Description='Licenses',
+                              Version='1.0',
+                              ReleaseDate=self.date,
+                              Name='brainvisa.app.licenses',
+                              Virtual='true')
         for tag_license in self.configuration.Licenses:
             License(tag_license,
                     configuration=self.configuration).create(
@@ -157,16 +158,16 @@ class Repository(object):
         if self.configuration.data_packages:
             # skip for data repository
             return
-        logging.getLogger().info( "[ BVI ] Create bv_env package..." )
+        logging.getLogger().info("[ BVI ] Create bv_env package...")
         package_name = "brainvisa.app.thirdparty.bv_env"
         self.__create_package(package_name,
-            DisplayName = 'BrainVISA Environment', 
-            Description = '', 
-            Version = '1.0', 
-            ReleaseDate = self.date, 
-            Name = 'brainvisa.app.thirdparty.bv_env', 
-            Virtual = 'true')
-        path_data = "%s/packages/%s/data"  % (self.folder, package_name)
+                              DisplayName='BrainVISA Environment',
+                              Description='',
+                              Version='1.0',
+                              ReleaseDate=self.date,
+                              Name='brainvisa.app.thirdparty.bv_env',
+                              Virtual='true')
+        path_data = "%s/packages/%s/data" % (self.folder, package_name)
         path_data_bin = "%s/bin" % path_data
         self.__mkdir(path_data)
         self.__mkdir(path_data_bin)
@@ -176,16 +177,16 @@ class Repository(object):
             shutil.copy(file_src, file_dest)
 
     def __create_package(self, package_name,
-            DisplayName, 
-            Description, 
-            Version , 
-            ReleaseDate, 
-            Name, 
-            Virtual = None,
-            SortingPriority = None,
-            Default = None): #pylint: disable=C0103
+                         DisplayName,
+                         Description,
+                         Version,
+                         ReleaseDate,
+                         Name,
+                         Virtual=None,
+                         SortingPriority=None,
+                         Default=None):  # pylint: disable=C0103
 
-        path = "%s/packages/%s"  % (self.folder, package_name)
+        path = "%s/packages/%s" % (self.folder, package_name)
         self.__mkdir(path)
         self.__mkdir("%s/meta" % path)
 
@@ -196,15 +197,15 @@ class Repository(object):
             shutil.copyfile(src, dst)
             script = "script.qs"
 
-        package = IFWPackage(    
-            DisplayName = DisplayName, 
-            Description = Description, 
-            Version = Version, 
-            ReleaseDate = ReleaseDate, 
-            Name = Name, 
-            Script = script,
-            Virtual = Virtual, 
-            SortingPriority = SortingPriority,
-            Default = Default)
+        package = IFWPackage(
+            DisplayName=DisplayName,
+            Description=Description,
+            Version=Version,
+            ReleaseDate=ReleaseDate,
+            Name=Name,
+            Script=script,
+            Virtual=Virtual,
+            SortingPriority=SortingPriority,
+            Default=Default)
 
         package.save("%s/meta/package.xml" % path)

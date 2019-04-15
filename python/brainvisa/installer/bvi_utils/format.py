@@ -27,13 +27,14 @@ def ifw_name(string):
 def xml_escape(string):
     "Escape the invalid characters."
     res = string.strip()
-    res = res.replace("&", "&amp;") # must be first! Else &quot; => &amp;quot; etc.
+    res = res.replace("&", "&amp;")
+                      # must be first! Else &quot; => &amp;quot; etc.
     characters = {
-        "\"" : "&quot;",
-        "'" : "&apos;",
-        "<" : "&lt;",
-        ">" : "&gt;",
-        " " : ""}
+        "\"": "&quot;",
+        "'": "&apos;",
+        "<": "&lt;",
+        ">": "&gt;",
+        " ": ""}
     for char, escape in six.iteritems(characters):
         res = res.replace(char, escape)
     return res

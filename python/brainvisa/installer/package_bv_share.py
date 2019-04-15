@@ -6,12 +6,15 @@ import glob
 from package import Package
 from component import Component
 
+
 class PackageBVShare(Package):
+
     '''Specialize create() for brainvisa-share on Windows
     since the normal procedure results in too long filenames.
     Here we install in a "short" directory, then compress, and put the
     compressed archives at the package location.
     '''
+
     def create(self, folder):
         path = "%s/%s" % (folder, self.ifwname)
         if path in Component.done_created_components \
@@ -38,7 +41,7 @@ class PackageBVShare(Package):
         for f in glob.glob(os.path.join(temp_folder, 'data', '*.7z')):
             os.unlink(f)
 
-        self.compress = True # force compression
+        self.compress = True  # force compression
         ifwname = self.ifwname
         self._block_ifwname = True
         super(Package, self).create(temp_folder)
@@ -74,4 +77,3 @@ class PackageBVShare(Package):
         infiles = glob.glob(os.path.join(temp_data_path, '*.7z'))
         for f in infiles:
             shutil.copy2(f, data_path)
-
