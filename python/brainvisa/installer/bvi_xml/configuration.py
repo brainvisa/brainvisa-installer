@@ -13,7 +13,9 @@ from brainvisa.installer.bvi_xml.tag_repository import TagRepository
 import distutils.spawn
 import six
 
-class Configuration(object): #pylint: disable=R0902
+
+class Configuration(object):  # pylint: disable=R0902
+
     """BrainVISA Installer XML Configuration File.
 
 
@@ -77,7 +79,7 @@ class Configuration(object): #pylint: disable=R0902
         "Return False if the package must be excluded."
         exceptions = self.root.find('EXCEPTIONS')
         excluded = self.data_packages
-        if exceptions  is not None:
+        if exceptions is not None:
             for exception in exceptions:
                 if (exception.tag == 'PACKAGE' and
                         exception.attrib.get('NAME') == name):
@@ -103,15 +105,15 @@ class Configuration(object): #pylint: disable=R0902
 
     def resolve_patterns(self, value):
         try:
-            import brainvisa.config # for release version, depends on axon
+            import brainvisa.config  # for release version, depends on axon
             release = brainvisa.config.fullVersion
         except ImportError:
             release = '1.0.0'
-        pattern_values = { 'release'  : brainvisa.config.fullVersion,
-                           'platform' : self.PlatformName }
+        pattern_values = {'release': brainvisa.config.fullVersion,
+                          'platform': self.PlatformName}
         for p, v in six.iteritems(pattern_values):
-            value = value.replace( '@' + p + '@', v )
-        
+            value = value.replace('@' + p + '@', v)
+
         return value
 
     def general(self, tag_name):
@@ -127,38 +129,38 @@ class Configuration(object): #pylint: disable=R0902
     @property
     def ifwconfig(self):
         "Generate a IFWConfig from configuration file."
-            
+
         config = IFWConfig(
-            Name                          = self.Name,
-            Version                       = self.Version,
-            Title                         = self.Title,
-            Publisher                     = self.Publisher,
-            ProductUrl                    = self.Producturl,
-            Icon                          = None, # Deprecated
-            InstallerApplicationIcon      = None, # Not portable
-            InstallerWindowIcon           = self.Icon,
-            Logo                          = self.Logo,
-            Watermark                     = self.Watermark,
-            Banner                        = None, # Not portable
-            Background                    = None, # Not portable
-            RunProgram                    = None,
-            RunProgramArguments           = None,
-            RunProgramDescription         = None,
-            StartMenuDir                  = self.StartMenuDir,
-            TargetDir                     = self.Targetdir,
-            AdminTargetDir                = self.Admintargetdir,
-            TagRepositories               = self.Repositories,
-            MaintenanceToolName           = self.MaintenanceToolName,
-            MaintenanceToolIniFile        = None,
-            RemoveTargetDir               = None,
-            AllowNonAsciiCharacters       = self.Allownonasciicharacters,
-            RepositorySettingsPageVisible = None, # Default true
-            AllowSpaceInPath              = self.Allowspaceinpath,
-            DependsOnLocalInstallerBinary = None,
-            TargetConfigurationFile       = None,
-            Translations                  = None,
-            UrlQueryString                = None,
-            IFWVersion                    = self.IFWVersion)
+            Name=self.Name,
+            Version=self.Version,
+            Title=self.Title,
+            Publisher=self.Publisher,
+            ProductUrl=self.Producturl,
+            Icon=None,  # Deprecated
+            InstallerApplicationIcon=None,  # Not portable
+            InstallerWindowIcon=self.Icon,
+            Logo=self.Logo,
+            Watermark=self.Watermark,
+            Banner=None,  # Not portable
+            Background=None,  # Not portable
+            RunProgram=None,
+            RunProgramArguments=None,
+            RunProgramDescription=None,
+            StartMenuDir=self.StartMenuDir,
+            TargetDir=self.Targetdir,
+            AdminTargetDir=self.Admintargetdir,
+            TagRepositories=self.Repositories,
+            MaintenanceToolName=self.MaintenanceToolName,
+            MaintenanceToolIniFile=None,
+            RemoveTargetDir=None,
+            AllowNonAsciiCharacters=self.Allownonasciicharacters,
+            RepositorySettingsPageVisible=None,  # Default true
+            AllowSpaceInPath=self.Allowspaceinpath,
+            DependsOnLocalInstallerBinary=None,
+            TargetConfigurationFile=None,
+            Translations=None,
+            UrlQueryString=None,
+            IFWVersion=self.IFWVersion)
 
         return config
 
@@ -195,13 +197,13 @@ class Configuration(object): #pylint: disable=R0902
         self.__init_licenses()
         self.__init_categories()
 
-    def __init__(self, filename = Paths.BVI_CONFIGURATION, alt_filename=None,
-            release=None, with_dependencies=True, with_thirdparty=True,
-            platform_target=None, platform_name=None, skip_repos=False, 
-            skip_repogen=False, skip_existing=False, data_packages=False, 
-            private_repos=False, make_options=None, 
-            binary_creator_command=None, archivegen_cmd=None,
-            archivegen_opts=[]):
+    def __init__(self, filename=Paths.BVI_CONFIGURATION, alt_filename=None,
+                 release=None, with_dependencies=True, with_thirdparty=True,
+                 platform_target=None, platform_name=None, skip_repos=False,
+                 skip_repogen=False, skip_existing=False, data_packages=False,
+                 private_repos=False, make_options=None,
+                 binary_creator_command=None, archivegen_cmd=None,
+                 archivegen_opts=[]):
         "filename is the default configuration file in share, \
         alt_filename is an optional configuration file \
         to override the default configuration."
@@ -225,11 +227,11 @@ class Configuration(object): #pylint: disable=R0902
         self.Categories = list()
         self.Release = release
         if binary_creator_command:
-            self.IFWVersion = ifw_version(binary_creator_command, 
+            self.IFWVersion = ifw_version(binary_creator_command,
                                           platform_target)
         else:
             self.IFWVersion = None
-            
+
         if platform_name is None:
             platform_name = System.platform().lower()
         self.PlatformName = platform_name
@@ -304,13 +306,14 @@ class Configuration(object): #pylint: disable=R0902
             for subcat in cat:
                 sub_sub_categories = list()
                 for subsubcat in subcat:
-                    sub_sub_categories.append(TagCategory().init_from_configuration(subsubcat))
+                    sub_sub_categories.append(
+                        TagCategory().init_from_configuration(subsubcat))
                 sub_categories.append(
                     TagCategory().init_from_configuration(subcat, sub_sub_categories))
             self.Categories.append(
                 TagCategory().init_from_configuration(cat, sub_categories))
 
-    def __get_script_value(self, name, tagname, type_ = None):
+    def __get_script_value(self, name, tagname, type_=None):
         "Return the name from the package's name."
         scripts = self.root.find('SCRIPTS')
         if scripts is not None:

@@ -14,7 +14,8 @@ import six
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 
 
-class IFWPackage(XmlFile): #pylint: disable=R0902
+class IFWPackage(XmlFile):  # pylint: disable=R0902
+
     """Model Qt Installer package.
 
     Parameters
@@ -44,21 +45,21 @@ class IFWPackage(XmlFile): #pylint: disable=R0902
         "Update the properties in memory."
         self.init('Package')
         root_subelements = {
-            'DisplayName' : self.DisplayName,
-            'Description' : self.Description,
-            'Version' : self.make_valid_version(self.Version),
-            'ReleaseDate' : self.ReleaseDate,
-            'Name' :  self.Name,
-            'AutoDependOn' : self.AutoDependOn,
-            'SortingPriority' : self.SortingPriority,
-            'UpdateText' : self.UpdateText,
-            'Default' : self.Default,
-            'Essential' : self.Essential,
-            'ForcedInstallation' : self.ForcedInstallation,
-            'Replaces' : self.Replaces,
-            'DownloadableArchives' : self.DownloadableArchives,
-            'Script' : self.Script,
-            'Virtual' : None if self.Virtual != 'true' else 'true'
+            'DisplayName': self.DisplayName,
+            'Description': self.Description,
+            'Version': self.make_valid_version(self.Version),
+            'ReleaseDate': self.ReleaseDate,
+            'Name':  self.Name,
+            'AutoDependOn': self.AutoDependOn,
+            'SortingPriority': self.SortingPriority,
+            'UpdateText': self.UpdateText,
+            'Default': self.Default,
+            'Essential': self.Essential,
+            'ForcedInstallation': self.ForcedInstallation,
+            'Replaces': self.Replaces,
+            'DownloadableArchives': self.DownloadableArchives,
+            'Script': self.Script,
+            'Virtual': None if self.Virtual != 'true' else 'true'
 
         }
         for name, value in six.iteritems(root_subelements):
@@ -91,25 +92,25 @@ class IFWPackage(XmlFile): #pylint: disable=R0902
                 x.text = ui
 
     def __init__(self,
-        DisplayName = None,
-        Description = None,
-        Version = None,
-        ReleaseDate = None,
-        Name = None,
-        TagDependencies = None,
-        AutoDependOn = None,
-        Virtual = None,
-        SortingPriority = None,
-        TagLicenses = None,
-        Script = None,
-        UserInterfaces = None,
-        Translations = None,
-        UpdateText = None,
-        Default = None,
-        Essential = None,
-        ForcedInstallation = None,
-        Replaces = None,
-        DownloadableArchives = None):
+                 DisplayName=None,
+                 Description=None,
+                 Version=None,
+                 ReleaseDate=None,
+                 Name=None,
+                 TagDependencies=None,
+                 AutoDependOn=None,
+                 Virtual=None,
+                 SortingPriority=None,
+                 TagLicenses=None,
+                 Script=None,
+                 UserInterfaces=None,
+                 Translations=None,
+                 UpdateText=None,
+                 Default=None,
+                 Essential=None,
+                 ForcedInstallation=None,
+                 Replaces=None,
+                 DownloadableArchives=None):
         self.DisplayName = DisplayName
         self.Description = Description
         self.Version = Version

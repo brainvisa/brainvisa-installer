@@ -22,7 +22,9 @@ from brainvisa.maker.brainvisa_projects_versions import project_description
 from brainvisa.maker.brainvisa_projects_versions import project_components
 from brainvisa.maker.brainvisa_projects_versions import is_default_project
 
+
 class Project(Component):
+
     """BrainVISA project.
 
     A project contains a set of packages.
@@ -42,24 +44,24 @@ class Project(Component):
     def ifwname(self):
         p_name = ft.ifw_name(self.name)
         res = {
-            'run'       : "brainvisa.app.%s" % (p_name),
-            'usrdoc'    : "brainvisa.app.%s" % (p_name),
-            'dev'       : "brainvisa.dev.%s" % (p_name),
-            'devdoc'    : "brainvisa.dev.%s" % (p_name),
-            'test'      : "brainvisa.test.%s" % (p_name)
+            'run': "brainvisa.app.%s" % (p_name),
+            'usrdoc': "brainvisa.app.%s" % (p_name),
+            'dev': "brainvisa.dev.%s" % (p_name),
+            'devdoc': "brainvisa.dev.%s" % (p_name),
+            'test': "brainvisa.test.%s" % (p_name)
         }
         return res[self.type]
 
     @property
     def ifwpackage(self):
         package = IFWPackage(
-            DisplayName     = self.name.title(),
-            Description     = self.description,
-            Version         = self.version,
-            ReleaseDate     = self.date,
-            Name            = self.ifwname,
-            Script          = self.script,
-            Virtual         = 'false')
+            DisplayName=self.name.title(),
+            Description=self.description,
+            Version=self.version,
+            ReleaseDate=self.date,
+            Name=self.ifwname,
+            Script=self.script,
+            Virtual='false')
         return package
 
     def create(self, folder):
@@ -69,10 +71,10 @@ class Project(Component):
             self.__create_subcategory(folder)
             super(Project, self).create(folder)
 
-    def __init__(self, name, configuration, types = None, compress=False,
-            remove_private=False): #pylint: disable=W0231
+    def __init__(self, name, configuration, types=None, compress=False,
+                 remove_private=False):  # pylint: disable=W0231
         super(Project, self).__init__(name)
-        logging.getLogger().info( "[ BVI ] PROJECT: %s" % name )
+        logging.getLogger().info("[ BVI ] PROJECT: %s" % name)
         types = types or ['run', 'usrdoc', 'dev', 'devdoc', 'test']
         if not name in ordered_projects and not name in packages_info:
             raise BVIException(BVIException.PROJECT_NONEXISTENT, name)
@@ -91,10 +93,12 @@ class Project(Component):
         self.description = project_description(self.name)
         self.dep_packages = collections.defaultdict(list)
         self.components = project_components(self.name, self.remove_private)
-        
+
         if len(self.components) > 0:
-            first_component = project_components(self.name, self.remove_private)[0]
-            ex_version = self.configuration.exception_info_by_name(first_component, 'VERSION')
+            first_component = project_components(
+                self.name, self.remove_private)[0]
+            ex_version = self.configuration.exception_info_by_name(
+                first_component, 'VERSION')
             if ex_version is None:
                 if first_component in packages_info:
                     self.version = packages_info[first_component]['version']
@@ -117,15 +121,15 @@ class Project(Component):
             is_default = 'true'
         else:
             is_default = 'false'
-        p = IFWPackage( DisplayName = cat.Name,
-                        Description = cat.Description,
-                        Version     = self.version,
-                        ReleaseDate = self.date,
-                        SortingPriority = cat.Priority,
-                        Name        = name,
-                        Virtual     = 'false',
-                        Default     = is_default,
-                        TagDependencies = self.__clean_dependencies_doublons())
+        p = IFWPackage(DisplayName=cat.Name,
+                       Description=cat.Description,
+                       Version=self.version,
+                       ReleaseDate=self.date,
+                       SortingPriority=cat.Priority,
+                       Name=name,
+                       Virtual='false',
+                       Default=is_default,
+                       TagDependencies=self.__clean_dependencies_doublons())
         p.save("%s/%s/meta/package.xml" % (folder, name))
 
     def __is_default(self, type):

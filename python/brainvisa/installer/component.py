@@ -18,6 +18,7 @@ from brainvisa.maker import brainvisa_projects_versions
 
 
 class Component(object):
+
     """BrainVISA component.
 
     Component is an abstract class for the component of BrainVISA installer
@@ -80,7 +81,7 @@ class Component(object):
         self.data = data
         self.compress = compress
         self.default = None
-        
+
         new_component = self.name not in Component.done_components
         if new_component:
             self.done_components.add(self.name)
@@ -88,11 +89,11 @@ class Component(object):
         self.__init_infos()
         if self.configuration is not None:
             self.__init_config()
-            
+
         if new_component:
-            logging.getLogger().debug("[ BVI ] Component: %s (version: %s)" \
-                % (self.name, str(self.version) \
-                   if not self.version is None else "unknown"))
+            logging.getLogger().debug("[ BVI ] Component: %s (version: %s)"
+                                      % (self.name, str(self.version)
+                                         if not self.version is None else "unknown"))
 
     def __init_infos(self):
         "Initialize the component information."
@@ -103,7 +104,7 @@ class Component(object):
             self.version = infos['version']
             if 'licences' in infos:
                 self.licenses = infos['licences']
-            default = infos.get( 'default_install', None )
+            default = infos.get('default_install', None)
             if default:
                 self.default = 'true'
         else:
@@ -118,18 +119,20 @@ class Component(object):
 
     def __init_config(self):
         "Initialize from the configuration file."
-        conf =  self.configuration
-        ex_version         = conf.exception_info_by_name(self.name, 'VERSION')
-        ex_description     = conf.exception_info_by_name(self.name, 'DESCRIPTION')
-        ex_displayname     = conf.exception_info_by_name(self.name, 'DISPLAYNAME')
-        ex_virtual         = conf.exception_info_by_name(self.name, 'VIRTUAL')
-        ex_default         = conf.exception_info_by_name(self.name, 'DEFAULT')
+        conf = self.configuration
+        ex_version = conf.exception_info_by_name(self.name, 'VERSION')
+        ex_description = conf.exception_info_by_name(
+            self.name, 'DESCRIPTION')
+        ex_displayname = conf.exception_info_by_name(
+            self.name, 'DISPLAYNAME')
+        ex_virtual = conf.exception_info_by_name(self.name, 'VIRTUAL')
+        ex_default = conf.exception_info_by_name(self.name, 'DEFAULT')
         msg = "[ BVI ] Package: %s => exception for %s: %s"
         if ex_virtual is not None:
             self.virtual = ex_virtual
             if self.name not in self.done_components:
-                logging.getLogger().info( msg % (self.name, 'Virtual',
-                                                 ex_virtual) )
+                logging.getLogger().info(msg % (self.name, 'Virtual',
+                                                ex_virtual))
         elif brainvisa_projects_versions.is_private_component(self.name):
             # private components are not virtual since they are normally
             # terminal components, individually installable.
@@ -138,23 +141,23 @@ class Component(object):
         if self.virtual != 'true' and ex_default is not None:
             self.default = ex_default
             if self.name not in self.done_components:
-                logging.getLogger().info( msg % (self.name, 'Default',
-                                                 ex_default) )
+                logging.getLogger().info(msg % (self.name, 'Default',
+                                                ex_default))
         if ex_description is not None:
             self.description = ex_description
             if self.name not in self.done_components:
-                logging.getLogger().info( msg % (self.name, 'Description',
-                                                 ex_description) )
+                logging.getLogger().info(msg % (self.name, 'Description',
+                                                ex_description))
         if ex_displayname is not None:
             self.displayname = ex_displayname
             if self.name not in self.done_components:
-                logging.getLogger().info( msg % (self.name, 'DisplayName',
-                                                 ex_displayname) )
+                logging.getLogger().info(msg % (self.name, 'DisplayName',
+                                                ex_displayname))
         if ex_version is not None:
             self.version = ex_version
             if self.name not in self.done_components:
-                logging.getLogger().info( msg % (self.name, 'Version',
-                                                 ex_version) )
+                logging.getLogger().info(msg % (self.name, 'Version',
+                                                ex_version))
 
     def __init_date(self):
         "Initialize the date."
@@ -197,9 +200,9 @@ class Component(object):
 
     def __bv_packaging(self, folder_data):
         "Use bv_packaging to package the component data."
-        bv_packaging(self.name, self.type, folder_data, 
-                     make_options = self.configuration.make_options,
-                     platform_target = self.configuration.platform_target)
+        bv_packaging(self.name, self.type, folder_data,
+                     make_options=self.configuration.make_options,
+                     platform_target=self.configuration.platform_target)
         readme = "%s/README" % folder_data
         if os.path.isfile(readme):
             os.remove(readme)
