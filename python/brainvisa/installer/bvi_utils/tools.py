@@ -134,7 +134,10 @@ def binarycreator(installer_path, repository_path, additional_repositories = [],
     m = hashlib.md5()
     m.update(open(installer_path, 'rb').read())
     mdsum = m.digest()
-    mdsum_str = ''.join(['%02x' % ord(x) for x in mdsum])
+    if sys.version_info[0] >= 3:
+        mdsum_str = ''.join(['%02x' % x for x in mdsum])
+    else:
+        mdsum_str = ''.join(['%02x' % ord(x) for x in mdsum])
     open(installer_path + '.md5', 'w').write(mdsum_str)
 
 

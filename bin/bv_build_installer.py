@@ -622,7 +622,10 @@ def write_info(filename, projects, names, remove_private,
         with_dependencies=True, with_thirdparty=True):
     "Write a HTML table with the list of packages."
     list_packages = set()
-    with open(filename, 'w') as fo:
+    fopts = {}
+    if sys.version_info[0] >= 3:
+        fopts['encoding'] = 'utf-8'
+    with open(filename, 'w', **fopts) as fo:
         fo.write(HTML_HEADER)
         if projects:
             for project in projects:
