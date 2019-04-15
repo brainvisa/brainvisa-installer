@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import sys
-if sys.version_info[:2] >= (2, 7):
+try:
+    # some python 2.7 and >= 3.0
     from html.parser import HTMLParser
-else:
+except ImportError:
+    # python 2.6 and some 2.7
     from HTMLParser import HTMLParser
 import xml.etree.ElementTree as ET
 import six
