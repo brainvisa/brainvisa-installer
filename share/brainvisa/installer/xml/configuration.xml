@@ -167,6 +167,10 @@ Status:     dev
         <INFO NAME="morphologist-ui" PARAM="DESCRIPTION" VALUE="New graphical interface for the Morphologist main pipelines" />
         <INFO NAME="morphologist-ui-usrdoc" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="morphologist-ui-usrdoc" PARAM="DEFAULT" VALUE="true" />
+        <INFO NAME="morpho-deepsulci" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morpho-deepsulci" PARAM="DEFAULT" VALUE="true" />
+        <INFO NAME="morpho-deepsulci-usrdoc" PARAM="VIRTUAL" VALUE="false" />
+        <INFO NAME="morpho-deepsulci-usrdoc" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="sulci-private" PARAM="VIRTUAL" VALUE="false" />
         <INFO NAME="sulci-private" PARAM="DEFAULT" VALUE="true" />
         <INFO NAME="baby" PARAM="VIRTUAL" VALUE="false" />
