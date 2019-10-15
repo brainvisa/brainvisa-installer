@@ -62,3 +62,10 @@ Current dowdloads
 -----------------
 
 :doc:`download`
+
+
+.. toctree::
+    :hidden:
+
+    download
+
