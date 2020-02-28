@@ -2,14 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import sys
-try:
-    # some python 2.7 and >= 3.0
-    from html.parser import HTMLParser
-except ImportError:
-    # python 2.6 and some 2.7
-    from HTMLParser import HTMLParser
 import xml.etree.ElementTree as ET
+
 import six
+from six.moves.html_parser import HTMLParser
 
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 
