@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 from brainvisa.installer.bvi_utils.xml_file import XmlFile
 from brainvisa.installer.bvi_utils.tools import ifw_version
 import six

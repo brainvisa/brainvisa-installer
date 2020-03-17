@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 import sys
 from xml.dom import minidom
 import xml.etree.ElementTree as ET

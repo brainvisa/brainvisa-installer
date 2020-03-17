@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 import os.path
 import xml.etree.ElementTree as ET
 from brainvisa.installer.bvi_utils.xml_file import XmlFile

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 import xml.etree.ElementTree as ET
 
 from brainvisa.installer.bvi_xml.tag_category import TagCategory

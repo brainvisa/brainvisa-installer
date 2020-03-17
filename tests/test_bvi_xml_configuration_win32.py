@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 import os.path
 import pytest
 from brainvisa.installer.bvi_xml.configuration import Configuration

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 from brainvisa.installer.bvi_utils.system import System
 
 from brainvisa.compilation_info import build_directory
