@@ -57,9 +57,9 @@ from brainvisa.compilation_info import packages_dependencies
 import brainvisa.maker.brainvisa_projects_versions as projects_versions
 
 
-#-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Constants
-#-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 __author__ = "Hakim Taklanti"
 __copyright__ = "Copyright 2013-2015, CEA / Saclay"
@@ -98,8 +98,10 @@ INFO_TABLE_ROW = """<tr>
 MESSAGE_INVALID_PROJECT = "[ BVI ] Error: The project %s does not exist!."
 MESSAGE_INVALID_NAME = "[ BVI ] Error: The component %s does not exist!."
 MESSAGE_INVALID_CONFIG = "[ BVI ] Error: The file %s does not exist!."
-MESSAGE_INVALID_RELEASE = "[ BVI ] Error: The release number %s does not match the required pattern (numbers separated by dots)."
-MESSAGE_MISSING_COMPONENTS = "[ BVI ] Warning: The project %s does not contains any component to package (removing it from packaging)."
+MESSAGE_INVALID_RELEASE = "[ BVI ] Error: The release number %s does not " \
+    "match the required pattern (numbers separated by dots)."
+MESSAGE_MISSING_COMPONENTS = "[ BVI ] Warning: The project %s does not " \
+    "contain any component to package (removing it from packaging)."
 
 MESSAGE_BVI_HEADER = """
 ===============================================================
@@ -144,11 +146,13 @@ HTML_HEADER = """<!DOCTYPE html>
         <meta content="Hakim Taklanti" name="author" />
         <meta content="2013-10-14T17:24:52+0200" name="date" />
         <meta content="CEA / Saclay" name="copyright" />
-        <meta content="BrainVISA; Neurospin; CEA; Saclay; MIRCEN" name="keywords" />
+        <meta content="BrainVISA; Neurospin; CEA; Saclay; MIRCEN"
+            name="keywords" />
         <meta content="" name="description" />
         <meta content="NOINDEX, NOFOLLOW" name="ROBOTS" />
         <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-        <meta content="application/xhtml+xml; charset=UTF-8" http-equiv="content-type" />
+        <meta content="application/xhtml+xml; charset=UTF-8"
+            http-equiv="content-type" />
         <meta content="text/css" http-equiv="content-style-type" />
         <meta content="0" http-equiv="expires" />
         <title>BrainVISA Packages</title>
@@ -189,19 +193,20 @@ HTML_FOOTER = """
                 </table>
             </article>
         </section>
-    
+
         <footer>
-            <p style="text-align:center;">Copyright CEA - Tous droits réservés<br />
-            <a style="text-align:center;" href="http://brainvisa.info">BrainVISA.info</a></p>
+            <p style="text-align:center;">Copyright CEA<br />
+            <a style="text-align:center;" href="http://brainvisa.info">
+                BrainVISA.info</a></p>
         </footer>
     </body>
 </html>
 """
 
 
-#-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Applications
-#-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 class Application(object):
     "Entry point of BrainVISA Installer."
@@ -228,20 +233,23 @@ class Application(object):
                             type=valid_projects,
                             nargs='+',
                             metavar='project',
-                            help='Projects to include in the installer and the repository')
+                            help='Projects to include in the installer and '
+                            'the repository')
 
         parser.add_argument('-n', '--names',
                             type=valid_names,
                             nargs='+',
                             metavar='name',
-                            help='Package names to include in the installer and the repository')
+                            help='Package names to include in the installer '
+                            'and the repository')
 
         parser.add_argument('-t', '--types',
                             nargs='+',
                             choices=['run', 'dev', 'usrdoc', 'devdoc', 'test'],
                             default=['run', 'dev', 'usrdoc', 'devdoc', 'test'],
                             metavar='types',
-                            help='Package\'s types (default: "run", "dev", "usrdoc", "devdoc" and "test")')
+                            help='Package\'s types (default: "run", "dev", '
+                            '"usrdoc", "devdoc" and "test")')
 
         parser.add_argument('--online-only',
                             action='store_true',
@@ -253,11 +261,13 @@ class Application(object):
 
         parser.add_argument('--repository-only',
                             action='store_true',
-                            help='Create only the repository for the online installer')
+                            help='Create only the repository for the online '
+                            'installer')
 
         parser.add_argument('--compress',
                             action='store_true',
-                            help='The packages data in the temporary repository will be compressed [experimental].')
+                            help='The packages data in the temporary '
+                            'repository will be compressed [experimental].')
 
         parser.add_argument('-i', '--installer',
                             default=None,
@@ -289,18 +299,21 @@ class Application(object):
 
         parser.add_argument('--no-main-config',
                             action='store_true',
-                            help='don\'t read the main BrainVisa config file. Must be used with the -c option')
+                            help='don\'t read the main BrainVisa config file. '
+                            'Must be used with the -c option')
 
         parser.add_argument('--qt_menu_nib',
                             default=None,
                             help='For Mac OS X 10.5: copy the specified qt_menu.nib folder in the \
-            installer OSX App package. Use this option, if the OS X installer did not \
-            find the qt_menu.nib folder.')
+            installer OSX App package. Use this option if the OS X installer \
+            did not find the qt_menu.nib folder.')
 
         parser.add_argument('--release',
                             type=valid_release,
                             default=None,
-                            help='force repository release version. default: use BrainVISA release version from the current build.')
+                            help='force repository release version. default: '
+                            'use BrainVISA release version from the current '
+                            'build.')
 
         parser.add_argument('--i2bm',
                             action='store_true',
@@ -308,8 +321,8 @@ class Application(object):
 
         parser.add_argument('--data',
                             action='store_true',
-                            help='Package only data packages (which are excluded from '
-                            'normal packaging).')
+                            help='Package only data packages (which are '
+                            'excluded from normal packaging).')
 
         parser.add_argument('-v', '--version',
                             action='version',
@@ -319,7 +332,8 @@ class Application(object):
 
         parser.add_argument('--no-thirdparty',
                             action='store_true',
-                            help='Do not package thirdparty libraries, and ignore them in dependencies.')
+                            help='Do not package thirdparty libraries, and '
+                            'ignore them in dependencies.')
 
         parser.add_argument('--no-dependencies',
                             action='store_true',
@@ -328,55 +342,64 @@ class Application(object):
         parser.add_argument('--platform-target',
                             dest='platform_target',
                             default=None,
-                            help='target platform to use for cross compilation (default: %s)' % System.platform().lower())
+                            help='target platform to use for cross '
+                            'compilation (default: %s)'
+                            % System.platform().lower())
 
         parser.add_argument('--platform_name',
                             default=None,
-                            help='force platform name in packages repository URL (default: %s)' % System.platform().lower())
+                            help='force platform name in packages repository '
+                            'URL (default: %s)' % System.platform().lower())
 
         parser.add_argument('--make-options',
                             dest='make_options',
                             default=None,
-                            help='make options to use during components packaging')
+                            help='make options to use during components '
+                            'packaging')
 
         parser.add_argument('--binary-creator-cmd',
                             dest='binary_creator_command',
                             default=None,
-                            help='Path to the binary creator command to use to generate'
-                            'the installer.')
+                            help='Path to the binary creator command to use '
+                            'to generate the installer.')
 
         parser.add_argument('--archivegen-cmd',
                             dest='archivegen_cmd',
                             default=None,
-                            help='Path to the archivegen command to use to generate 7z '
-                            'archives. Default: look (in that order) for: 7z, 7za, '
-                            'archivegen.')
+                            help='Path to the archivegen command to use to '
+                            'generate 7z archives. Default: look (in that '
+                            'order) for: 7z, 7za, archivegen.')
 
         parser.add_argument('--archivegen-opts',
                             dest='archivegen_opts',
                             default='',
-                            help='archivegen command options. Default: none for archivegen, '
-                            '"a" for 7z/7za. Options are split by space character.')
+                            help='archivegen command options. Default: none '
+                            'for archivegen, "a" for 7z/7za. Options are '
+                            'split by space character.')
 
         parser.add_argument('--skip-repos', dest='skip_repos',
                             action='store_true',
-                            help='Skip initial (temp) repository creation. Assumes it has already been done.')
+                            help='Skip initial (temp) repository creation. '
+                            'Assumes it has already been done.')
 
         parser.add_argument('--skip-repogen', dest='skip_repogen',
                             action='store_true',
-                            help='Skip repogen (final repository creation + compression). Assumes it has already been done.')
+                            help='Skip repogen (final repository creation + '
+                            'compression). Assumes it has already been done.')
 
         parser.add_argument('--skip-existing', dest='skip_existing',
                             action='store_true',
-                            help='Don\'t rebuild components which already have a directory in '
-                            'the temporary repository directory.')
+                            help='Don\'t rebuild components which already '
+                            'have a directory in the temporary repository '
+                            'directory.')
 
         self.__configure_logging()
         args = parser.parse_args(argv[1:])
 
         if args.online_only + args.offline_only + args.repository_only > 1:
-            logging.getLogger().error("[ BVI ] Error: --online-only, --offline-only and \
-            --repository-only are incompatible.")
+            logging.getLogger().error(
+                "[ BVI ] Error: --online-only, --offline-only and "
+                "--repository-only are incompatible.")
             exit(1)
 
         if args.qt_menu_nib is not None:
@@ -548,12 +571,12 @@ class Application(object):
         for installer in (self.args.installer,
                           self.args.offline_installer):
             if installer is not None:
-                if not qt_menu_nib is None:
+                if qt_menu_nib is not None:
                     src = qt_menu_nib
                     dst = "%s.app/Contents/Resources/qt_menu.nib" % installer
                     try:
                         shutil.copytree(src, dst)
-                    except:
+                    except Exception:
                         # copying file attributes on the network may fail,
                         # but copy is OK.
                         pass
@@ -584,12 +607,12 @@ class Application(object):
                     open(installer_path + '.md5', 'w').write(mdsum_str)
 
 
-#-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Methods
-#-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 def valid_projects(arg):
     "Check if the project exists."
-    if not arg in ordered_projects and arg not in packages_info:
+    if arg not in ordered_projects and arg not in packages_info:
         error = MESSAGE_INVALID_PROJECT % arg
         logging.getLogger().error(error)
         raise argparse.ArgumentTypeError(error)
@@ -598,7 +621,7 @@ def valid_projects(arg):
 
 def valid_names(arg):
     "Check if the component exists."
-    if not arg in packages_info:
+    if arg not in packages_info:
         error = MESSAGE_INVALID_NAME % arg
         logging.getLogger().error(error)
         raise argparse.ArgumentTypeError(error)
@@ -664,7 +687,7 @@ def write_info_package(fo, component, list_packages, with_dependencies=True,
 
     html = INFO_TABLE_ROW % (info_project, info_package, info_type,
                              info_version, info_licenses)
-    if not info_package in list_packages and \
+    if info_package not in list_packages and \
             (with_thirdparty or info_type != 'thirdparty'):
         fo.write(html)
         list_packages.add(info_package)
@@ -677,9 +700,9 @@ def write_info_package(fo, component, list_packages, with_dependencies=True,
                                    with_dependencies, with_thirdparty)
 
 
-#-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Main
-#-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 if __name__ == "__main__":
     import sys
     app = Application(sys.argv)
