@@ -68,7 +68,7 @@ class TagRepository(object):
             or System.platform().lower() == att_platform.lower() else '0'
         # att_private = element.attrib.get('PRIVATE')
         # if att_private is not None and att_private in ('1', 'True', 'true'):
-           # self.Enabled = '0'
+        # self.Enabled = '0'
         if self.Url.startswith("file://") and not self.private:
             self.Enabled = '0'
         self.Username = element.attrib.get('USERNAME')

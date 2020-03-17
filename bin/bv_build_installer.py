@@ -9,9 +9,9 @@
 #
 # This software is governed by the CeCILL-B license under
 # French law and abiding by the rules of distribution of free software.
-# You can  use, modify and/or redistribute the software under the 
+# You can  use, modify and/or redistribute the software under the
 # terms of the CeCILL-B license as circulated by CEA, CNRS
-# and INRIA at the following URL "http://www.cecill.info". 
+# and INRIA at the following URL "http://www.cecill.info".
 #
 # As a counterpart to the access to the source code and  rights to copy,
 # modify and redistribute granted by the license, users are provided only
@@ -26,8 +26,8 @@
 # therefore means  that it is reserved for developers  and  experienced
 # professionals having in-depth computer knowledge. Users are therefore
 # encouraged to load and test the software's suitability as regards their
-# requirements in conditions enabling the security of their systems and/or 
-# data to be ensured and,  more generally, to use and operate it in the 
+# requirements in conditions enabling the security of their systems and/or
+# data to be ensured and,  more generally, to use and operate it in the
 # same conditions as regards security.
 #
 # The fact that you are presently reading this means that you have had
@@ -60,17 +60,17 @@ import brainvisa.maker.brainvisa_projects_versions as projects_versions
 # Constants
 #-----------------------------------------------------------------------------
 
-__author__      = "Hakim Taklanti"
-__copyright__   = "Copyright 2013-2015, CEA / Saclay"
-__credits__     = ["Hakim Taklanti",
-                   "Yann Cointepas",
-                   "Denis Rivière",
-                   "Nicolas Souedet"]
-__license__     = "CeCILL V2"
-__version__     = version.version
-__maintainer__  = "Hakim Taklanti"
-__email__       = "hakim.taklanti@altran.com"
-__status__      = "release"
+__author__ = "Hakim Taklanti"
+__copyright__ = "Copyright 2013-2015, CEA / Saclay"
+__credits__ = ["Hakim Taklanti",
+               "Yann Cointepas",
+               "Denis Rivière",
+               "Nicolas Souedet"]
+__license__ = "CeCILL V2"
+__version__ = version.version
+__maintainer__ = "Hakim Taklanti"
+__email__ = "hakim.taklanti@altran.com"
+__status__ = "release"
 
 
 MESSAGE_HELP_HEADER = """BrainVISA Installer Help
@@ -208,7 +208,7 @@ class Application(object):
     def start(self):
         "Start BrainVISA Installer process."
         logging.getLogger().info(MESSAGE_BVI_HEADER)
-        #self.__configure_logging()
+        # self.__configure_logging()
         self.__create_configuration()
         self.__create_information()
         self.__create_repository()
@@ -219,155 +219,156 @@ class Application(object):
     def __init__(self, argv):
         "Parse the command line arguments."
         parser = argparse.ArgumentParser(
-            formatter_class = argparse.RawDescriptionHelpFormatter,
-            description     = MESSAGE_HELP_HEADER,
-            epilog          = MESSAGE_HELP_EPILOG)
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            description=MESSAGE_HELP_HEADER,
+            epilog=MESSAGE_HELP_EPILOG)
 
         parser.add_argument('-p', '--projects',
-            type    = valid_projects,
-            nargs   = '+',
-            metavar = 'project',
-            help    = 'Projects to include in the installer and the repository')
+                            type=valid_projects,
+                            nargs='+',
+                            metavar='project',
+                            help='Projects to include in the installer and the repository')
 
         parser.add_argument('-n', '--names',
-            type    = valid_names,
-            nargs   = '+',
-            metavar = 'name',
-            help    = 'Package names to include in the installer and the repository')
+                            type=valid_names,
+                            nargs='+',
+                            metavar='name',
+                            help='Package names to include in the installer and the repository')
 
         parser.add_argument('-t', '--types',
-            nargs   = '+',
-            choices = ['run', 'dev', 'usrdoc', 'devdoc', 'test'],
-            default = ['run', 'dev', 'usrdoc', 'devdoc', 'test'],
-            metavar = 'types',
-            help    = 'Package\'s types (default: "run", "dev", "usrdoc", "devdoc" and "test")')
+                            nargs='+',
+                            choices=['run', 'dev', 'usrdoc', 'devdoc', 'test'],
+                            default=['run', 'dev', 'usrdoc', 'devdoc', 'test'],
+                            metavar='types',
+                            help='Package\'s types (default: "run", "dev", "usrdoc", "devdoc" and "test")')
 
         parser.add_argument('--online-only',
-            action  = 'store_true',
-            help    = 'Create only an online installer')
+                            action='store_true',
+                            help='Create only an online installer')
 
         parser.add_argument('--offline-only',
-            action  = 'store_true',
-            help    = 'Create only an offline installer')
+                            action='store_true',
+                            help='Create only an offline installer')
 
         parser.add_argument('--repository-only',
-            action  = 'store_true',
-            help    = 'Create only the repository for the online installer')
+                            action='store_true',
+                            help='Create only the repository for the online installer')
 
         parser.add_argument('--compress',
-            action  = 'store_true',
-            help    = 'The packages data in the temporary repository will be compressed [experimental].')
+                            action='store_true',
+                            help='The packages data in the temporary repository will be compressed [experimental].')
 
         parser.add_argument('-i', '--installer',
-            default = None,
-            metavar = 'file',
-            help    = 'Installer name (optional only if --repository-only is specified). Note: if an additional offline installer (-j option) is specified, -i will be an online-only installer. Otherwise it will follow the options --online-only and --offline-only if they are specified, with the same meaning as in the binarycreator tool.')
+                            default=None,
+                            metavar='file',
+                            help='Installer name (optional only if --repository-only is specified). Note: if an additional offline installer (-j option) is specified, -i will be an online-only installer. Otherwise it will follow the options --online-only and --offline-only if they are specified, with the same meaning as in the binarycreator tool.')
 
         parser.add_argument('-j', '--offline-installer',
-            default = None,
-            metavar = 'file',
-            help    = 'Offline installer name (optional). The offline installer will contain all packages, ignoring --online-only option, but still following --offline-only if specified. Using both -i and -j will generate two installer binaries, one online and one offline.')
+                            default=None,
+                            metavar='file',
+                            help='Offline installer name (optional). The offline installer will contain all packages, ignoring --online-only option, but still following --offline-only if specified. Using both -i and -j will generate two installer binaries, one online and one offline.')
 
         parser.add_argument('-r', '--repository',
-            default = None,
-            metavar = 'dir',
-            required= True,
-            help    = 'Repository name.')
+                            default=None,
+                            metavar='dir',
+                            required=True,
+                            help='Repository name.')
 
         parser.add_argument('-f', '--additional-repositories',
-            default = [],
-            nargs   = '+',
-            metavar = 'additional_dir',
-            help    = 'Additional existing repositories (optional). This is particularly usefull for offline installer that need to contain all installation packages. This packages may exists in separated repositories.')
+                            default=[],
+                            nargs='+',
+                            metavar='additional_dir',
+                            help='Additional existing repositories (optional). This is particularly usefull for offline installer that need to contain all installation packages. This packages may exists in separated repositories.')
 
         parser.add_argument('-c', '--config',
-            type    = valid_config,
-            default = None,
-            metavar = 'file',
-            help    = 'Additional configuration XML file')
+                            type=valid_config,
+                            default=None,
+                            metavar='file',
+                            help='Additional configuration XML file')
 
         parser.add_argument('--no-main-config',
-            action  = 'store_true',
-            help    = 'don\'t read the main BrainVisa config file. Must be used with the -c option')
+                            action='store_true',
+                            help='don\'t read the main BrainVisa config file. Must be used with the -c option')
 
         parser.add_argument('--qt_menu_nib',
-            default = None,
-            help    = 'For Mac OS X 10.5: copy the specified qt_menu.nib folder in the \
+                            default=None,
+                            help='For Mac OS X 10.5: copy the specified qt_menu.nib folder in the \
             installer OSX App package. Use this option, if the OS X installer did not \
             find the qt_menu.nib folder.')
 
         parser.add_argument('--release',
-            type    = valid_release,
-            default = None,
-            help    = 'force repository release version. default: use BrainVISA release version from the current build.')
+                            type=valid_release,
+                            default=None,
+                            help='force repository release version. default: use BrainVISA release version from the current build.')
 
         parser.add_argument('--i2bm',
-            action  = 'store_true',
-            help    = 'Include I2BM private components - by default such private components are excluded from the package.')
+                            action='store_true',
+                            help='Include I2BM private components - by default such private components are excluded from the package.')
 
         parser.add_argument('--data',
-            action  = 'store_true',
-            help    = 'Package only data packages (which are excluded from '
-            'normal packaging).')
+                            action='store_true',
+                            help='Package only data packages (which are excluded from '
+                            'normal packaging).')
 
         parser.add_argument('-v', '--version',
-            action  = 'version',
-            version = '%(prog)s [' + __status__ + '] - ' + __version__,
-            help    = 'Show the version number.')
+                            action='version',
+                            version='%(prog)s [' + __status__ +
+                            '] - ' + __version__,
+                            help='Show the version number.')
 
         parser.add_argument('--no-thirdparty',
-            action  = 'store_true',
-            help    = 'Do not package thirdparty libraries, and ignore them in dependencies.')
+                            action='store_true',
+                            help='Do not package thirdparty libraries, and ignore them in dependencies.')
 
         parser.add_argument('--no-dependencies',
-            action  = 'store_true',
-            help    = 'Do not package dependencies: take only explicitely named packages/projects. Their dependencies will still be marked so they must either already exist in the repository, either exist in another repository.')
+                            action='store_true',
+                            help='Do not package dependencies: take only explicitely named packages/projects. Their dependencies will still be marked so they must either already exist in the repository, either exist in another repository.')
 
         parser.add_argument('--platform-target',
-            dest = 'platform_target',
-            default = None,
-            help    = 'target platform to use for cross compilation (default: %s)' % System.platform().lower())
+                            dest='platform_target',
+                            default=None,
+                            help='target platform to use for cross compilation (default: %s)' % System.platform().lower())
 
         parser.add_argument('--platform_name',
-            default = None,
-            help    = 'force platform name in packages repository URL (default: %s)' % System.platform().lower())
+                            default=None,
+                            help='force platform name in packages repository URL (default: %s)' % System.platform().lower())
 
         parser.add_argument('--make-options',
-            dest = 'make_options',
-            default = None,
-            help    = 'make options to use during components packaging')
-        
+                            dest='make_options',
+                            default=None,
+                            help='make options to use during components packaging')
+
         parser.add_argument('--binary-creator-cmd',
-            dest='binary_creator_command',
-            default = None,
-            help='Path to the binary creator command to use to generate'
-            'the installer.')
+                            dest='binary_creator_command',
+                            default=None,
+                            help='Path to the binary creator command to use to generate'
+                            'the installer.')
 
         parser.add_argument('--archivegen-cmd',
-            dest='archivegen_cmd',
-            default=None,
-            help='Path to the archivegen command to use to generate 7z '
-                'archives. Default: look (in that order) for: 7z, 7za, '
-                'archivegen.')
+                            dest='archivegen_cmd',
+                            default=None,
+                            help='Path to the archivegen command to use to generate 7z '
+                            'archives. Default: look (in that order) for: 7z, 7za, '
+                            'archivegen.')
 
         parser.add_argument('--archivegen-opts',
-            dest='archivegen_opts',
-            default='',
-            help='archivegen command options. Default: none for archivegen, '
-                '"a" for 7z/7za. Options are split by space character.')
+                            dest='archivegen_opts',
+                            default='',
+                            help='archivegen command options. Default: none for archivegen, '
+                            '"a" for 7z/7za. Options are split by space character.')
 
         parser.add_argument('--skip-repos', dest='skip_repos',
-            action='store_true',
-            help='Skip initial (temp) repository creation. Assumes it has already been done.')
+                            action='store_true',
+                            help='Skip initial (temp) repository creation. Assumes it has already been done.')
 
         parser.add_argument('--skip-repogen', dest='skip_repogen',
-            action='store_true',
-            help='Skip repogen (final repository creation + compression). Assumes it has already been done.')
+                            action='store_true',
+                            help='Skip repogen (final repository creation + compression). Assumes it has already been done.')
 
         parser.add_argument('--skip-existing', dest='skip_existing',
-            action='store_true',
-            help='Don\'t rebuild components which already have a directory in '
-            'the temporary repository directory.')
+                            action='store_true',
+                            help='Don\'t rebuild components which already have a directory in '
+                            'the temporary repository directory.')
 
         self.__configure_logging()
         args = parser.parse_args(argv[1:])
@@ -384,17 +385,18 @@ class Application(object):
                     "must be specified if --qt_menu_nib is used.")
                 exit(1)
             if System.platform() != System.MacOSX:
-                logging.getLogger().error("[ BVI ] Error: --qt_menu_nib is only for Mac OS X.")
+                logging.getLogger().error(
+                    "[ BVI ] Error: --qt_menu_nib is only for Mac OS X.")
                 exit(1)
 
         self.args = args
         self.logging_level = logging.DEBUG
         if self.args.no_main_config:
-            kwargs = { 'filename': self.args.config }
+            kwargs = {'filename': self.args.config}
         else:
-            kwargs = { 'alt_filename' : self.args.config }
+            kwargs = {'alt_filename': self.args.config}
         if self.args.release is not None:
-            kwargs[ 'release' ] = self.args.release
+            kwargs['release'] = self.args.release
         if self.args.no_thirdparty:
             kwargs['with_thirdparty'] = False
         if self.args.no_dependencies:
@@ -406,7 +408,7 @@ class Application(object):
                 self.args.platform_name = self.args.platform_target
         if self.args.platform_name:
             kwargs['platform_name'] = self.args.platform_name
-          
+
         kwargs['make_options'] = self.args.make_options
         kwargs['binary_creator_command'] = self.args.binary_creator_command
         kwargs['archivegen_cmd'] = self.args.archivegen_cmd
@@ -424,8 +426,10 @@ class Application(object):
     def __configure_logging(self):
         logger = logging.getLogger()
         logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
-        file_handler = RotatingFileHandler('bv_build_installer.log', 'a', 1000000, 1)
+        formatter = logging.Formatter(
+            '%(asctime)s :: %(levelname)s :: %(message)s')
+        file_handler = RotatingFileHandler(
+            'bv_build_installer.log', 'a', 1000000, 1)
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
@@ -440,19 +444,19 @@ class Application(object):
         if self.args.projects:
             for project in self.args.projects:
                 p = Project(project, self.config, self.args.types,
-                            compress = self.args.compress,
+                            compress=self.args.compress,
                             remove_private=not self.args.i2bm)
                 if len(p.components) > 0:
                     res.append(p)
                 else:
                     logging.getLogger().warning(MESSAGE_MISSING_COMPONENTS,
                                                 project)
-                    
+
         if self.args.names:
             for name in self.args.names:
                 cls = Package.package_factory(name, self.config)
                 res.append(cls(name, self.config,
-                               compress = self.args.compress))
+                               compress=self.args.compress))
         return res
 
     def __create_configuration(self):
@@ -460,8 +464,8 @@ class Application(object):
         logging.getLogger().info(MESSAGE_BVI_CONFIGURATION)
         temporary_folder = "%s_tmp" % self.args.repository
         rep = Repository(temporary_folder, self.config, self.components,
-            with_dependencies=not self.args.no_dependencies, 
-            with_thirdparty=not self.args.no_thirdparty)
+                         with_dependencies=not self.args.no_dependencies,
+                         with_thirdparty=not self.args.no_thirdparty)
         rep.create()
 
     def __create_information(self):
@@ -469,15 +473,15 @@ class Application(object):
         logging.getLogger().info(MESSAGE_BVI_INFORMATION)
         info_file = "%s_infos.html" % self.args.repository
         write_info(info_file, self.args.projects, self.args.names,
-            remove_private=not self.args.i2bm,
-            with_dependencies=not self.args.no_dependencies,
-            with_thirdparty=not self.args.no_thirdparty)
+                   remove_private=not self.args.i2bm,
+                   with_dependencies=not self.args.no_dependencies,
+                   with_thirdparty=not self.args.no_thirdparty)
 
     def __create_repository(self):
         "Create the online repository."
         if not self.args.offline_only and not self.args.skip_repogen:
             logging.getLogger().info(MESSAGE_BVI_REPOSITORY)
-            repogen("%s_tmp" % self.args.repository, self.args.repository, 
+            repogen("%s_tmp" % self.args.repository, self.args.repository,
                     update=True)
 
     def __create_installer(self):
@@ -494,14 +498,14 @@ class Application(object):
                 binarycreator(
                     self.args.installer,
                     "%s_tmp" % self.args.repository,
-                    online_only = online_only,
-                    offline_only = offline_only,
-                    platform_target = self.args.platform_target \
-                                      if self.args.platform_target \
-                                      else System.platform().lower(),
-                    command = self.args.binary_creator_command \
-                              if self.args.binary_creator_command \
-                              else None)
+                    online_only=online_only,
+                    offline_only=offline_only,
+                    platform_target=self.args.platform_target
+                    if self.args.platform_target
+                    else System.platform().lower(),
+                    command=self.args.binary_creator_command
+                    if self.args.binary_creator_command
+                    else None)
             if self.args.offline_installer is not None:
                 online_only = False
                 offline_only = self.args.offline_only
@@ -509,17 +513,17 @@ class Application(object):
                 binarycreator(
                     self.args.offline_installer,
                     "%s_tmp" % self.args.repository,
-                    additional_repositories = [
-                        os.path.join("%s_tmp", "packages") % r for r in \
+                    additional_repositories=[
+                        os.path.join("%s_tmp", "packages") % r for r in
                         self.args.additional_repositories],
-                    online_only = online_only,
-                    offline_only = offline_only,
-                    platform_target = self.args.platform_target \
-                                      if self.args.platform_target \
-                                      else System.platform().lower(),
-                    command = self.args.binary_creator_command \
-                              if self.args.binary_creator_command \
-                              else None)
+                    online_only=online_only,
+                    offline_only=offline_only,
+                    platform_target=self.args.platform_target
+                    if self.args.platform_target
+                    else System.platform().lower(),
+                    command=self.args.binary_creator_command
+                    if self.args.binary_creator_command
+                    else None)
 
     def __create_hacks(self):
         "Regroup all hacks for specific problems."
@@ -539,12 +543,12 @@ class Application(object):
                     qt_menu_nib = None  # doesn't work
         else:
             qt_menu_nib = self.args.qt_menu_nib
-            
+
         for installer in (self.args.installer,
                           self.args.offline_installer):
             if installer is not None:
                 if not qt_menu_nib is None:
-                    src = qt_menu_nib            
+                    src = qt_menu_nib
                     dst = "%s.app/Contents/Resources/qt_menu.nib" % installer
                     try:
                         shutil.copytree(src, dst)
@@ -561,15 +565,15 @@ class Application(object):
                     if create_dmg:
                         installer_path = '%s.dmg' % installer
                         cmd = [create_dmg, '--volname', 'BrainVISA-installer',
-                            '--volicon',
-                            '%s_tmp/config/icon.png' % self.args.repository,
-                            installer_path, '%s.app' % installer]
+                               '--volicon',
+                               '%s_tmp/config/icon.png' % self.args.repository,
+                               installer_path, '%s.app' % installer]
                         subprocess.check_call(cmd)
                     else:
                         raise RuntimeError('Impossible to find create-dmg '
                                            'executable. Please check it is '
                                            'available on the system.')
-                        
+
                     # build the MD5 sum file
                     import hashlib
                     m = hashlib.md5()
@@ -618,8 +622,8 @@ def valid_release(arg):
     return arg
 
 
-def write_info(filename, projects, names, remove_private, 
-        with_dependencies=True, with_thirdparty=True):
+def write_info(filename, projects, names, remove_private,
+               with_dependencies=True, with_thirdparty=True):
     "Write a HTML table with the list of packages."
     list_packages = set()
     fopts = {}
@@ -631,24 +635,24 @@ def write_info(filename, projects, names, remove_private,
             for project in projects:
                 for component in \
                         projects_versions.project_components(
-                            project,remove_private=remove_private  ):
+                            project, remove_private=remove_private):
                     write_info_package(fo, component, list_packages,
-                        with_dependencies, with_thirdparty)
+                                       with_dependencies, with_thirdparty)
         if names:
             for name in names:
                 write_info_package(fo, name, list_packages, with_dependencies,
-                    with_thirdparty)
+                                   with_thirdparty)
         fo.write(HTML_FOOTER)
 
 
 def write_info_package(fo, component, list_packages, with_dependencies=True,
-        with_thirdparty=True):
+                       with_thirdparty=True):
     "Write a HTML row with the package's information."
-    info_package     = component
-    info_project     = ''
-    info_type         = ''
-    info_version     = ''
-    info_licenses     = ''
+    info_package = component
+    info_project = ''
+    info_type = ''
+    info_version = ''
+    info_licenses = ''
     infos = packages_info.get(component)
     if infos:
         info_type = infos.get('type', '')
@@ -658,7 +662,7 @@ def write_info_package(fo, component, list_packages, with_dependencies=True,
         info_licenses = ', '.join(info_licenses)
 
     html = INFO_TABLE_ROW % (info_project, info_package, info_type,
-        info_version, info_licenses)
+                             info_version, info_licenses)
     if not info_package in list_packages and \
             (with_thirdparty or info_type != 'thirdparty'):
         fo.write(html)
@@ -669,7 +673,8 @@ def write_info_package(fo, component, list_packages, with_dependencies=True,
         if dependencies:
             for dependency in dependencies:
                 write_info_package(fo, dependency[1], list_packages,
-                    with_dependencies, with_thirdparty)
+                                   with_dependencies, with_thirdparty)
+
 
 #-----------------------------------------------------------------------------
 # Main

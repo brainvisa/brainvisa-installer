@@ -11,7 +11,8 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
+import sys
+import os
 from distutils.version import LooseVersion
 import sphinx
 if LooseVersion(sphinx.__version__) < LooseVersion('1'):
@@ -20,7 +21,7 @@ if LooseVersion(sphinx.__version__) < LooseVersion('1'):
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0,os.path.abspath('sphinxext'))
+sys.path.insert(0, os.path.abspath('sphinxext'))
 
 try:
     from soma import aims
@@ -42,7 +43,8 @@ web_mode = 'ext'
 # -- General configuration -----------------------------------------------------
 
 # We load the release info into a dict by explicit execution
-release_info = {'__version__': '0.1.0', 'AUTHOR': 'BrainVisa group', 'AUTHOR_EMAIL': 'brainvisa@brainvisa.info'}
+release_info = {'__version__': '0.1.0', 'AUTHOR': 'BrainVisa group',
+                'AUTHOR_EMAIL': 'brainvisa@brainvisa.info'}
 #execfile(os.path.join('..', '..', 'brainvisa', 'info.py'), release_info)
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
@@ -52,18 +54,18 @@ if sphinx.version_info[:2] <= (1, 3):
     imgmath = 'sphinx.ext.pngmath'
 else:
     imgmath = 'sphinx.ext.imgmath'
-extensions = [ 'sphinx.ext.autodoc',
-               'sphinx.ext.doctest',
-               'sphinx.ext.intersphinx',
-               'sphinx.ext.todo',
-               'sphinx.ext.coverage',
-               imgmath,
-               'sphinx.ext.ifconfig',
-               'sphinx.ext.autosummary',
-               'sphinx.ext.viewcode',
-               #'numpy_ext.numpydoc',
-               'sphinx.ext.extlinks'
-             ]
+extensions = ['sphinx.ext.autodoc',
+              'sphinx.ext.doctest',
+              'sphinx.ext.intersphinx',
+              'sphinx.ext.todo',
+              'sphinx.ext.coverage',
+              imgmath,
+              'sphinx.ext.ifconfig',
+              'sphinx.ext.autosummary',
+              'sphinx.ext.viewcode',
+              #'numpy_ext.numpydoc',
+              'sphinx.ext.extlinks'
+              ]
 
 # Remove some numpy-linked warnings
 numpydoc_show_class_members = False
@@ -97,7 +99,7 @@ copyright = u'2014, %(AUTHOR)s <%(AUTHOR_EMAIL)s>' % release_info
 #
 try:
     # The short X.Y version.
-    version = '.'.join( [ str(x) for x in aims.version() ] )
+    version = '.'.join([str(x) for x in aims.version()])
     # The full version, including alpha/beta/rc tags.
     release = aims.versionString()
 except:
@@ -124,7 +126,7 @@ except:
 # for source files.
 exclude_patterns = ['examples',
                     "_themes/scikit-learn/static/ML_MAPS_README.rst"] \
-                   + templates_path
+    + templates_path
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
@@ -158,9 +160,9 @@ html_theme = 'default'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {'oldversion': False, 'collapsiblesidebar': True,
-                      #'google_analytics': True, 'surveybanner': False,
-                      #'sprintbanner': True}
+# html_theme_options = {'oldversion': False, 'collapsiblesidebar': True,
+#'google_analytics': True, 'surveybanner': False,
+#'sprintbanner': True}
 
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = ['_themes']
@@ -236,8 +238,8 @@ htmlhelp_basename = 'installer'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'brainvisa-installer.tex', u'BrainVISA installer documentation',
-   '', 'manual'),
+    ('index', 'brainvisa-installer.tex', u'BrainVISA installer documentation',
+     '', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -266,25 +268,25 @@ if web_mode != 'ext':
     extlinks = {
         'axon': ('../axon-' + version + '/%s', 'axon '),
         'anatomist': ('../anatomist-' + version + '/%s',
-          'anatomist '),
+                      'anatomist '),
         'pyanatomist': ('../pyanatomist-' + version + '/sphinx/%s',
-          'pyanatomist '),
+                        'pyanatomist '),
         'anadox': ('../anatomist-' + version + '/doxygen/%s',
-          'anadox '),
+                   'anadox '),
         'aimsdox': ('../aimsdata-' + version + '/doxygen/%s',
-          'aimsdox '),
-        'aimsdata' : ('../aimsdata-' + version + '/%s', 'aimsdata '),
+                    'aimsdox '),
+        'aimsdata': ('../aimsdata-' + version + '/%s', 'aimsdata '),
         'pyaims': ('../pyaims-' + version + '/sphinx/%s',
-          'pyaims '),
-        'cartobdox' : ('../cartobase-' + version + '/doxygen/%s',
-        'cartobdox '),
-        'cartoddox' : ('../cartodata-' + version + '/doxygen/%s',
-        'cartoddox '),
-        'graphdox' : ('../graph-' + version + '/doxygen/%s',
-        'graphdox '),
-        'soma_workflow' : ('../soma-workflow-' + soma_workflow_version \
-            + '/sphinx/%s', 'soma_workflow '),
-        'capsul' : ('../capsul-' + capsul_version + '/%s', 'capsul '),
+                   'pyaims '),
+        'cartobdox': ('../cartobase-' + version + '/doxygen/%s',
+                      'cartobdox '),
+        'cartoddox': ('../cartodata-' + version + '/doxygen/%s',
+                      'cartoddox '),
+        'graphdox': ('../graph-' + version + '/doxygen/%s',
+                     'graphdox '),
+        'soma_workflow': ('../soma-workflow-' + soma_workflow_version
+                          + '/sphinx/%s', 'soma_workflow '),
+        'capsul': ('../capsul-' + capsul_version + '/%s', 'capsul '),
     }
 else:
     # external mode (real website): web installed in root
@@ -296,12 +298,11 @@ else:
         'anadox': ('doc/anatomist/doxygen/%s', 'anadox '),
         'anaepy': ('doc/pyanatomist/epydoc/%s', 'anaepy '),
         'aimsdox': ('doc/aimsdata/doxygen/%s', 'aimsdox '),
-        'aimsdata' : ('doc/aimsdata/%s', 'aimsdata '),
+        'aimsdata': ('doc/aimsdata/%s', 'aimsdata '),
         'pyaims': ('doc/pyaims/sphinx/%s', 'pyaims '),
-        'cartobdox' : ('doc/cartobase/doxygen/%s', 'cartobdox '),
-        'cartoddox' : ('doc/cartodata/doxygen/%s', 'cartoddox '),
-        'graphdox' : ('doc/graph/doxygen/%s', 'graphdox '),
-        'soma_workflow' : ('doc/soma-workflow/sphinx/%s', 'soma_workflow '),
-        'capsul' : ('doc/capsul/%s', 'capsul '),
+        'cartobdox': ('doc/cartobase/doxygen/%s', 'cartobdox '),
+        'cartoddox': ('doc/cartodata/doxygen/%s', 'cartoddox '),
+        'graphdox': ('doc/graph/doxygen/%s', 'graphdox '),
+        'soma_workflow': ('doc/soma-workflow/sphinx/%s', 'soma_workflow '),
+        'capsul': ('doc/capsul/%s', 'capsul '),
     }
-
