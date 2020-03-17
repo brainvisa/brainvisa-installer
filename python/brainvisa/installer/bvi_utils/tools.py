@@ -7,6 +7,7 @@
 
 from __future__ import print_function
 
+from __future__ import absolute_import
 import os
 import sys
 import subprocess
@@ -77,7 +78,7 @@ def translate_path(path, platform_target,
     if platform_host != platform_target.upper():
         if platform_host_family == System.Family.Linux \
                 and platform_target_family == System.Family.Win:
-                return translate_path_wine(path, translation_type)
+            return translate_path_wine(path, translation_type)
         else:
             raise RuntimeError('No known path translation method between '
                                '%s (%s family) and %s (%s family) systems'
@@ -170,7 +171,7 @@ def repogen(path_repository_in, path_repository_out,
     cmd = [Paths.binary_name(Paths.IFW_REPOGEN, System.platform())] \
         + param_packages + param_update + param_exclude \
         + param_components + [path_repository_out]
-        # param_updateurl,
+    # param_updateurl,
     print(' '.join(cmd))
     subprocess.check_call(cmd)
 

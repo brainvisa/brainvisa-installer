@@ -3,6 +3,7 @@
 
 """Methods to format the string."""
 
+from __future__ import absolute_import
 import six
 
 
@@ -28,7 +29,7 @@ def xml_escape(string):
     "Escape the invalid characters."
     res = string.strip()
     res = res.replace("&", "&amp;")
-                      # must be first! Else &quot; => &amp;quot; etc.
+    # must be first! Else &quot; => &amp;quot; etc.
     characters = {
         "\"": "&quot;",
         "'": "&apos;",

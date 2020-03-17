@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 import sys
-try:
-    # some python 2.7 and >= 3.0
-    from html.parser import HTMLParser
-except ImportError:
-    # python 2.6 and some 2.7
-    from HTMLParser import HTMLParser
 from xml.dom import minidom
 import xml.etree.ElementTree as ET
+
+from six.moves.html_parser import HTMLParser
 
 
 class XmlFile(object):

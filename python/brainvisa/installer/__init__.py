@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 from . import version
 
 __author__ = "Hakim Taklanti"
 __copyright__ = "Copyright 2013, CEA / Saclay"
 __credits__ = [
     "Hakim Taklanti",
-        "Yann Cointepas",
-        "Denis Rivière",
-        "Nicolas Souedet"
+    "Yann Cointepas",
+    "Denis Rivière",
+    "Nicolas Souedet"
 ]
 __license__ = "CeCILL v2"
 __version__ = version.version

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 import os
 import abc
 import shutil
@@ -15,9 +16,10 @@ from brainvisa.installer.bvi_utils.tools import archivegen
 
 from brainvisa.compilation_info import packages_info
 from brainvisa.maker import brainvisa_projects_versions
+import six
 
 
-class Component(object):
+class Component(six.with_metaclass(abc.ABCMeta, object)):
 
     """BrainVISA component.
 
@@ -35,8 +37,6 @@ class Component(object):
     configuration: Configuration object
     compress: (bool) perform compression
     """
-
-    __metaclass__ = abc.ABCMeta
     done_components = set()
     done_created_components = set()
 

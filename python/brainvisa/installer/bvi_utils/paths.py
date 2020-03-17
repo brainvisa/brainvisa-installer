@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 from brainvisa.installer.bvi_utils.system import System
 
 from brainvisa.compilation_info import build_directory
@@ -44,7 +45,6 @@ class Paths(object):  # pylint: disable=R0903
         """List of environment commands to package for a specific platform
         """
         commands = [Paths.binary_name(Paths.BV_ENV, platform),
-                    'bv_env.py',
                     'bv_env.sh',
                     'bv_unenv',
                     'bv_unenv.sh']
