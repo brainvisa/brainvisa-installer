@@ -44,7 +44,6 @@ class Paths(object):  # pylint: disable=R0903
         """List of environment commands to package for a specific platform
         """
         commands = [Paths.binary_name(Paths.BV_ENV, platform),
-                    'bv_env.py',
                     'bv_env.sh',
                     'bv_unenv',
                     'bv_unenv.sh']

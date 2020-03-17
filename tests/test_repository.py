@@ -148,7 +148,6 @@ def test_Repository__create_package_bv_env():
 	assert '<Version>1.0</Version>' in open(filename, 'r').read()
 	assert '<Name>brainvisa.app.thirdparty.bv_env</Name>' in open(filename, 'r').read()
 	assert '<Virtual>true</Virtual>' in open(filename, 'r').read()
-	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/data/bin/bv_env.py' % folder)
 	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/data/bin/bv_env.sh' % folder)
 	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/data/bin/bv_unenv' % folder)
 	assert os.path.isfile('%s/packages/brainvisa.app.thirdparty.bv_env/data/bin/bv_unenv.sh' % folder)
